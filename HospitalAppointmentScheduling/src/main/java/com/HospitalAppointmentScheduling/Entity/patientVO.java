@@ -1,6 +1,7 @@
 package com.HospitalAppointmentScheduling.Entity;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -51,12 +52,12 @@ public class patientVO {
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createdAt", nullable = false)
-	private Date createdAt;
+	private LocalDateTime createdAt;
 
 	@LastModifiedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updatedAt", nullable = false)
-	private Date updatedAt;
+	private LocalDateTime updatedAt;
 
 	// Mapping for appointments
 	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -119,19 +120,19 @@ public class patientVO {
 		PatientPassword = patientPassword;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 

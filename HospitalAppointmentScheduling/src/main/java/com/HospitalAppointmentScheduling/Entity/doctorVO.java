@@ -1,6 +1,6 @@
 package com.HospitalAppointmentScheduling.Entity;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -46,12 +46,12 @@ public class doctorVO {
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createdAt")
-	private Date createdAt;
+	private LocalDateTime createdAt;
 
 	@LastModifiedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updatedAt")
-	private Date updatedAt;
+	private LocalDateTime updatedAt;
 
 	// mapping
 	// Many-to-One Relationship with Hospital
@@ -113,19 +113,19 @@ public class doctorVO {
 		this.doctor_password = doctor_password;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 

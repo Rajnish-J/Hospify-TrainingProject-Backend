@@ -1,6 +1,7 @@
 package com.HospitalAppointmentScheduling.Entity;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -29,7 +30,7 @@ public class appointmentsVO {
 	private Long appointmentID;
 
 	@Column(name = "appointment_date", nullable = false)
-	private Date appointmentDate;
+	private LocalDate appointmentDate;
 
 	@Column(name = "reason", nullable = false)
 	private String reason;
@@ -37,12 +38,12 @@ public class appointmentsVO {
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createdAt", nullable = false)
-	private Date createdAt;
+	private LocalDateTime createdAt;
 
 	@LastModifiedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "updatedAt", nullable = false)
-	private Date updatedAt;
+	private LocalDateTime updatedAt;
 
 	// Mapping
 	@ManyToOne
@@ -66,11 +67,11 @@ public class appointmentsVO {
 		this.appointmentID = appointmentID;
 	}
 
-	public Date getAppointmentDate() {
+	public LocalDate getAppointmentDate() {
 		return appointmentDate;
 	}
 
-	public void setAppointmentDate(Date appointmentDate) {
+	public void setAppointmentDate(LocalDate appointmentDate) {
 		this.appointmentDate = appointmentDate;
 	}
 
@@ -82,19 +83,19 @@ public class appointmentsVO {
 		this.reason = reason;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 
