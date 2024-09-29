@@ -1,53 +1,97 @@
 package com.HospitalAppointmentScheduling.Entity;
 
+import java.sql.Date;
+import java.util.List;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
+@Table(name = "Patients")
+@EntityListeners(AuditingEntityListener.class)
 public class patientVO {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int patientId;
+	@Column(name = "patient_id")
+	private Long patientId;
 
-	private String FirstName;
-	private String LastName;
-	private String dob;
+	@Column(name = "first_name", nullable = false)
+	private String firstName;
+
+	@Column(name = "last_name", nullable = false)
+	private String lastName;
+
+	@Column(name = "dob", nullable = false)
+	private Date dob;
+
+	@Column(name = "patient_phone", nullable = false, unique = true)
 	private String PatientPhone;
+
+	@Column(name = "patient_email", nullable = false, unique = true)
 	private String PatientEmail;
+
+	@Column(name = "patient_password", nullable = false, unique = true)
 	private String PatientPassword;
 
-	public int getPatientId() {
+	@CreatedDate
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "createdAt", nullable = false)
+	private Date createdAt;
+
+	@LastModifiedDate
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "updatedAt", nullable = false)
+	private Date updatedAt;
+
+	// Mapping for appointments
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<appointmentsVO> appointments;
+
+	// Getters and Setters methods
+	public Long getPatientId() {
 		return patientId;
 	}
 
-	public void setPatientId(int patientId) {
+	public void setPatientId(Long patientId) {
 		this.patientId = patientId;
 	}
 
 	public String getFirstName() {
-		return FirstName;
+		return firstName;
 	}
 
 	public void setFirstName(String firstName) {
-		FirstName = firstName;
+		this.firstName = firstName;
 	}
 
 	public String getLastName() {
-		return LastName;
+		return lastName;
 	}
 
 	public void setLastName(String lastName) {
-		LastName = lastName;
+		this.lastName = lastName;
 	}
 
-	public String getDob() {
+	public Date getDob() {
 		return dob;
 	}
 
-	public void setDob(String dob) {
+	public void setDob(Date dob) {
 		this.dob = dob;
 	}
 
@@ -74,4 +118,37 @@ public class patientVO {
 	public void setPatientPassword(String patientPassword) {
 		PatientPassword = patientPassword;
 	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public List<appointmentsVO> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(List<appointmentsVO> appointments) {
+		this.appointments = appointments;
+	}
+
+	// ToString method
+	@Override
+	public String toString() {
+		return "patientVO [patientId=" + patientId + ", firstName=" + firstName + ", lastName=" + lastName + ", dob="
+				+ dob + ", PatientPhone=" + PatientPhone + ", PatientEmail=" + PatientEmail + ", PatientPassword="
+				+ PatientPassword + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+	}
+
 }
