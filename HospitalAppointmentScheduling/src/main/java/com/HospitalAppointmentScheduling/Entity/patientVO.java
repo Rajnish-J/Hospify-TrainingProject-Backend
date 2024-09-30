@@ -1,7 +1,7 @@
 package com.HospitalAppointmentScheduling.Entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -38,7 +38,7 @@ public class patientVO {
 	private String lastName;
 
 	@Column(name = "dob", nullable = false)
-	private Date dob;
+	private LocalDate dob;
 
 	@Column(name = "patient_phone", nullable = false, unique = true)
 	private String PatientPhone;
@@ -88,12 +88,12 @@ public class patientVO {
 		this.lastName = lastName;
 	}
 
-	public Date getDob() {
+	public LocalDate getDob() {
 		return dob;
 	}
 
-	public void setDob(Date dob) {
-		this.dob = dob;
+	public void setDob(LocalDate dob2) {
+		this.dob = dob2;
 	}
 
 	public String getPatientPhone() {

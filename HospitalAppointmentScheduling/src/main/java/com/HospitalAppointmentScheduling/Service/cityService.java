@@ -1,11 +1,11 @@
 package com.HospitalAppointmentScheduling.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.HospitalAppointmentScheduling.BO.cityBO;
 
-@Component
+@Service
 public class cityService {
 
 	@Autowired
