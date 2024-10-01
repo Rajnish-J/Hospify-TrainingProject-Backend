@@ -60,7 +60,7 @@ public class patientVO {
 	private LocalDateTime updatedAt;
 
 	// Mapping for appointments
-	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<appointmentsVO> appointments;
 
 	// Getters and Setters methods

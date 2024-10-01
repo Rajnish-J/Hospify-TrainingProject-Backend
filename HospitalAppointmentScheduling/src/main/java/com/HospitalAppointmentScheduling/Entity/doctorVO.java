@@ -1,19 +1,23 @@
 package com.HospitalAppointmentScheduling.Entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -26,22 +30,22 @@ public class doctorVO {
 	@Id
 	@Column(name = "doctor_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long doctor_id;
+	private Long doctorId;
 
 	@Column(name = "first_name", nullable = false)
-	private String first_name;
+	private String firstName;
 
 	@Column(name = "last_name", nullable = false)
-	private String last_name;
+	private String lastName;
 
 	@Column(name = "doc_phone", nullable = false, unique = true)
-	private String doctor_phone;
+	private String doctorPhone;
 
 	@Column(name = "doc_email", nullable = false, unique = true)
-	private String doctor_email;
+	private String doctorEmail;
 
 	@Column(name = "doc_password", nullable = false, unique = true)
-	private String doctor_password;
+	private String doctorPassword;
 
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
@@ -59,58 +63,62 @@ public class doctorVO {
 	@JoinColumn(name = "hospital_id", nullable = false)
 	private hospitalVO hospital;
 
+	// One-to-Many Mapping for Appointments
+	@OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<appointmentsVO> appointments;
+
 	// Many-to-One Relationship with Specialization
 	@ManyToOne
 	@JoinColumn(name = "specialization_id", nullable = false)
 	private specializationVO specialization;
 
 	// Getters and Setters methods
-	public Long getDoctor_id() {
-		return doctor_id;
+	public Long getDoctorId() {
+		return doctorId;
 	}
 
-	public void setDoctor_id(Long doctor_id) {
-		this.doctor_id = doctor_id;
+	public void setDoctorId(Long doctorId) {
+		this.doctorId = doctorId;
 	}
 
-	public String getFirst_name() {
-		return first_name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getLast_name() {
-		return last_name;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getDoctor_phone() {
-		return doctor_phone;
+	public String getDoctorPhone() {
+		return doctorPhone;
 	}
 
-	public void setDoctor_phone(String doctor_phone) {
-		this.doctor_phone = doctor_phone;
+	public void setDoctorPhone(String doctorPhone) {
+		this.doctorPhone = doctorPhone;
 	}
 
-	public String getDoctor_email() {
-		return doctor_email;
+	public String getDoctorEmail() {
+		return doctorEmail;
 	}
 
-	public void setDoctor_email(String doctor_email) {
-		this.doctor_email = doctor_email;
+	public void setDoctorEmail(String doctorEmail) {
+		this.doctorEmail = doctorEmail;
 	}
 
-	public String getDoctor_password() {
-		return doctor_password;
+	public String getDoctorPassword() {
+		return doctorPassword;
 	}
 
-	public void setDoctor_password(String doctor_password) {
-		this.doctor_password = doctor_password;
+	public void setDoctorPassword(String doctorPassword) {
+		this.doctorPassword = doctorPassword;
 	}
 
 	public LocalDateTime getCreatedAt() {
@@ -137,6 +145,14 @@ public class doctorVO {
 		this.hospital = hospital;
 	}
 
+	public List<appointmentsVO> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(List<appointmentsVO> appointments) {
+		this.appointments = appointments;
+	}
+
 	public specializationVO getSpecialization() {
 		return specialization;
 	}
@@ -145,13 +161,12 @@ public class doctorVO {
 		this.specialization = specialization;
 	}
 
-	// ToString Method
+	// ToString:
 	@Override
 	public String toString() {
-		return "doctorVO [doctor_id=" + doctor_id + ", first_name=" + first_name + ", last_name=" + last_name
-				+ ", doctor_phone=" + doctor_phone + ", doctor_email=" + doctor_email + ", doctor_password="
-				+ doctor_password + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", hospital=" + hospital
-				+ ", specialization=" + specialization + "]";
+		return "doctorVO [doctorId=" + doctorId + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", doctorPhone=" + doctorPhone + ", doctorEmail=" + doctorEmail + ", doctorPassword=" + doctorPassword
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.HospitalAppointmentScheduling.BO;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,8 +22,7 @@ public class patientBO {
 
 	// FindByID method:
 	public patientVO fetchByID(Long id) {
-		Optional<patientVO> patientOpt = patientRepo.findById(id);
-		patientVO ret = patientOpt.get();
+		patientVO ret = patientRepo.findById(id).get();
 		return ret;
 
 	}

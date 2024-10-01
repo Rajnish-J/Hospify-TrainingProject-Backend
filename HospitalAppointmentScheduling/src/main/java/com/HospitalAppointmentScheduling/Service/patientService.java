@@ -1,54 +1,63 @@
 package com.HospitalAppointmentScheduling.Service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.HospitalAppointmentScheduling.BO.patientBO;
 import com.HospitalAppointmentScheduling.CustomExceptions.patientException;
+import com.HospitalAppointmentScheduling.DTO.patientDTO;
 import com.HospitalAppointmentScheduling.Entity.patientVO;
+import com.HospitalAppointmentScheduling.Response.ResponseHandle;
 
-@Component
+@Service
 public class patientService {
 	@Autowired
-	patientBO patientBO;
+	private patientBO patientBO;
+
+	@Autowired
+	private patientDTO patientDTO;
+
+	@Autowired
+	private ResponseHandle response;
 
 	// insert method
-	public long insertPatientDetails(patientVO vo) throws patientException {
+	public ResponseHandle insertPatientDetails(patientVO vo) throws patientException {
 		Long flag = patientBO.insertPatientDetails(vo);
 		if (flag > 0) {
-			System.out.println("Patient added succesfully");
+			response.setSucessmessage("patient Details added successfully");
+			response.setId(flag);
 		} else {
 			throw new patientException("Error in inserting patient");
 		}
-		return flag;
+		return response;
 	}
 
 	// find by Id method:
-	public patientVO fetchById(long id) throws patientException {
+	public ResponseHandle fetchById(long id) throws patientException {
 		patientVO ret = patientBO.fetchByID(id);
 		if (ret == null) {
 			throw new patientException("There are no patient in the given ID");
 		}
-		return ret;
+		response.setSucessmessage("patient Details fetched successfully");
+		response.setPatient(ret);
+		return response;
 	}
 
 	// fetch all method:
-	public List<patientVO> fetchAll() {
-		return patientBO.fetchAll();
+	public ResponseHandle fetchAll() {
+		response.setListpatient(patientBO.fetchAll());
+		return response;
 	}
 
 	// update method
-	public String updatePatientDetails(long id) throws patientException {
-		String str = "";
+	public ResponseHandle updatePatientDetails(long id) throws patientException {
 		boolean flag = patientBO.updatePatientDetails(id);
 		if (flag) {
-			str = "patient details updated";
+			response.setSucessmessage("updated the patient details successfully");
 		} else {
 			throw new patientException("error in updating patient details");
 		}
 
-		return str;
+		return response;
 	}
 }

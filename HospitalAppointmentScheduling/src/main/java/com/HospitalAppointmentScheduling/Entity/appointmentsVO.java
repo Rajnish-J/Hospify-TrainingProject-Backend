@@ -7,9 +7,11 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -45,16 +47,18 @@ public class appointmentsVO {
 	@Column(name = "updatedAt", nullable = false)
 	private LocalDateTime updatedAt;
 
-	// Mapping
-	@ManyToOne
+	// Mapping to doctor
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "doctor_id", nullable = false)
 	private doctorVO doctor;
 
-	@ManyToOne
+	// mapping to patient
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "patient_id", nullable = false)
 	private patientVO patient;
 
-	@ManyToOne
+	// mapping to appointment status
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "status_id", nullable = false)
 	private AppointmentStatusVO status;
 

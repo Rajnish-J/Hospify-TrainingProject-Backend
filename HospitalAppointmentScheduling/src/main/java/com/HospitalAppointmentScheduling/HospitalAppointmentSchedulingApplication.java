@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.HospitalAppointmentScheduling.CustomExceptions.patientException;
 import com.HospitalAppointmentScheduling.Entity.patientVO;
+import com.HospitalAppointmentScheduling.Response.ResponseHandle;
 import com.HospitalAppointmentScheduling.Service.patientService;
 
 @SpringBootApplication
@@ -24,6 +25,9 @@ public class HospitalAppointmentSchedulingApplication {
 
 	@Autowired
 	public patientService pService;
+
+	@Autowired
+	private ResponseHandle response;
 
 	public static void main(String[] args) throws patientException {
 		ApplicationContext ctx = SpringApplication.run(HospitalAppointmentSchedulingApplication.class, args);
@@ -61,6 +65,9 @@ public class HospitalAppointmentSchedulingApplication {
 				System.out.println("Thank you for Using the application");
 				break;
 			}
+			case 6: {
+
+			}
 			}
 		} while (repeat);
 
@@ -92,26 +99,36 @@ public class HospitalAppointmentSchedulingApplication {
 		System.out.print("Enter the Password: ");
 		patient.setPatientPassword(sc.next());
 
-		System.out.println("Your Generated Patient ID is: " + pService.insertPatientDetails(patient));
+		response = pService.insertPatientDetails(patient);
+
+		if (response.getId() > 0) {
+			System.out.println("Your Generated Patient ID is: " + response.getId());
+		} else {
+			System.err.println("Failed");
+		}
 	}
 
 	// fetch by ID:
 	public patientVO fetchByID(long id) throws patientException {
-		patientVO ret = pService.fetchById(id);
-		return ret;
+		response = pService.fetchById(id);
+		return response.getPatient();
 	}
 
 	// fetch all method:
 	public void fetchAll() {
-		List<patientVO> list = pService.fetchAll();
-		for (patientVO obj : list) {
+		response = pService.fetchAll();
+		List<patientVO> patientlist = response.getListpatient();
+		for (patientVO obj : patientlist) {
 			System.out.println(obj);
 		}
 	}
 
 	// update method:
 	public void update(long id) throws patientException {
-		System.out.println(pService.updatePatientDetails(id));
+		response = pService.updatePatientDetails(id);
+		if (response.getSucessmessage() != null) {
+			System.out.println(response.getSucessmessage());
+		}
 	}
 
 }
