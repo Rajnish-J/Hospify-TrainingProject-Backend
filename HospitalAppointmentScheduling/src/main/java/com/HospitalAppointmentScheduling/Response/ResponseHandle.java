@@ -73,4 +73,11 @@ public class ResponseHandle {
 	public void setListpatient(List<patientVO> listpatient) {
 		Listpatient = listpatient;
 	}
+
+	@Override
+	public String toString() {
+		return "ResponseHandle [Sucessmessage=" + Sucessmessage + ", failuremessage=" + failuremessage + ", id=" + id
+				+ ", patient=" + patient + ", Listpatient=" + Listpatient + ", phone=" + phone + ", pro=" + pro + "]";
+	}
+
 }

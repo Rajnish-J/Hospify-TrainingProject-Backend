@@ -16,6 +16,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentBookingDateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentException;
+import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateOfBirthException;
 import com.HospitalAppointmentScheduling.CustomExceptions.EmailException;
 import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
@@ -66,7 +67,7 @@ public class HospitalAppointmentSchedulingApplication {
 				log.info("patient chooses fetch Details by their ID...");
 				System.out.print("Enter the patient ID: ");
 				long id = sc.nextLong();
-				System.out.println(ref.fetchByID(id));
+				ref.fetchByID(id);
 				break;
 			}
 			case 3: {
@@ -145,7 +146,7 @@ public class HospitalAppointmentSchedulingApplication {
 	}
 
 	// insert method
-	public void insert() throws patientException {
+	public void insert() {
 		Scanner sc = new Scanner(System.in);
 		patientVO patient = new patientVO();
 
@@ -198,14 +199,16 @@ public class HospitalAppointmentSchedulingApplication {
 	}
 
 	// fetch by ID:
-	public patientVO fetchByID(long id) throws patientException {
+	public void fetchByID(long id) {
 		try {
 			response = pService.fetchById(id);
+			if (response.getSucessmessage() != null) {
+				System.out.println(response.getSucessmessage() + response.getId());
+				System.out.println(response.getPatient());
+			}
 		} catch (IdException e) {
 			log.error("ID not found in the DateBase", e);
-			System.err.println(e.getMessage());
 		}
-		return response.getPatient();
 	}
 
 	// fetch all method:
@@ -218,20 +221,20 @@ public class HospitalAppointmentSchedulingApplication {
 	}
 
 	// update method:
-	public void update(long id) throws patientException {
+	public void update(long id) {
 		try {
 			response = pService.updatePatientDetails(id);
+			if (response.getSucessmessage() != null) {
+				System.out.println(response.getSucessmessage() + response.getId());
+			}
 		} catch (IdException e) {
 			log.error("ID not found in the DataBase", e);
 			System.err.println(e.getMessage());
 		}
-		if (response.getSucessmessage() != null) {
-			System.out.println(response.getSucessmessage());
-		}
 	}
 
 	// associate method:
-	public void AssociatePatientwithAppointment() throws patientException {
+	public void AssociatePatientwithAppointment() {
 
 		Scanner sc = new Scanner(System.in);
 		patientVO patient = new patientVO();
@@ -338,13 +341,19 @@ public class HospitalAppointmentSchedulingApplication {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate day = LocalDate.parse(date, format);
 
-		response = pService.findapptDay(day);
-		System.out.println(response.getListpatient());
+		try {
+			response = pService.findapptDay(day);
+		} catch (AppointmentException e) {
+			log.error("Appointment exception caught", e);
+			System.err.println(e.getMessage());
+		}
+		if (response.getSucessmessage() != null) {
+			System.out.println(response.getListpatient());
+		}
 	}
 
 	// fetch by more appointments
 	public void fetchAppointmentbynumber(long n) {
-		response = pService.findAppointmentsByNumber(n);
 		System.out.println("The users have more than appointments by given: ");
 		System.out.println(response.getListpatient());
 	}
@@ -364,7 +373,12 @@ public class HospitalAppointmentSchedulingApplication {
 
 	// Appointment by between two days:
 	public void betweenTwoDOBpat(LocalDate sd, LocalDate ld) {
-		response = pService.betweenTwoDOBpat(sd, ld);
+		try {
+			response = pService.betweenTwoDOBpat(sd, ld);
+		} catch (DateException e) {
+			log.error("Id Exception", e);
+			System.err.println(e.getMessage());
+		}
 		for (patientVO obj : response.getListpatient()) {
 			System.out.println(obj);
 		}
@@ -372,7 +386,12 @@ public class HospitalAppointmentSchedulingApplication {
 
 	// ascending order:
 	public void ascending() {
-		response = pService.acending();
+		try {
+			response = pService.acending();
+		} catch (AppointmentException e) {
+			log.error("Id Exception", e);
+			System.err.println(e.getMessage());
+		}
 		for (patientVO obj : response.getListpatient()) {
 			System.out.println(obj);
 		}

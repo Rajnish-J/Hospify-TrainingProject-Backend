@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.HospitalAppointmentScheduling.BO.patientBO;
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentBookingDateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentException;
+import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateOfBirthException;
 import com.HospitalAppointmentScheduling.CustomExceptions.EmailException;
 import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
@@ -49,7 +50,8 @@ public class patientService {
 		patientVO vo = patientBO.fetchByID(id);
 		if (vo != null) {
 			response.setPatient(vo);
-			response.setSucessmessage("patient details fetched by Patient ID");
+			response.setId(vo.getPatientId());
+			response.setSucessmessage("patient details fetched by Patient ID: ");
 		} else {
 			response.setFailuremessage("Error in fetching...");
 		}
@@ -75,7 +77,7 @@ public class patientService {
 	public ResponseHandle updatePatientDetails(long id) throws IdException {
 		patientVO flag = patientBO.updatePatientDetails(id);
 		if (flag != null) {
-			response.setSucessmessage("updated the patient details successfully");
+			response.setSucessmessage("updated the patient details successfully for the patient ID: ");
 			response.setPatient(flag);
 		} else {
 			response.setFailuremessage("error in updating patient details");
@@ -92,6 +94,7 @@ public class patientService {
 
 		if (inserted != null) {
 			response.setSucessmessage("Appointment added successfully");
+			response.setPatient(inserted);
 			response.setId(inserted.getPatientId());
 		} else {
 			response.setFailuremessage("Failed to add data");
@@ -114,11 +117,11 @@ public class patientService {
 	}
 
 	// fetch by day appointments:
-	public ResponseHandle findapptDay(LocalDate td) {
+	public ResponseHandle findapptDay(LocalDate td) throws AppointmentException {
 		List<patientVO> list = patientBO.fetchapptDay(td);
 		if (list.size() > 0) {
 			response.setListpatient(list);
-			response.setSucessmessage("fetching the appoinment details with the patient ID is successfully executed");
+			response.setSucessmessage("fetching the appoinment details within the day is successfully executed");
 		} else {
 			response.setFailuremessage("There is no appointments on the day...");
 		}
@@ -126,7 +129,7 @@ public class patientService {
 	}
 
 	// fetch by more appointments
-	public ResponseHandle findAppointmentsByNumber(long n) {
+	public ResponseHandle findAppointmentsByNumber(long n) throws AppointmentException {
 		List<patientVO> list = patientBO.fetchappointByNumber(n);
 		if (list.size() > 0) {
 			response.setListpatient(list);
@@ -150,7 +153,7 @@ public class patientService {
 	}
 
 	// Appointment by between two days:
-	public ResponseHandle betweenTwoDOBpat(LocalDate sd, LocalDate ld) {
+	public ResponseHandle betweenTwoDOBpat(LocalDate sd, LocalDate ld) throws DateException {
 		List<patientVO> list = patientBO.betweenTwoDOBpat(sd, ld);
 		if (list.size() > 0) {
 			response.setListpatient(list);
@@ -163,7 +166,7 @@ public class patientService {
 	}
 
 	// ascending order:
-	public ResponseHandle acending() {
+	public ResponseHandle acending() throws AppointmentException {
 		List<patientVO> list = patientBO.ascending();
 		if (list.size() > 0) {
 			response.setListpatient(list);

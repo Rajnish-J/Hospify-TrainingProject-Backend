@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentBookingDateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentException;
+import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateOfBirthException;
 import com.HospitalAppointmentScheduling.CustomExceptions.EmailException;
 import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
@@ -57,7 +58,7 @@ public class patientController {
 			dto.setUpdatedAt(res.getPatient().getUpdatedAt());
 			dto.setCreatedAt(res.getPatient().getCreatedAt());
 			dto.setPatientId(res.getPatient().getPatientId());
-			return ResponseEntity.ok("Patient Details successfully save" + res.getPatient().getPatientId());
+			return ResponseEntity.ok("Patient Details successfully saved: " + res.getPatient().getPatientId());
 		} catch (patientException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (PhoneNumberException e) {
@@ -84,7 +85,6 @@ public class patientController {
 
 	}
 
-	// done
 	// fetch all:
 	@GetMapping("/fetchallPatient")
 	public List<patientDTO> fetchall() {
@@ -101,7 +101,6 @@ public class patientController {
 
 	}
 
-	// done
 	// update method
 	@PutMapping("/update/{id}")
 	public ResponseEntity<?> fetchpatientDetails(@PathVariable long id) {
@@ -137,8 +136,7 @@ public class patientController {
 		vo.setAppointments(list);
 		try {
 			res = pservice.associate(vo);
-			return ResponseEntity
-					.ok("Patient Details and Appointments added successfully" + res.getPatient().getPatientId());
+			return ResponseEntity.ok("Patient Details and Appointments added successfully" + res.getId());
 		} catch (patientException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (PhoneNumberException e) {
@@ -157,24 +155,26 @@ public class patientController {
 
 	}
 
-	// done
 	// find by patient phone number:
 	@GetMapping("/fetchByPhoneNumber/{ph}")
 	public ResponseEntity<?> findbyphone(@PathVariable("ph") String ph) {
 		try {
 			res = pservice.findbyphone(ph);
-			return ResponseEntity.ok("Patient Details Fetched by ID:");
+			return ResponseEntity.ok("Patient Details Fetched by ID:" + res.getPatient());
 		} catch (PhoneNumberException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 
 	}
 
-	// done
 	// fetch by day appointments:
 	@GetMapping("/appointmentDate/{td}")
-	public List<patientDTO> findapptDay(@PathVariable("td") LocalDate td) {
-		res = pservice.findapptDay(td);
+	public ResponseEntity<?> findapptDay(@PathVariable("td") LocalDate td) {
+		try {
+			res = pservice.findapptDay(td);
+		} catch (AppointmentException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 		List<patientVO> list = res.getListpatient();
 		List<patientDTO> listd = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
@@ -183,14 +183,17 @@ public class patientController {
 			listd.add(getDto);
 		}
 
-		return listd;
+		return ResponseEntity.ok(listd);
 	}
 
-	// done
 	// fetch by more appointments
 	@GetMapping("/findAppointmentsById/{id}")
-	public List<patientDTO> findAppointmentsByNumber(@PathVariable("id") long n) {
-		res = pservice.findAppointmentsByNumber(n);
+	public ResponseEntity<?> findAppointmentsByNumber(@PathVariable("id") long n) {
+		try {
+			res = pservice.findAppointmentsByNumber(n);
+		} catch (AppointmentException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
 		List<patientVO> list = res.getListpatient();
 		List<patientDTO> listd = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
@@ -199,10 +202,9 @@ public class patientController {
 			listd.add(getDto);
 		}
 
-		return listd;
+		return ResponseEntity.ok("Patient Details Fetched by ID:" + res.getPatient());
 	}
 
-	// done
 	// fetch first name and last name:
 	@GetMapping("/findFirstandLastNamebyPatientId/{id}")
 	public ResponseEntity<String> findName(@PathVariable("id") long n) {
@@ -215,37 +217,43 @@ public class patientController {
 		}
 	}
 
-	// done
 	// Appointment by between two days:
 	@GetMapping("/patientDetailsAmongTwoDate/{sd}/{ld}")
-	public List<patientDTO> betweenTwoDOBpat(@PathVariable("sd") LocalDate sd, @PathVariable("ld") LocalDate ld) {
-		res = pservice.betweenTwoDOBpat(sd, ld);
-		List<patientVO> list = res.getListpatient();
-		List<patientDTO> listd = new ArrayList<>();
-		for (int i = 0; i < list.size(); i++) {
-			patientVO vo = list.get(i);
-			patientDTO getDto = mapToDTO(vo);
-			listd.add(getDto);
+	public ResponseEntity<?> betweenTwoDOBpat(@PathVariable("sd") LocalDate sd, @PathVariable("ld") LocalDate ld) {
+		try {
+			res = pservice.betweenTwoDOBpat(sd, ld);
+			List<patientVO> list = res.getListpatient();
+			List<patientDTO> listd = new ArrayList<>();
+			for (int i = 0; i < list.size(); i++) {
+				patientVO vo = list.get(i);
+				patientDTO getDto = mapToDTO(vo);
+				listd.add(getDto);
+			}
+		} catch (DateException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 
-		return listd;
+		return ResponseEntity.ok("Patient Details Fetched by ID:" + res.getListpatient());
 
 	}
 
-	// done
 	// ascending order:
 	@GetMapping("/AscendingOrder")
-	public List<patientDTO> acending() {
-		res = pservice.acending();
-		List<patientVO> list = res.getListpatient();
-		List<patientDTO> listd = new ArrayList<>();
-		for (int i = 0; i < list.size(); i++) {
-			patientVO vo = list.get(i);
-			patientDTO getDto = mapToDTO(vo);
-			listd.add(getDto);
+	public ResponseEntity<?> acending() {
+		try {
+			res = pservice.acending();
+			List<patientVO> list = res.getListpatient();
+			List<patientDTO> listd = new ArrayList<>();
+			for (int i = 0; i < list.size(); i++) {
+				patientVO vo = list.get(i);
+				patientDTO getDto = mapToDTO(vo);
+				listd.add(getDto);
+			}
+		} catch (AppointmentException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 
-		return listd;
+		return ResponseEntity.ok("Patient Details Fetched by ID:" + res.getListpatient());
 
 	}
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentBookingDateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentException;
+import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateOfBirthException;
 import com.HospitalAppointmentScheduling.CustomExceptions.EmailException;
 import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
@@ -38,11 +39,9 @@ public class patientBO {
 
 	// FindByID method:
 	public patientVO fetchByID(Long id) throws IdException {
-		if (validateID(id)) {
-			patientVO ret = patientRepo.findById(id).get();
-			return ret;
-		}
-		return null;
+		validateID(id);
+		patientVO ret = patientRepo.findById(id).get();
+		return ret;
 
 	}
 
@@ -88,14 +87,20 @@ public class patientBO {
 	}
 
 	// fetch by day appointments:
-	public List<patientVO> fetchapptDay(LocalDate td) {
+	public List<patientVO> fetchapptDay(LocalDate td) throws AppointmentException {
 		List<patientVO> list = patientRepo.findPatientsWithAppointmentsDay(td);
+		if (list.size() <= 0) {
+			throw new AppointmentException("ERROR: there is no appointments in that date");
+		}
 		return list;
 	}
 
 	// fetch by more appointments
-	public List<patientVO> fetchappointByNumber(long n) {
+	public List<patientVO> fetchappointByNumber(long n) throws AppointmentException {
 		List<patientVO> list = patientRepo.findPatientsWithMoreThanNAppointments(n);
+		if (list.size() < 0) {
+			throw new AppointmentException("There are no patient having the record that the given number");
+		}
 		return list;
 	}
 
@@ -110,16 +115,19 @@ public class patientBO {
 	}
 
 	// Appointment by between two days:
-	public List<patientVO> betweenTwoDOBpat(LocalDate sd, LocalDate ld) {
+	public List<patientVO> betweenTwoDOBpat(LocalDate sd, LocalDate ld) throws DateException {
 		List<patientVO> list = patientRepo.fetchBetweenDOBpat(sd, ld);
+		if (sd.isAfter(ld)) {
+			throw new DateException("start date could be before the end date");
+		}
 		return list;
 	}
 
 	// ascending order:
-	public List<patientVO> ascending() {
+	public List<patientVO> ascending() throws AppointmentException {
 		List<patientVO> list = patientRepo.fetchAscending();
 		if (!(list.size() > 0)) {
-			System.out.println("There is no records");
+			throw new AppointmentException("ERROR: There is no Records in the DataBase");
 		}
 		return list;
 	}
@@ -235,7 +243,7 @@ public class patientBO {
 			throw new IdException("ERROR: patient ID could not be negative or zero");
 		}
 
-		return id != null && id > 0 && pID.contains(id);
+		return id != null && id > 0;
 	}
 
 	// checks if the list of appointments could be greater than zero
@@ -247,8 +255,7 @@ public class patientBO {
 	}
 
 	// checks for the new appointments could not be in the past
-	public boolean validateAppointmentBookingDate(LocalDate ld)
-			throws AppointmentException, AppointmentBookingDateException {
+	public boolean validateAppointmentBookingDate(LocalDate ld) throws AppointmentBookingDateException {
 
 		LocalDate today = LocalDate.now();
 
