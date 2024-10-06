@@ -4,15 +4,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import com.HospitalAppointmentScheduling.Entity.appointmentsVO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-@Component
 public class patientDTO {
 	private Long patientId;
 	private String firstName;
 	private String lastName;
+	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dob;
 	private String PatientPhone;
 	private String PatientEmail;
@@ -100,4 +99,13 @@ public class patientDTO {
 	public void setAppointments(List<appointmentsVO> appointments) {
 		this.appointments = appointments;
 	}
+
+	@Override
+	public String toString() {
+		return "patientDTO [patientId=" + patientId + ", firstName=" + firstName + ", lastName=" + lastName + ", dob="
+				+ dob + ", PatientPhone=" + PatientPhone + ", PatientEmail=" + PatientEmail + ", PatientPassword="
+				+ PatientPassword + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", appointments="
+				+ appointments + "]";
+	}
+
 }

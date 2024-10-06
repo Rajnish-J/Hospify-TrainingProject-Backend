@@ -4,15 +4,35 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.HospitalAppointmentScheduling.DAO.PatientProjection;
 import com.HospitalAppointmentScheduling.Entity.patientVO;
 
 @Component
 public class ResponseHandle {
+
 	private String Sucessmessage;
 	private String failuremessage;
 	private long id;
 	private patientVO patient;
 	private List<patientVO> Listpatient;
+	private String phone;
+	private PatientProjection pro;
+
+	public PatientProjection getPro() {
+		return pro;
+	}
+
+	public void setPro(PatientProjection pro) {
+		this.pro = pro;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
 	public String getSucessmessage() {
 		return Sucessmessage;

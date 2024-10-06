@@ -1,23 +1,19 @@
 package com.HospitalAppointmentScheduling.Entity;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -64,8 +60,8 @@ public class doctorVO {
 	private hospitalVO hospital;
 
 	// One-to-Many Mapping for Appointments
-	@OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<appointmentsVO> appointments;
+//	@OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	private List<appointmentsVO> appointments;
 
 	// Many-to-One Relationship with Specialization
 	@ManyToOne
@@ -145,13 +141,13 @@ public class doctorVO {
 		this.hospital = hospital;
 	}
 
-	public List<appointmentsVO> getAppointments() {
-		return appointments;
-	}
-
-	public void setAppointments(List<appointmentsVO> appointments) {
-		this.appointments = appointments;
-	}
+//	public List<appointmentsVO> getAppointments() {
+//		return appointments;
+//	}
+//
+//	public void setAppointments(List<appointmentsVO> appointments) {
+//		this.appointments = appointments;
+//	}
 
 	public specializationVO getSpecialization() {
 		return specialization;

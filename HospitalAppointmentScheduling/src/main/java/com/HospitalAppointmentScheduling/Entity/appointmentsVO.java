@@ -37,6 +37,20 @@ public class appointmentsVO {
 	@Column(name = "reason", nullable = false)
 	private String reason;
 
+	// temporary field => for joining two tables, if I had doctor object I need to
+	// connect all the remaining tables so I created one temporary Long field to
+	// store doctor ID.
+	@Column(name = "doctor_id", nullable = false)
+	private Long doctorId;
+
+	public Long getDoctorId() {
+		return doctorId;
+	}
+
+	public void setDoctorId(Long doctorId) {
+		this.doctorId = doctorId;
+	}
+
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createdAt", nullable = false)
@@ -48,9 +62,9 @@ public class appointmentsVO {
 	private LocalDateTime updatedAt;
 
 	// Mapping to doctor
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "doctor_id", nullable = false)
-	private doctorVO doctor;
+//	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//	@JoinColumn(name = "doctor_id", nullable = false)
+//	private doctorVO doctor;
 
 	// mapping to patient
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -58,9 +72,9 @@ public class appointmentsVO {
 	private patientVO patient;
 
 	// mapping to appointment status
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "status_id", nullable = false)
-	private AppointmentStatusVO status;
+//	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//	@JoinColumn(name = "status_id", nullable = false)
+//	private AppointmentStatusVO status;
 
 	// Getters and Setters method
 	public Long getAppointmentID() {
@@ -103,13 +117,13 @@ public class appointmentsVO {
 		this.updatedAt = updatedAt;
 	}
 
-	public doctorVO getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(doctorVO doctor) {
-		this.doctor = doctor;
-	}
+//	public doctorVO getDoctor() {
+//		return doctor;
+//	}
+//
+//	public void setDoctor(doctorVO doctor) {
+//		this.doctor = doctor;
+//	}
 
 	public patientVO getPatient() {
 		return patient;
@@ -119,19 +133,20 @@ public class appointmentsVO {
 		this.patient = patient;
 	}
 
-	public AppointmentStatusVO getStatus() {
-		return status;
-	}
-
-	public void setStatus(AppointmentStatusVO status) {
-		this.status = status;
-	}
+//	public AppointmentStatusVO getStatus() {
+//		return status;
+//	}
+//
+//	public void setStatus(AppointmentStatusVO status) {
+//		this.status = status;
+//	}
 
 	// ToString method:
 	@Override
 	public String toString() {
 		return "appointmentsVO [appointmentID=" + appointmentID + ", appointmentDate=" + appointmentDate + ", reason="
-				+ reason + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+				+ reason + ", doctorId=" + doctorId + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ ", patient=" + patient + "]";
 	}
 
 }

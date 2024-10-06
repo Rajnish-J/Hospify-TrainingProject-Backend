@@ -150,7 +150,6 @@ public class hospitalVO {
 		this.doctors = doctors;
 	}
 
-	// ToString method
 	@Override
 	public String toString() {
 		return "hospitalVO [hospitalId=" + hospitalId + ", hospitalName=" + hospitalName + ", hospitalPhone="
