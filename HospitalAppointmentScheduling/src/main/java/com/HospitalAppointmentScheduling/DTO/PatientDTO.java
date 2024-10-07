@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class PatientDTO {
@@ -18,7 +17,7 @@ public class PatientDTO {
 	private String patientPassword;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-	private List<AppointmentsVO> appointments;
+	private List<AppointmentDTO> appointments;
 
 	public Long getPatientId() {
 		return patientId;
@@ -92,11 +91,11 @@ public class PatientDTO {
 		this.updatedAt = updatedAt;
 	}
 
-	public List<AppointmentsVO> getAppointments() {
+	public List<AppointmentDTO> getAppointments() {
 		return appointments;
 	}
 
-	public void setAppointments(List<AppointmentsVO> appointments) {
+	public void setAppointments(List<AppointmentDTO> appointments) {
 		this.appointments = appointments;
 	}
 

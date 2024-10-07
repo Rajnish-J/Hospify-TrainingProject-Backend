@@ -54,9 +54,9 @@ public class HospitalAppointmentSchedulingApplication {
 		log.info("Patient chooses create account option...");
 		do {
 			System.out.println("1. Save Patient\n2. FindByID\n3. FetchAllPatients\n4. Update Details\n5. Associate\n6. "
-					+ "Fetch patient by phone number\n7. fetch appointments by the date\n8. Fetch appointments having more than number\n9. "
-					+ "Find first and last name by patient ID\n10. Fetch all the patient details among the two date\n11. Get the patients in "
-					+ "Ascending order\n12. exit");
+					+ "Fetch patient by phone number\n7. fetch appointments by the date\n8. "
+					+ "Find first and last name by patient ID\n9. Fetch all the patient details among the two date\n10. Get the patients in "
+					+ "Ascending order\n11. exit");
 			System.out.print("Enter the option: ");
 			int option = sc.nextInt();
 			switch (option) {
@@ -82,6 +82,7 @@ public class HospitalAppointmentSchedulingApplication {
 			}
 			case 5: {
 				ref.AssociatePatientwithAppointment();
+				System.out.println("Patient Details Fetched by ID:");
 				break;
 			}
 			case 6: {
@@ -95,17 +96,12 @@ public class HospitalAppointmentSchedulingApplication {
 				break;
 			}
 			case 8: {
-				long n = sc.nextLong();
-				ref.fetchAppointmentbynumber(n);
-				break;
-			}
-			case 9: {
 				System.out.println("Enter the patient ID: ");
 				long n = sc.nextLong();
 				ref.findName(n);
 				break;
 			}
-			case 10: {
+			case 9: {
 				System.out.print("Enter the Start Date in the format (YYYY-MM-DD): ");
 				String start_date = sc.next();
 				System.out.print("Enter the End Date in the format (YYYY-MM-DD): ");
@@ -118,12 +114,12 @@ public class HospitalAppointmentSchedulingApplication {
 				break;
 
 			}
-			case 11: {
+			case 10: {
 				ref.ascending();
 				break;
 
 			}
-			case 12: {
+			case 11: {
 				log.info("patient chooses to EXIT the application...");
 				repeat = false;
 				System.out.println("Thank you for Using the application");
@@ -327,22 +323,6 @@ public class HospitalAppointmentSchedulingApplication {
 		if (response.getSucessMessage() != null) {
 			System.out.println(response.getListPatient());
 		}
-	}
-
-	// fetch by more appointments
-	public void fetchAppointmentbynumber(long n) {
-		try {
-			response = pService.findAppointmentsByNumber(n);
-			if (response.getSucessMessage() != null) {
-				System.out.println("The users have more than appointments by given: ");
-				System.out.println(response.getListPatient());
-			} else {
-				System.out.println(response.getFailureMessage());
-			}
-		} catch (AppointmentException e) {
-			System.err.println(e.getMessage());
-		}
-
 	}
 
 	// fetch first name and last name:

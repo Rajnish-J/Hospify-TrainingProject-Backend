@@ -138,19 +138,6 @@ public class PatientService {
 		return response;
 	}
 
-	// fetch by more appointments
-	public ResponseHandle findAppointmentsByNumber(long n) throws AppointmentException {
-		log.info("Find the patients having more appointments compared to given number method triggered...");
-		List<PatientVO> list = patientBO.fetchappointByNumber(n);
-		if (list.size() > 0) {
-			response.setListPatient(list);
-			response.setSucessMessage("fetching the appoinment details with the patient ID is successfully executed");
-		} else {
-			response.setFailureMessage("There are no patients having more than the number you provided...");
-		}
-		return response;
-	}
-
 	// fetch first name and last name:
 	public ResponseHandle findName(long n) throws IdException {
 		log.info("Fetching patient name by ID method triggered...");

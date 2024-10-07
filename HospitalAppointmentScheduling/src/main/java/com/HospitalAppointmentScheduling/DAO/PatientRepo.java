@@ -21,11 +21,6 @@ public interface PatientRepo extends JpaRepository<PatientVO, Long> {
 	@Query("SELECT p FROM PatientVO p JOIN p.appointments a WHERE a.appointmentDate = :today")
 	List<PatientVO> findPatientsWithAppointmentsDay(@Param("today") LocalDate today);
 
-	// fetch appointments of the patient who all are having more than given number
-	// by the user:
-	@Query("SELECT p FROM PatientVO p WHERE (SELECT COUNT(a) FROM AppointmentsVO a WHERE a.patient.patientId = p.patientId) > :appointmentCount")
-	List<PatientVO> findPatientsWithMoreThanNAppointments(@Param("appointmentCount") Long appointmentCount);
-
 	// fetching the last name and first name of the patient with patient ID using
 	// projection interfaceL
 	@Query("SELECT p.patientId AS patientId, p.firstName AS firstName, p.lastName AS lastName "

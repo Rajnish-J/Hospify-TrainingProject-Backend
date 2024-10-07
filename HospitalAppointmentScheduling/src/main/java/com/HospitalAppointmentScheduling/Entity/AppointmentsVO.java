@@ -43,14 +43,6 @@ public class AppointmentsVO {
 	@Column(name = "doctor_id", nullable = false)
 	private Long doctorId;
 
-	public Long getDoctorId() {
-		return doctorId;
-	}
-
-	public void setDoctorId(Long doctorId) {
-		this.doctorId = doctorId;
-	}
-
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createdAt", nullable = false)
@@ -70,6 +62,14 @@ public class AppointmentsVO {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "patient_id", nullable = false)
 	private PatientVO patient;
+
+	public Long getDoctorId() {
+		return doctorId;
+	}
+
+	public void setDoctorId(Long doctorId) {
+		this.doctorId = doctorId;
+	}
 
 	// mapping to appointment status
 //	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

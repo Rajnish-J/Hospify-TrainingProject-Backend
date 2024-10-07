@@ -10,6 +10,7 @@ public class AppointmentDTO {
 	private Long appointmentID;
 	private LocalDate appointmentDate;
 	private String reason;
+	private Long doctorID;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private PatientVO patient;
@@ -60,6 +61,14 @@ public class AppointmentDTO {
 
 	public void setPatient(PatientVO patient) {
 		this.patient = patient;
+	}
+
+	public Long getDoctorID() {
+		return doctorID;
+	}
+
+	public void setDoctorID(Long doctorID) {
+		this.doctorID = doctorID;
 	}
 
 }
