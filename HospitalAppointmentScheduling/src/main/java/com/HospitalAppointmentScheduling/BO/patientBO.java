@@ -98,7 +98,7 @@ public class patientBO {
 	// fetch by more appointments
 	public List<patientVO> fetchappointByNumber(long n) throws AppointmentException {
 		List<patientVO> list = patientRepo.findPatientsWithMoreThanNAppointments(n);
-		if (list.size() < 0) {
+		if (list.size() <= 0) {
 			throw new AppointmentException("There are no patient having the record that the given number");
 		}
 		return list;

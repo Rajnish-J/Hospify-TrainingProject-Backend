@@ -50,6 +50,7 @@ public class HospitalAppointmentSchedulingApplication {
 		log.info(" Application Started Started..");
 
 		boolean repeat = true;
+		log.info("Patient chooses create account option...");
 		do {
 			System.out.println("1. Save Patient\n2. FindByID\n3. FetchAllPatients\n4. Update Details\n5. Associate\n6. "
 					+ "Fetch patient by phone number\n7. fetch appointments by the date\n8. Fetch appointments having more than number\n9. "
@@ -59,61 +60,51 @@ public class HospitalAppointmentSchedulingApplication {
 			int option = sc.nextInt();
 			switch (option) {
 			case 1: {
-				log.info("Patient chooses create account option...");
 				ref.insert();
 				break;
 			}
 			case 2: {
-				log.info("patient chooses fetch Details by their ID...");
 				System.out.print("Enter the patient ID: ");
 				long id = sc.nextLong();
 				ref.fetchByID(id);
 				break;
 			}
 			case 3: {
-				log.info("patient chooses fetch all the details option...");
 				ref.fetchAll();
 				break;
 			}
 			case 4: {
-				log.info("patient chooses Update their information by their ID...");
 				System.out.print("Enter the patient ID: ");
 				int id = sc.nextInt();
 				ref.update(id);
 				break;
 			}
 			case 5: {
-				log.info("patient chooses to create account with booking appointments...");
 				ref.AssociatePatientwithAppointment();
 				break;
 			}
 			case 6: {
-				log.info("patient chooses fetching their details by their phone number...");
 				System.out.print("Enter the patient phone number to fetch patient Details: ");
 				String ph = sc.next();
 				ref.fetchbyPhone(ph);
 				break;
 			}
 			case 7: {
-				log.info("patient chooses to fetch the appointment details by the day...");
 				ref.fetchapptday();
 				break;
 			}
 			case 8: {
-				System.out.println("Enter the number that fetches patient having more appoinments than the number: ");
 				long n = sc.nextLong();
 				ref.fetchAppointmentbynumber(n);
 				break;
 			}
 			case 9: {
-				log.info("patient chooses Find their First and Last names in the records...");
 				System.out.println("Enter the patient ID: ");
 				long n = sc.nextLong();
 				ref.findName(n);
 				break;
 			}
 			case 10: {
-				log.info("patient chooses ferching the patient details with the two dates...");
 				System.out.print("Enter the Start Date in the format (YYYY-MM-DD): ");
 				String start_date = sc.next();
 				System.out.print("Enter the End Date in the format (YYYY-MM-DD): ");
@@ -127,7 +118,6 @@ public class HospitalAppointmentSchedulingApplication {
 
 			}
 			case 11: {
-				log.info("patient chooses fetching all the patient details in ascending order...");
 				ref.ascending();
 				break;
 
@@ -174,19 +164,14 @@ public class HospitalAppointmentSchedulingApplication {
 		try {
 			response = pService.insertPatientDetails(patient);
 		} catch (patientException e) {
-			log.error("Patient Details details records not in the format", e);
 			System.err.println(e.getMessage());
 		} catch (PhoneNumberException e) {
-			log.error("Phone number format is wrong", e);
 			System.err.println(e.getMessage());
 		} catch (EmailException e) {
-			log.error("email format is not valid", e);
 			System.err.println(e.getMessage());
 		} catch (PasswordException e) {
-			log.error("password format is not valid", e);
 			System.err.println(e.getMessage());
 		} catch (DateOfBirthException e) {
-			log.error("Date of Birth format is not in the pattern", e);
 			System.err.println(e.getMessage());
 		}
 
@@ -207,7 +192,7 @@ public class HospitalAppointmentSchedulingApplication {
 				System.out.println(response.getPatient());
 			}
 		} catch (IdException e) {
-			log.error("ID not found in the DateBase", e);
+			System.out.println(e.getMessage());
 		}
 	}
 
@@ -228,7 +213,6 @@ public class HospitalAppointmentSchedulingApplication {
 				System.out.println(response.getSucessmessage() + response.getId());
 			}
 		} catch (IdException e) {
-			log.error("ID not found in the DataBase", e);
 			System.err.println(e.getMessage());
 		}
 	}
@@ -289,25 +273,18 @@ public class HospitalAppointmentSchedulingApplication {
 		try {
 			response = pService.associate(patient);
 		} catch (patientException e) {
-			log.error("Patient Details details records not in the format", e);
 			System.err.println(e.getMessage());
 		} catch (PhoneNumberException e) {
-			log.error("Phone number format is wrong", e);
 			System.err.println(e.getMessage());
 		} catch (EmailException e) {
-			log.error("email format is not valid", e);
 			System.err.println(e.getMessage());
 		} catch (PasswordException e) {
-			log.error("password format is not valid", e);
 			System.err.println(e.getMessage());
 		} catch (AppointmentException e) {
-			log.error("book atleast one appointments", e);
 			System.err.println(e.getMessage());
 		} catch (AppointmentBookingDateException e) {
-			log.error("Appointment booking date could not be in the Past", e);
 			System.err.println(e.getMessage());
 		} catch (DateOfBirthException e) {
-			log.error("date of birth could not be in the Future", e);
 			System.err.println(e.getMessage());
 		}
 
@@ -327,13 +304,13 @@ public class HospitalAppointmentSchedulingApplication {
 			response = pService.findbyphone(ph);
 			System.out.println(response.getPatient());
 		} catch (PhoneNumberException e) {
-			log.error("phone number exception caught", e);
+
 			System.err.println(e.getMessage());
 		}
 
 	}
 
-	// fetch today appointments
+	// fetch by day appointments
 	public void fetchapptday() {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter the date in the format (YYYY-MM-DD): ");
@@ -344,7 +321,6 @@ public class HospitalAppointmentSchedulingApplication {
 		try {
 			response = pService.findapptDay(day);
 		} catch (AppointmentException e) {
-			log.error("Appointment exception caught", e);
 			System.err.println(e.getMessage());
 		}
 		if (response.getSucessmessage() != null) {
@@ -354,8 +330,18 @@ public class HospitalAppointmentSchedulingApplication {
 
 	// fetch by more appointments
 	public void fetchAppointmentbynumber(long n) {
-		System.out.println("The users have more than appointments by given: ");
-		System.out.println(response.getListpatient());
+		try {
+			response = pService.findAppointmentsByNumber(n);
+			if (response.getSucessmessage() != null) {
+				System.out.println("The users have more than appointments by given: ");
+				System.out.println(response.getListpatient());
+			} else {
+				System.out.println(response.getFailuremessage());
+			}
+		} catch (AppointmentException e) {
+			System.err.println(e.getMessage());
+		}
+
 	}
 
 	// fetch first name and last name:
@@ -365,7 +351,6 @@ public class HospitalAppointmentSchedulingApplication {
 			System.out.println("First name: " + response.getPro().getFirstName() + " Second name: "
 					+ response.getPro().getLastName());
 		} catch (IdException e) {
-			log.error("Id Exception", e);
 			System.err.println(e.getMessage());
 		}
 
@@ -376,7 +361,6 @@ public class HospitalAppointmentSchedulingApplication {
 		try {
 			response = pService.betweenTwoDOBpat(sd, ld);
 		} catch (DateException e) {
-			log.error("Id Exception", e);
 			System.err.println(e.getMessage());
 		}
 		for (patientVO obj : response.getListpatient()) {
@@ -389,7 +373,6 @@ public class HospitalAppointmentSchedulingApplication {
 		try {
 			response = pService.acending();
 		} catch (AppointmentException e) {
-			log.error("Id Exception", e);
 			System.err.println(e.getMessage());
 		}
 		for (patientVO obj : response.getListpatient()) {
