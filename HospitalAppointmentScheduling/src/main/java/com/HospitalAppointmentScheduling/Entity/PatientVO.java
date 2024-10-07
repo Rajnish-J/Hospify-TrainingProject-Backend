@@ -27,9 +27,8 @@ import jakarta.persistence.TemporalType;
 @Table(name = "Patients")
 @EntityListeners(AuditingEntityListener.class)
 @NamedQueries({
-		@NamedQuery(name = "appointmentsVO.findByDOBRange", query = "SELECT p FROM patientVO p WHERE p.dob BETWEEN :startDate AND :endDate"),
-		@NamedQuery(name = "patientVO.findAllOrderedByAttendance", query = "SELECT p FROM patientVO p ORDER BY p.firstName ASC") })
-
+		@NamedQuery(name = "AppointmentsVO.findByDOBRange", query = "SELECT p FROM PatientVO p WHERE p.dob BETWEEN :startDate AND :endDate"),
+		@NamedQuery(name = "PatientVO.findAllOrderedByAttendance", query = "SELECT p FROM PatientVO p ORDER BY p.firstName ASC") })
 public class PatientVO {
 
 	@Id

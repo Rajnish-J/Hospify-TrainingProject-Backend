@@ -31,6 +31,7 @@ import com.HospitalAppointmentScheduling.Service.PatientService;
 @SpringBootApplication
 @EnableJpaAuditing
 public class HospitalAppointmentSchedulingApplication {
+
 	@Autowired
 	public PatientService pService;
 

@@ -14,39 +14,39 @@ import com.HospitalAppointmentScheduling.Entity.PatientVO;
 public interface PatientRepo extends JpaRepository<PatientVO, Long> {
 
 	// fetch by phone number
-	@Query("SELECT p FROM patientVO p WHERE p.PatientPhone = :phone")
+	@Query("SELECT p FROM PatientVO p WHERE p.patientPhone = :phone")
 	PatientVO findByPhoneNumber(@Param("phone") String phone);
 
 	// fetching patient who all are having appointments today:
-	@Query("SELECT p FROM patientVO p JOIN p.appointments a WHERE a.appointmentDate = :today")
+	@Query("SELECT p FROM PatientVO p JOIN p.appointments a WHERE a.appointmentDate = :today")
 	List<PatientVO> findPatientsWithAppointmentsDay(@Param("today") LocalDate today);
 
 	// fetch appointments of the patient who all are having more than given number
 	// by the user:
-	@Query("SELECT p FROM patientVO p WHERE (SELECT COUNT(a) FROM appointmentsVO a WHERE a.patient.patientId = p.patientId) > :appointmentCount")
+	@Query("SELECT p FROM PatientVO p WHERE (SELECT COUNT(a) FROM AppointmentsVO a WHERE a.patient.patientId = p.patientId) > :appointmentCount")
 	List<PatientVO> findPatientsWithMoreThanNAppointments(@Param("appointmentCount") Long appointmentCount);
 
 	// fetching the last name and first name of the patient with patient ID using
 	// projection interfaceL
 	@Query("SELECT p.patientId AS patientId, p.firstName AS firstName, p.lastName AS lastName "
-			+ "FROM patientVO p WHERE p.patientId = :patientId")
+			+ "FROM PatientVO p WHERE p.patientId = :patientId")
 	PatientProjection findNameOfPatientById(@Param("patientId") Long patientId);
 
 	// fetching all the patients details who all are having DOB between given two
 	// numbers:
-	@Query(name = "appointmentsVO.findByDOBRange")
+	@Query(name = "AppointmentsVO.findByDOBRange")
 	List<PatientVO> fetchBetweenDOBpat(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
 	// fetching all the patient details in ascending order;
-	@Query(name = "patientVO.findAllOrderedByAttendance")
+	@Query(name = "PatientVO.findAllOrderedByAttendance")
 	List<PatientVO> fetchAscending();
 
 	// fetching all patients id for validation:
-	@Query("SELECT p.patientId AS patientId FROM patientVO p ")
+	@Query("SELECT p.patientId AS patientId FROM PatientVO p ")
 	List<Long> fetchPatientId();
 
 	// fetching all patients phone number for validation:
-	@Query("SELECT p.PatientPhone AS PatientPhone FROM patientVO p ")
+	@Query("SELECT p.patientPhone AS patientPhone FROM PatientVO p ")
 	List<String> fetchPatientPhoneNumber();
 
 }
