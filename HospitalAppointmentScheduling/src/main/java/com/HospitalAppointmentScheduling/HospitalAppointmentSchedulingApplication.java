@@ -21,25 +21,25 @@ import com.HospitalAppointmentScheduling.CustomExceptions.DateOfBirthException;
 import com.HospitalAppointmentScheduling.CustomExceptions.EmailException;
 import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
+import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
-import com.HospitalAppointmentScheduling.CustomExceptions.patientException;
-import com.HospitalAppointmentScheduling.Entity.appointmentsVO;
-import com.HospitalAppointmentScheduling.Entity.patientVO;
+import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
+import com.HospitalAppointmentScheduling.Entity.PatientVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandle;
-import com.HospitalAppointmentScheduling.Service.patientService;
+import com.HospitalAppointmentScheduling.Service.PatientService;
 
 @SpringBootApplication
 @EnableJpaAuditing
 public class HospitalAppointmentSchedulingApplication {
 	@Autowired
-	public patientService pService;
+	public PatientService pService;
 
 	@Autowired
 	private ResponseHandle response;
 
 	static Logger log = Logger.getLogger(HospitalAppointmentSchedulingApplication.class);
 
-	public static void main(String[] args) throws patientException {
+	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(HospitalAppointmentSchedulingApplication.class, args);
 		Scanner sc = new Scanner(System.in);
 
@@ -138,7 +138,7 @@ public class HospitalAppointmentSchedulingApplication {
 	// insert method
 	public void insert() {
 		Scanner sc = new Scanner(System.in);
-		patientVO patient = new patientVO();
+		PatientVO patient = new PatientVO();
 
 		System.out.print("Enter the First Name: ");
 		patient.setFirstName(sc.next());
@@ -163,7 +163,7 @@ public class HospitalAppointmentSchedulingApplication {
 
 		try {
 			response = pService.insertPatientDetails(patient);
-		} catch (patientException e) {
+		} catch (PatientException e) {
 			System.err.println(e.getMessage());
 		} catch (PhoneNumberException e) {
 			System.err.println(e.getMessage());
@@ -187,8 +187,8 @@ public class HospitalAppointmentSchedulingApplication {
 	public void fetchByID(long id) {
 		try {
 			response = pService.fetchById(id);
-			if (response.getSucessmessage() != null) {
-				System.out.println(response.getSucessmessage() + response.getId());
+			if (response.getSucessMessage() != null) {
+				System.out.println(response.getSucessMessage() + response.getId());
 				System.out.println(response.getPatient());
 			}
 		} catch (IdException e) {
@@ -199,8 +199,8 @@ public class HospitalAppointmentSchedulingApplication {
 	// fetch all method:
 	public void fetchAll() {
 		response = pService.fetchAll();
-		List<patientVO> patientlist = response.getListpatient();
-		for (patientVO obj : patientlist) {
+		List<PatientVO> patientlist = response.getListPatient();
+		for (PatientVO obj : patientlist) {
 			System.out.println(obj);
 		}
 	}
@@ -209,8 +209,8 @@ public class HospitalAppointmentSchedulingApplication {
 	public void update(long id) {
 		try {
 			response = pService.updatePatientDetails(id);
-			if (response.getSucessmessage() != null) {
-				System.out.println(response.getSucessmessage() + response.getId());
+			if (response.getSucessMessage() != null) {
+				System.out.println(response.getSucessMessage() + response.getId());
 			}
 		} catch (IdException e) {
 			System.err.println(e.getMessage());
@@ -221,7 +221,7 @@ public class HospitalAppointmentSchedulingApplication {
 	public void AssociatePatientwithAppointment() {
 
 		Scanner sc = new Scanner(System.in);
-		patientVO patient = new patientVO();
+		PatientVO patient = new PatientVO();
 
 		System.out.print("Enter the First Name: ");
 		patient.setFirstName(sc.next());
@@ -247,10 +247,10 @@ public class HospitalAppointmentSchedulingApplication {
 		System.out.println("Enter Number of Appointments Details :");
 		int n = sc.nextInt();
 
-		List<appointmentsVO> list = new ArrayList<>();
+		List<AppointmentsVO> list = new ArrayList<>();
 
 		for (int i = 0; i < n; i++) {
-			appointmentsVO appt = new appointmentsVO();
+			AppointmentsVO appt = new AppointmentsVO();
 
 			System.out.print("Enter the Date of Appointment in the format (YYYY-MM-DD): ");
 			String appt_date = sc.next();
@@ -272,7 +272,7 @@ public class HospitalAppointmentSchedulingApplication {
 		patient.setAppointments(list);
 		try {
 			response = pService.associate(patient);
-		} catch (patientException e) {
+		} catch (PatientException e) {
 			System.err.println(e.getMessage());
 		} catch (PhoneNumberException e) {
 			System.err.println(e.getMessage());
@@ -291,9 +291,9 @@ public class HospitalAppointmentSchedulingApplication {
 		long id = response.getId();
 
 		if (id > 0) {
-			System.out.println(response.getSucessmessage());
+			System.out.println(response.getSucessMessage());
 		} else {
-			System.out.println(response.getFailuremessage());
+			System.out.println(response.getFailureMessage());
 		}
 
 	}
@@ -323,8 +323,8 @@ public class HospitalAppointmentSchedulingApplication {
 		} catch (AppointmentException e) {
 			System.err.println(e.getMessage());
 		}
-		if (response.getSucessmessage() != null) {
-			System.out.println(response.getListpatient());
+		if (response.getSucessMessage() != null) {
+			System.out.println(response.getListPatient());
 		}
 	}
 
@@ -332,11 +332,11 @@ public class HospitalAppointmentSchedulingApplication {
 	public void fetchAppointmentbynumber(long n) {
 		try {
 			response = pService.findAppointmentsByNumber(n);
-			if (response.getSucessmessage() != null) {
+			if (response.getSucessMessage() != null) {
 				System.out.println("The users have more than appointments by given: ");
-				System.out.println(response.getListpatient());
+				System.out.println(response.getListPatient());
 			} else {
-				System.out.println(response.getFailuremessage());
+				System.out.println(response.getFailureMessage());
 			}
 		} catch (AppointmentException e) {
 			System.err.println(e.getMessage());
@@ -363,7 +363,7 @@ public class HospitalAppointmentSchedulingApplication {
 		} catch (DateException e) {
 			System.err.println(e.getMessage());
 		}
-		for (patientVO obj : response.getListpatient()) {
+		for (PatientVO obj : response.getListPatient()) {
 			System.out.println(obj);
 		}
 	}
@@ -375,7 +375,7 @@ public class HospitalAppointmentSchedulingApplication {
 		} catch (AppointmentException e) {
 			System.err.println(e.getMessage());
 		}
-		for (patientVO obj : response.getListpatient()) {
+		for (PatientVO obj : response.getListPatient()) {
 			System.out.println(obj);
 		}
 	}

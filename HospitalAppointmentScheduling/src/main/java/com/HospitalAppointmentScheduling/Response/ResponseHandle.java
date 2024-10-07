@@ -5,49 +5,33 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.HospitalAppointmentScheduling.DAO.PatientProjection;
-import com.HospitalAppointmentScheduling.Entity.patientVO;
+import com.HospitalAppointmentScheduling.Entity.PatientVO;
 
 @Component
 public class ResponseHandle {
 
-	private String Sucessmessage;
-	private String failuremessage;
+	private String sucessMessage;
+	private String failureMessage;
 	private long id;
-	private patientVO patient;
-	private List<patientVO> Listpatient;
+	private PatientVO patient;
+	private List<PatientVO> listPatient;
 	private String phone;
 	private PatientProjection pro;
 
-	public PatientProjection getPro() {
-		return pro;
+	public String getSucessMessage() {
+		return sucessMessage;
 	}
 
-	public void setPro(PatientProjection pro) {
-		this.pro = pro;
+	public void setSucessMessage(String sucessMessage) {
+		this.sucessMessage = sucessMessage;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getFailureMessage() {
+		return failureMessage;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getSucessmessage() {
-		return Sucessmessage;
-	}
-
-	public void setSucessmessage(String sucessmessage) {
-		Sucessmessage = sucessmessage;
-	}
-
-	public String getFailuremessage() {
-		return failuremessage;
-	}
-
-	public void setFailuremessage(String failuremessage) {
-		this.failuremessage = failuremessage;
+	public void setFailureMessage(String failureMessage) {
+		this.failureMessage = failureMessage;
 	}
 
 	public long getId() {
@@ -58,26 +42,42 @@ public class ResponseHandle {
 		this.id = id;
 	}
 
-	public patientVO getPatient() {
+	public PatientVO getPatient() {
 		return patient;
 	}
 
-	public void setPatient(patientVO patient) {
+	public void setPatient(PatientVO patient) {
 		this.patient = patient;
 	}
 
-	public List<patientVO> getListpatient() {
-		return Listpatient;
+	public List<PatientVO> getListPatient() {
+		return listPatient;
 	}
 
-	public void setListpatient(List<patientVO> listpatient) {
-		Listpatient = listpatient;
+	public void setListPatient(List<PatientVO> listPatient) {
+		this.listPatient = listPatient;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public PatientProjection getPro() {
+		return pro;
+	}
+
+	public void setPro(PatientProjection pro) {
+		this.pro = pro;
 	}
 
 	@Override
 	public String toString() {
-		return "ResponseHandle [Sucessmessage=" + Sucessmessage + ", failuremessage=" + failuremessage + ", id=" + id
-				+ ", patient=" + patient + ", Listpatient=" + Listpatient + ", phone=" + phone + ", pro=" + pro + "]";
+		return "ResponseHandle [SucessMessage=" + sucessMessage + ", failureMessage=" + failureMessage + ", id=" + id
+				+ ", patient=" + patient + ", listPatient=" + listPatient + ", phone=" + phone + ", pro=" + pro + "]";
 	}
 
 }
