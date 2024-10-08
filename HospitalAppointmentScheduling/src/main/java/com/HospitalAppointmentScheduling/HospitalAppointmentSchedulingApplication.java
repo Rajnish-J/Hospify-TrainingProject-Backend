@@ -531,7 +531,15 @@ public class HospitalAppointmentSchedulingApplication {
 		try {
 			resAppt = aService.insertAppointments(avo);
 		} catch (IdException e) {
-			System.err.println(e.getMessage());
+			System.out.println(e.getMessage());
+		} catch (EmailException e) {
+			System.out.println(e.getMessage());
+		} catch (PasswordException e) {
+			System.out.println(e.getMessage());
+		} catch (PhoneNumberException e) {
+			System.out.println(e.getMessage());
+		} catch (AppointmentException e) {
+			System.out.println(e.getMessage());
 		}
 
 		if (resAppt.getAppoVo().getAppointmentID() > 0) {
@@ -573,7 +581,15 @@ public class HospitalAppointmentSchedulingApplication {
 		try {
 			resAppt = aService.insertAppointmentsWithPatientID(avo);
 		} catch (IdException e) {
-			System.err.println(e.getMessage());
+			System.out.println(e.getMessage());
+		} catch (EmailException e) {
+			System.out.println(e.getMessage());
+		} catch (PasswordException e) {
+			System.out.println(e.getMessage());
+		} catch (PhoneNumberException e) {
+			System.out.println(e.getMessage());
+		} catch (AppointmentException e) {
+			System.out.println(e.getMessage());
 		}
 
 		if (resAppt.getAppoVo().getAppointmentID() > 0) {

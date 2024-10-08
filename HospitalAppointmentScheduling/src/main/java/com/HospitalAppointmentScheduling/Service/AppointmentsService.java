@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 import com.HospitalAppointmentScheduling.BO.AppointmentsBO;
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
+import com.HospitalAppointmentScheduling.CustomExceptions.EmailException;
 import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
+import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
+import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandleAppointments;
 
@@ -29,7 +32,8 @@ public class AppointmentsService {
 
 	// Insert method:
 	@Transactional
-	public ResponseHandleAppointments insertAppointments(AppointmentsVO vo) throws IdException {
+	public ResponseHandleAppointments insertAppointments(AppointmentsVO vo)
+			throws IdException, EmailException, PasswordException, PhoneNumberException, AppointmentException {
 		log.info("Appointments insert method triggered");
 		AppointmentsVO flag = apptBO.insertAppointments(vo);
 		if (flag != null) {
@@ -42,7 +46,8 @@ public class AppointmentsService {
 	}
 
 	@Transactional
-	public ResponseHandleAppointments insertAppointmentsWithPatientID(AppointmentsVO vo) throws IdException {
+	public ResponseHandleAppointments insertAppointmentsWithPatientID(AppointmentsVO vo)
+			throws IdException, EmailException, PasswordException, PhoneNumberException, AppointmentException {
 		log.info("Appointments insert method triggered");
 		AppointmentsVO flag = apptBO.insertAppointmentsWithPatientID(vo);
 		if (flag != null) {
@@ -85,6 +90,7 @@ public class AppointmentsService {
 	// update method:
 	@Transactional
 	public ResponseHandleAppointments update(Long id) throws IdException {
+		log.info("Appointments update method triggered");
 		AppointmentsVO vo = apptBO.updateAppointmentDetails(id);
 		if (vo != null) {
 			apptsRes.setSucessMessage("Appointment updated succuessfully");
@@ -98,6 +104,7 @@ public class AppointmentsService {
 	// fetching appt details between two dates
 	@Transactional
 	public ResponseHandleAppointments fetchApptBetweenTwoDates(LocalDate sd, LocalDate ld) throws DateException {
+		log.info("Appointments details by between two dates method triggered");
 		List<AppointmentsVO> list = apptBO.fetchApptBetweenTwoDates(sd, ld);
 		if (list.size() > 0) {
 			apptsRes.setSucessMessage("all the appointments fetched");

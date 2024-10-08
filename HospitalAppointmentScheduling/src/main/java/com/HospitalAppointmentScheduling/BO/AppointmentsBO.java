@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
+import com.HospitalAppointmentScheduling.CustomExceptions.EmailException;
 import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
+import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
+import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.DAO.AppointmentsRepo;
 import com.HospitalAppointmentScheduling.DAO.PatientRepo;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
@@ -24,18 +27,32 @@ public class AppointmentsBO {
 	PatientRepo pRepo;
 
 	// Insert method:
-	public AppointmentsVO insertAppointments(AppointmentsVO vo) throws IdException {
-		appointmentsRepo.save(vo);
-		return vo;
+	public AppointmentsVO insertAppointments(AppointmentsVO vo)
+			throws IdException, EmailException, PasswordException, PhoneNumberException, AppointmentException {
+		if (validateEmail(vo.getPatient().getPatientEmail()) && validatePassword(vo.getPatient().getPatientPassword())
+				&& validatePhoneNumber(vo.getPatient().getPatientPhone())) {
+			appointmentsRepo.save(vo);
+			return vo;
+		} else {
+			throw new AppointmentException("ERROR: in creating appointments");
+		}
+
 	}
 
-	public AppointmentsVO insertAppointmentsWithPatientID(AppointmentsVO vo) throws IdException {
+	public AppointmentsVO insertAppointmentsWithPatientID(AppointmentsVO vo)
+			throws IdException, EmailException, PasswordException, PhoneNumberException, AppointmentException {
 		if (vo.getPatient().getPatientId() != null && validateID(vo.getPatient().getPatientId())) {
 			PatientVO pvo = pRepo.findById(vo.getPatient().getPatientId()).get();
 			vo.setPatient(pvo);
-			appointmentsRepo.save(vo);
+			if (validateEmail(vo.getPatient().getPatientEmail())
+					&& validatePassword(vo.getPatient().getPatientPassword())
+					&& validatePhoneNumber(vo.getPatient().getPatientPhone())) {
+				appointmentsRepo.save(vo);
+			}
+			return vo;
+		} else {
+			throw new AppointmentException("ERROR: in creating appointments");
 		}
-		return vo;
 	}
 
 	// fetchById method:
@@ -83,6 +100,80 @@ public class AppointmentsBO {
 	}
 
 	// validations
+
+	// validation methods:
+	public boolean validatePhoneNumber(String phoneNumber) throws PhoneNumberException {
+		if (phoneNumber == null || phoneNumber.length() != 10) {
+			throw new PhoneNumberException("ERROR: The phone number lenght is atleast 10");
+		}
+		for (char c : phoneNumber.toCharArray()) {
+			if (!Character.isDigit(c)) {
+				throw new PhoneNumberException("ERROR: phone number does not have any alphabets");
+			}
+		}
+		return true;
+	}
+
+	// validation for email
+	public boolean validateEmail(String email) throws EmailException {
+		if (email == null || email.isEmpty()) {
+			throw new EmailException("ERROR: Email field could not be empty");
+		}
+		int atCount = 0;
+		for (char c : email.toCharArray()) {
+			if (c == '@') {
+				atCount++;
+				if (atCount == 1) {
+					break;
+				}
+			}
+		}
+		if (atCount == 0) {
+			throw new EmailException("ERROR: Email should contain atleast one " + "@" + " charactre in it");
+		}
+		return atCount == 1;
+	}
+
+	// validations for password
+	public boolean validatePassword(String password) throws PasswordException {
+
+		if (password == null) {
+			throw new PasswordException("ERROR: password field could not be empty");
+		} else if (password.length() < 8 || password.length() > 12) {
+			throw new PasswordException("ERROR: password length in between 8 to 12");
+		}
+
+		boolean hasUppercase = false;
+		boolean hasLowercase = false;
+		boolean hasDigit = false;
+		boolean hasSpecial = false;
+
+		for (char c : password.toCharArray()) {
+			if (Character.isUpperCase(c)) {
+				hasUppercase = true;
+			} else if (Character.isLowerCase(c)) {
+				hasLowercase = true;
+			} else if (Character.isDigit(c)) {
+				hasDigit = true;
+			} else {
+				hasSpecial = true;
+			}
+		}
+		if (!(hasUppercase)) {
+			throw new PasswordException("ERROR: password could have atleast one Uppercase letter");
+		}
+		if (!(hasLowercase)) {
+			throw new PasswordException("ERROR: password could have atleast one Lowercase letter");
+		}
+		if (!(hasDigit)) {
+			throw new PasswordException("ERROR: password could have atleast one Digit");
+		}
+		if (!(hasSpecial)) {
+			throw new PasswordException("ERROR: password could have atleast one Special character");
+		}
+
+		return hasUppercase && hasLowercase && hasDigit && hasSpecial;
+	}
 
 	// checks the ID Checking
 	public boolean validateID(Long id) throws IdException {
