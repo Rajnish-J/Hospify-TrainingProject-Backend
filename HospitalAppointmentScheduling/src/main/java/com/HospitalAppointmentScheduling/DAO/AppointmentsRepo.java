@@ -21,4 +21,8 @@ public interface AppointmentsRepo extends JpaRepository<AppointmentsVO, Long> {
 	List<AppointmentsVO> findAllByAppointmentDateRange(@Param("startDate") LocalDate startDate,
 			@Param("endDate") LocalDate endDate);
 
+	// Appointments by order date
+	@Query(name = "AppointmentsVO.findAllByPatientIdOrderByDate")
+	List<AppointmentsVO> fetchApptsAscending();
+
 }

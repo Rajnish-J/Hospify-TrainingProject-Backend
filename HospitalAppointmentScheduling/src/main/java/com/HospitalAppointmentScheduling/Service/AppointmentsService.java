@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.HospitalAppointmentScheduling.BO.AppointmentsBO;
+import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
@@ -103,6 +104,19 @@ public class AppointmentsService {
 			apptsRes.setList(list);
 		} else {
 			apptsRes.setFailureMessage("Error in fetching");
+		}
+		return apptsRes;
+	}
+
+	// ascending order:
+	public ResponseHandleAppointments acending() throws AppointmentException {
+		log.info("Fetching the patient details in ascending order method triggered...");
+		List<AppointmentsVO> list = apptBO.ascending();
+		if (list.size() > 0) {
+			apptsRes.setList(list);
+			apptsRes.setSucessMessage("fetching the paitent details in ascending order is successfully executed");
+		} else {
+			apptsRes.setFailureMessage("Error in fetching...");
 		}
 		return apptsRes;
 	}

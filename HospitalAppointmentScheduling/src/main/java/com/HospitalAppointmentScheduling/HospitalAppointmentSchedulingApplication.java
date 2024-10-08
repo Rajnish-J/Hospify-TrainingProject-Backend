@@ -153,8 +153,8 @@ public class HospitalAppointmentSchedulingApplication {
 				do {
 					System.out.println(
 							"1. Add appointments with creating patient account\n2. Add appointments with already registered patient ID\n3. "
-									+ "Fetch appointments by ID\n4. fetch all appointments\n5. Update appointmens status\n7. Fetch appointments in two dates"
-									+ "\n8. EXIT");
+									+ "Fetch appointments by ID\n4. fetch all appointments\n5. Update appointmens status\n6. Fetch appointments in two dates"
+									+ "\n7. Fetch appointments in ascending order" + "\n8. EXIT");
 					System.out.print("Enter the option: ");
 					int appointmentOption = sc.nextInt();
 					switch (appointmentOption) {
@@ -192,6 +192,11 @@ public class HospitalAppointmentSchedulingApplication {
 						LocalDate ended_date = LocalDate.parse(end_date, format_appt);
 
 						ref.fetchApptBetweenTwoDates(started_date, ended_date);
+						break;
+					}
+					case 7: {
+						ref.ascendingAppointments();
+						break;
 					}
 					case 8: {
 						System.out.println("Thank you for using Appointment booking page, retuning to main page");
@@ -452,7 +457,7 @@ public class HospitalAppointmentSchedulingApplication {
 	// ascending order:
 	public void ascendingPatient() {
 		try {
-			response = pService.acending();
+			response = pService.ascending();
 		} catch (AppointmentException e) {
 			System.err.println(e.getMessage());
 		}
@@ -634,5 +639,21 @@ public class HospitalAppointmentSchedulingApplication {
 			System.err.println(e.getMessage());
 		}
 	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
+	// ascending order:
+	public void ascendingAppointments() {
+		try {
+			resAppt = aService.acending();
+		} catch (AppointmentException e) {
+			System.err.println(e.getMessage());
+		}
+		for (AppointmentsVO obj : resAppt.getList()) {
+			System.out.println(obj);
+		}
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
 
 }

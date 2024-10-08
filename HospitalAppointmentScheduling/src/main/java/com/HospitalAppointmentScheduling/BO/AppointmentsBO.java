@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.DAO.AppointmentsRepo;
@@ -68,6 +69,15 @@ public class AppointmentsBO {
 		List<AppointmentsVO> list = appointmentsRepo.findAllByAppointmentDateRange(sd, ld);
 		if (sd.isAfter(ld)) {
 			throw new DateException("start date could be before the end date");
+		}
+		return list;
+	}
+
+	// ascending order:
+	public List<AppointmentsVO> ascending() throws AppointmentException {
+		List<AppointmentsVO> list = appointmentsRepo.fetchApptsAscending();
+		if (!(list.size() > 0)) {
+			throw new AppointmentException("ERROR: There is no Records in the DataBase");
 		}
 		return list;
 	}

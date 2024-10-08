@@ -167,7 +167,7 @@ public class PatientService {
 	}
 
 	// ascending order:
-	public ResponseHandle acending() throws AppointmentException {
+	public ResponseHandle ascending() throws AppointmentException {
 		log.info("Fetching the patient details in ascending order method triggered...");
 		List<PatientVO> list = patientBO.ascending();
 		if (list.size() > 0) {

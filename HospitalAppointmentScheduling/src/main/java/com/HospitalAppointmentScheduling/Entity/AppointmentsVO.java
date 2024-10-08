@@ -27,8 +27,7 @@ import jakarta.persistence.TemporalType;
 @Table(name = "appointments")
 @EntityListeners(AuditingEntityListener.class)
 @NamedQueries({
-		@NamedQuery(name = "AppointmentsVO.findAllByPatientIdOrderByDate", query = "SELECT a FROM AppointmentsVO a WHERE a.patient.id = "
-				+ ":patientId ORDER BY a.appointmentDate ASC") })
+		@NamedQuery(name = "AppointmentsVO.findAllByPatientIdOrderByDate", query = "SELECT a FROM AppointmentsVO a ORDER BY a.appointmentDate ASC") })
 
 public class AppointmentsVO {
 

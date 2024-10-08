@@ -263,7 +263,7 @@ public class PatientController {
 	public ResponseEntity<?> acending() {
 		log.info("patient chooses fetching all the patient details in ascending order...");
 		try {
-			res = pservice.acending();
+			res = pservice.ascending();
 			List<PatientVO> list = res.getListPatient();
 			List<PatientDTO> listd = new ArrayList<>();
 			for (int i = 0; i < list.size(); i++) {
