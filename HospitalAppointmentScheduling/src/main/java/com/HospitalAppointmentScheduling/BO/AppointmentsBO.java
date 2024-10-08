@@ -1,10 +1,12 @@
 package com.HospitalAppointmentScheduling.BO;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.DAO.AppointmentsRepo;
 import com.HospitalAppointmentScheduling.DAO.PatientRepo;
@@ -32,15 +34,17 @@ public class AppointmentsBO {
 			vo.setPatient(pvo);
 			appointmentsRepo.save(vo);
 		}
-		appointmentsRepo.save(vo);
 		return vo;
 	}
 
 	// fetchById method:
 	public AppointmentsVO fetchByID(Long id) throws IdException {
-		validateID(id);
-		AppointmentsVO ret = appointmentsRepo.findById(id).get();
-		return ret;
+		if (validateID(id)) {
+			AppointmentsVO ret = appointmentsRepo.findById(id).get();
+			return ret;
+		}
+		return null;
+
 	}
 
 	// fetchAll method:
@@ -59,14 +63,24 @@ public class AppointmentsBO {
 
 	}
 
+	// Appointment by between two days:
+	public List<AppointmentsVO> fetchApptBetweenTwoDates(LocalDate sd, LocalDate ld) throws DateException {
+		List<AppointmentsVO> list = appointmentsRepo.findAllByAppointmentDateRange(sd, ld);
+		if (sd.isAfter(ld)) {
+			throw new DateException("start date could be before the end date");
+		}
+		return list;
+	}
+
 	// validations
 
 	// checks the ID Checking
 	public boolean validateID(Long id) throws IdException {
-		List<Long> aID = appointmentsRepo.fetchAppointmentIds();
+		List<Long> pID = pRepo.fetchPatientId();
+		System.out.println(pID);
 
 		boolean contains = false;
-		for (Long obj : aID) {
+		for (Long obj : pID) {
 			if (obj == id) {
 				contains = true;
 				break;

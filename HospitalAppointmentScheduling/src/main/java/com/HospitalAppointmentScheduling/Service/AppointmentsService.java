@@ -1,5 +1,6 @@
 package com.HospitalAppointmentScheduling.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.HospitalAppointmentScheduling.BO.AppointmentsBO;
+import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandleAppointments;
@@ -88,6 +90,19 @@ public class AppointmentsService {
 			apptsRes.setAppoVo(vo);
 		} else {
 			apptsRes.setFailureMessage("Error in updating appointment details");
+		}
+		return apptsRes;
+	}
+
+	// fetching appt details between two dates
+	@Transactional
+	public ResponseHandleAppointments fetchApptBetweenTwoDates(LocalDate sd, LocalDate ld) throws DateException {
+		List<AppointmentsVO> list = apptBO.fetchApptBetweenTwoDates(sd, ld);
+		if (list.size() > 0) {
+			apptsRes.setSucessMessage("all the appointments fetched");
+			apptsRes.setList(list);
+		} else {
+			apptsRes.setFailureMessage("Error in fetching");
 		}
 		return apptsRes;
 	}

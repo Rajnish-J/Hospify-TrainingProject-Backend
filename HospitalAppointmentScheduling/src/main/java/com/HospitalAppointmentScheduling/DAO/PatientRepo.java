@@ -32,7 +32,7 @@ public interface PatientRepo extends JpaRepository<PatientVO, Long> {
 	@Query(name = "AppointmentsVO.findByDOBRange")
 	List<PatientVO> fetchBetweenDOBpat(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
-	// fetching all the patient details in ascending order;
+	// fetching all the patient details in ascending order:
 	@Query(name = "PatientVO.findAllOrderedByAttendance")
 	List<PatientVO> fetchAscending();
 

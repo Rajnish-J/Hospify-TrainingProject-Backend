@@ -105,7 +105,7 @@ public class PatientBO {
 
 	}
 
-	// Appointment by between two days:
+	// Fetching all the patient details having the DOB between two days:
 	public List<PatientVO> betweenTwoDOBpat(LocalDate sd, LocalDate ld) throws DateException {
 		List<PatientVO> list = patientRepo.fetchBetweenDOBpat(sd, ld);
 		if (sd.isAfter(ld)) {

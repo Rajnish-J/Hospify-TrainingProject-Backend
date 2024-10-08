@@ -17,6 +17,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -24,6 +26,10 @@ import jakarta.persistence.TemporalType;
 @Entity
 @Table(name = "appointments")
 @EntityListeners(AuditingEntityListener.class)
+@NamedQueries({
+		@NamedQuery(name = "AppointmentsVO.findAllByPatientIdOrderByDate", query = "SELECT a FROM AppointmentsVO a WHERE a.patient.id = "
+				+ ":patientId ORDER BY a.appointmentDate ASC") })
+
 public class AppointmentsVO {
 
 	@Id
@@ -59,7 +65,7 @@ public class AppointmentsVO {
 //	private doctorVO doctor;
 
 	// mapping to patient
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "patient_id", nullable = false)
 	private PatientVO patient;
 

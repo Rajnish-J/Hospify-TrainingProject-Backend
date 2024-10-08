@@ -153,7 +153,8 @@ public class HospitalAppointmentSchedulingApplication {
 				do {
 					System.out.println(
 							"1. Add appointments with creating patient account\n2. Add appointments with already registered patient ID\n3. "
-									+ "Fetch appointments by ID\n4. fetch all appointments\n5. Update appointmens status\n6. EXIT");
+									+ "Fetch appointments by ID\n4. fetch all appointments\n5. Update appointmens status\n7. Fetch appointments in two dates"
+									+ "\n8. EXIT");
 					System.out.print("Enter the option: ");
 					int appointmentOption = sc.nextInt();
 					switch (appointmentOption) {
@@ -182,6 +183,17 @@ public class HospitalAppointmentSchedulingApplication {
 						break;
 					}
 					case 6: {
+						System.out.print("Enter the Start Date in the format (YYYY-MM-DD): ");
+						String start_date = sc.next();
+						System.out.print("Enter the End Date in the format (YYYY-MM-DD): ");
+						String end_date = sc.next();
+						DateTimeFormatter format_appt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+						LocalDate started_date = LocalDate.parse(start_date, format_appt);
+						LocalDate ended_date = LocalDate.parse(end_date, format_appt);
+
+						ref.fetchApptBetweenTwoDates(started_date, ended_date);
+					}
+					case 8: {
 						System.out.println("Thank you for using Appointment booking page, retuning to main page");
 						appointmentRepeat = false;
 						break;
@@ -457,17 +469,21 @@ public class HospitalAppointmentSchedulingApplication {
 
 		AppointmentsVO avo = new AppointmentsVO();
 
-		System.out.println("Enter the appointment date: ");
+		System.out.print("Enter the appointment date in the format (YYYY-MM-DD): ");
 		String date = sc.next();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate aDate = LocalDate.parse(date, format);
 		avo.setAppointmentDate(aDate);
 
-		System.out.println("Enter the reason: ");
+		sc.nextLine();
+
+		System.out.print("Enter the reason: ");
 		avo.setReason(sc.nextLine());
 
-		System.out.println("Enter the doctor ID: ");
+		System.out.print("Enter the doctor ID: ");
 		avo.setDoctorId(sc.nextLong());
+
+		sc.nextLine();
 
 		PatientVO patient = new PatientVO();
 		System.out.print("Enter the First Name: ");
@@ -528,25 +544,29 @@ public class HospitalAppointmentSchedulingApplication {
 
 		AppointmentsVO avo = new AppointmentsVO();
 
-		System.out.println("Enter the appointment date: ");
+		System.out.print("Enter the appointment date in the format (YYYY-MM-DD): ");
 		String date = sc.next();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate aDate = LocalDate.parse(date, format);
 		avo.setAppointmentDate(aDate);
 
-		System.out.println("Enter the reason: ");
+		sc.nextLine();
+
+		System.out.print("Enter the reason: ");
+		sc.nextLine();
 		avo.setReason(sc.nextLine());
 
-		System.out.println("Enter the doctor ID: ");
+		System.out.print("Enter the doctor ID: ");
 		avo.setDoctorId(sc.nextLong());
+		sc.nextLine();
 
 		PatientVO patient = new PatientVO();
-		System.out.println("Enter the already registerd Patient ID:");
+		System.out.print("Enter the already registerd Patient ID:");
 		patient.setPatientId(sc.nextLong());
 		avo.setPatient(patient);
 
 		try {
-			resAppt = aService.insertAppointments(avo);
+			resAppt = aService.insertAppointmentsWithPatientID(avo);
 		} catch (IdException e) {
 			System.err.println(e.getMessage());
 		}
@@ -566,7 +586,7 @@ public class HospitalAppointmentSchedulingApplication {
 		try {
 			resAppt = aService.fetchByID(id);
 			if (response.getSucessMessage() != null) {
-				System.out.println(resAppt.getSucessMessage() + resAppt.getId());
+				System.out.println(resAppt.getSucessMessage() + resAppt.getAppoVo().getAppointmentID());
 				System.out.println(resAppt.getAppoVo());
 			}
 		} catch (IdException e) {
@@ -592,9 +612,25 @@ public class HospitalAppointmentSchedulingApplication {
 		try {
 			resAppt = aService.update(id);
 			if (resAppt.getSucessMessage() != null) {
-				System.out.println(resAppt.getSucessMessage() + resAppt.getId());
+				System.out.println(resAppt.getSucessMessage() + resAppt.getAppoVo().getAppointmentID());
 			}
 		} catch (IdException e) {
+			System.err.println(e.getMessage());
+		}
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
+	public void fetchApptBetweenTwoDates(LocalDate sd, LocalDate ld) {
+
+		try {
+			resAppt = aService.fetchApptBetweenTwoDates(sd, ld);
+			if (resAppt.getSucessMessage() != null) {
+				for (AppointmentsVO obj : resAppt.getList()) {
+					System.out.println(obj);
+				}
+			}
+		} catch (DateException e) {
 			System.err.println(e.getMessage());
 		}
 	}
