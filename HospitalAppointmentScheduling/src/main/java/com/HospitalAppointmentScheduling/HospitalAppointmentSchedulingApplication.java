@@ -26,6 +26,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandle;
+import com.HospitalAppointmentScheduling.Response.ResponseHandleAppointments;
 import com.HospitalAppointmentScheduling.Service.AppointmentsService;
 import com.HospitalAppointmentScheduling.Service.PatientService;
 
@@ -37,10 +38,12 @@ public class HospitalAppointmentSchedulingApplication {
 	public PatientService pService;
 
 	@Autowired
-	private ResponseHandle response;
+	private AppointmentsService aService;
 
 	@Autowired
-	private AppointmentsService aService;
+	private ResponseHandle response;
+
+	private ResponseHandleAppointments resAppt;
 
 	static Logger log = Logger.getLogger(HospitalAppointmentSchedulingApplication.class);
 
@@ -58,6 +61,7 @@ public class HospitalAppointmentSchedulingApplication {
 		log.info("Patient chooses create account option...");
 		do {
 			System.out.println("1. Patient menu\n2. Appointments menu\n3. Exit");
+			System.out.print("Enter the option: ");
 			int mainOption = sc.nextInt();
 
 			switch (mainOption) {
@@ -134,7 +138,7 @@ public class HospitalAppointmentSchedulingApplication {
 					case 11: {
 						log.info("patient chooses to EXIT the application...");
 						patientRepeat = false;
-						System.out.println("Thank you for Using the application");
+						System.out.println("Thank you for Using patient page returning to main page");
 						break;
 					}
 					default: {
@@ -148,28 +152,38 @@ public class HospitalAppointmentSchedulingApplication {
 				boolean appointmentRepeat = true;
 				do {
 					System.out.println(
-							"1.Add appointments with creating patient account\n2. Add appointments with already registered patient ID\n3. "
+							"1. Add appointments with creating patient account\n2. Add appointments with already registered patient ID\n3. "
 									+ "Fetch appointments by ID\n4. fetch all appointments\n5. Update appointmens status\n6. EXIT");
 					System.out.print("Enter the option: ");
 					int appointmentOption = sc.nextInt();
 					switch (appointmentOption) {
 					case 1: {
-
+						ref.insertApptWithPatientAcc();
 						break;
 					}
 					case 2: {
+						ref.insertAppointmentsWithPatientID();
 						break;
 					}
 					case 3: {
+						System.out.print("Enter the Appointment ID: ");
+						long id = sc.nextLong();
+						ref.fetchByIDAppointment(id);
 						break;
 					}
 					case 4: {
+						ref.fetchAllAppointments();
 						break;
 					}
 					case 5: {
+						System.out.print("Enter the Appointment ID: ");
+						long id = sc.nextLong();
+						ref.updateAppointment(id);
 						break;
 					}
 					case 6: {
+						System.out.println("Thank you for using Appointment booking page, retuning to main page");
+						appointmentRepeat = false;
 						break;
 					}
 					}
@@ -177,14 +191,16 @@ public class HospitalAppointmentSchedulingApplication {
 				break;
 			}
 			case 3: {
+				System.out.println("Thank you for using Hospital Management System application");
 				break;
 			}
 			default: {
-
+				System.out.println("Enter the correct option");
 			}
 			}
 		} while (mainRepeat);
 	}
+	// ------------------------------------------------------------------------------------------------------------------------------//
 
 	// insert method
 	public void insertPatient() {
@@ -234,6 +250,8 @@ public class HospitalAppointmentSchedulingApplication {
 		}
 	}
 
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
 	// fetch by ID:
 	public void fetchByIDPatient(long id) {
 		try {
@@ -247,6 +265,8 @@ public class HospitalAppointmentSchedulingApplication {
 		}
 	}
 
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
 	// fetch all method:
 	public void fetchAllPatients() {
 		response = pService.fetchAll();
@@ -255,6 +275,8 @@ public class HospitalAppointmentSchedulingApplication {
 			System.out.println(obj);
 		}
 	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
 
 	// update method:
 	public void updatePatient(long id) {
@@ -267,6 +289,8 @@ public class HospitalAppointmentSchedulingApplication {
 			System.err.println(e.getMessage());
 		}
 	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
 
 	// associate method:
 	public void AssociatePatientwithAppointment() {
@@ -349,6 +373,8 @@ public class HospitalAppointmentSchedulingApplication {
 
 	}
 
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
 	// fetch by phone number
 	public void fetchbyPatientPhone(String ph) {
 		try {
@@ -360,6 +386,8 @@ public class HospitalAppointmentSchedulingApplication {
 		}
 
 	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
 
 	// fetch by day appointments
 	public void fetchapptday() {
@@ -379,6 +407,8 @@ public class HospitalAppointmentSchedulingApplication {
 		}
 	}
 
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
 	// fetch first name and last name:
 	public void findPatientName(long id) {
 		try {
@@ -391,6 +421,8 @@ public class HospitalAppointmentSchedulingApplication {
 
 	}
 
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
 	// Appointment by between two days:
 	public void betweenTwoDOBpat(LocalDate sd, LocalDate ld) {
 		try {
@@ -402,6 +434,8 @@ public class HospitalAppointmentSchedulingApplication {
 			System.out.println(obj);
 		}
 	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
 
 	// ascending order:
 	public void ascendingPatient() {
@@ -431,6 +465,138 @@ public class HospitalAppointmentSchedulingApplication {
 
 		System.out.println("Enter the reason: ");
 		avo.setReason(sc.nextLine());
+
+		System.out.println("Enter the doctor ID: ");
+		avo.setDoctorId(sc.nextLong());
+
+		PatientVO patient = new PatientVO();
+		System.out.print("Enter the First Name: ");
+		patient.setFirstName(sc.next());
+
+		System.out.print("Enter the Last Name: ");
+		patient.setLastName(sc.next());
+
+		System.out.print("Enter the phone number: ");
+		patient.setPatientPhone(sc.next());
+
+		System.out.print("Enter the Date of birth in the format (YYYY-MM-DD): ");
+		String datePat = sc.next();
+		DateTimeFormatter formatPat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate dob = LocalDate.parse(datePat, formatPat);
+		patient.setDob(dob);
+
+		System.out.print("Enter the Email: ");
+		patient.setPatientEmail(sc.next());
+
+		System.out.print("Enter the Password: ");
+		patient.setPatientPassword(sc.next());
+
+		try {
+			response = pService.insertPatientDetails(patient);
+		} catch (PatientException e) {
+			System.err.println(e.getMessage());
+		} catch (PhoneNumberException e) {
+			System.err.println(e.getMessage());
+		} catch (EmailException e) {
+			System.err.println(e.getMessage());
+		} catch (PasswordException e) {
+			System.err.println(e.getMessage());
+		} catch (DateOfBirthException e) {
+			System.err.println(e.getMessage());
+		}
+
+		avo.setPatient(response.getPatient());
+
+		try {
+			resAppt = aService.insertAppointments(avo);
+		} catch (IdException e) {
+			System.err.println(e.getMessage());
+		}
+
+		if (resAppt.getAppoVo().getAppointmentID() > 0) {
+			System.out.println("Your Generated Appointment ID is: " + resAppt.getAppoVo().getAppointmentID());
+
+		} else {
+			System.out.println("Failed");
+		}
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
+	public void insertAppointmentsWithPatientID() {
+		Scanner sc = new Scanner(System.in);
+
+		AppointmentsVO avo = new AppointmentsVO();
+
+		System.out.println("Enter the appointment date: ");
+		String date = sc.next();
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate aDate = LocalDate.parse(date, format);
+		avo.setAppointmentDate(aDate);
+
+		System.out.println("Enter the reason: ");
+		avo.setReason(sc.nextLine());
+
+		System.out.println("Enter the doctor ID: ");
+		avo.setDoctorId(sc.nextLong());
+
+		PatientVO patient = new PatientVO();
+		System.out.println("Enter the already registerd Patient ID:");
+		patient.setPatientId(sc.nextLong());
+		avo.setPatient(patient);
+
+		try {
+			resAppt = aService.insertAppointments(avo);
+		} catch (IdException e) {
+			System.err.println(e.getMessage());
+		}
+
+		if (resAppt.getAppoVo().getAppointmentID() > 0) {
+			System.out.println("Your Generated Appointment ID is: " + resAppt.getAppoVo().getAppointmentID());
+
+		} else {
+			System.out.println("Failed");
+		}
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
+	// fetch by ID:
+	public void fetchByIDAppointment(long id) {
+		try {
+			resAppt = aService.fetchByID(id);
+			if (response.getSucessMessage() != null) {
+				System.out.println(resAppt.getSucessMessage() + resAppt.getId());
+				System.out.println(resAppt.getAppoVo());
+			}
+		} catch (IdException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
+	// fetch all method:
+	public void fetchAllAppointments() {
+		resAppt = aService.fetchAll();
+		List<AppointmentsVO> appointmentlist = resAppt.getList();
+		for (AppointmentsVO obj : appointmentlist) {
+			System.out.println(obj);
+		}
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
+	// update method:
+	public void updateAppointment(long id) {
+		try {
+			resAppt = aService.update(id);
+			if (resAppt.getSucessMessage() != null) {
+				System.out.println(resAppt.getSucessMessage() + resAppt.getId());
+			}
+		} catch (IdException e) {
+			System.err.println(e.getMessage());
+		}
 	}
 
 }
