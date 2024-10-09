@@ -178,7 +178,6 @@ public class AppointmentsBO {
 	// checks the ID Checking
 	public boolean validateID(Long id) throws IdException {
 		List<Long> pID = pRepo.fetchPatientId();
-		System.out.println(pID);
 
 		boolean contains = false;
 		for (Long obj : pID) {

@@ -119,14 +119,14 @@ public class HospitalAppointmentSchedulingApplication {
 					}
 					case 9: {
 						System.out.print("Enter the Start Date in the format (YYYY-MM-DD): ");
-						String start_date = sc.next();
+						String startDate = sc.next();
 						System.out.print("Enter the End Date in the format (YYYY-MM-DD): ");
-						String end_date = sc.next();
-						DateTimeFormatter format_appt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-						LocalDate started_date = LocalDate.parse(start_date, format_appt);
-						LocalDate ended_date = LocalDate.parse(end_date, format_appt);
+						String endDate = sc.next();
+						DateTimeFormatter formatAppt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+						LocalDate startedDate = LocalDate.parse(startDate, formatAppt);
+						LocalDate endedDate = LocalDate.parse(endDate, formatAppt);
 
-						ref.betweenTwoDOBpat(started_date, ended_date);
+						ref.betweenTwoDOBpat(startedDate, endedDate);
 						break;
 
 					}
@@ -184,14 +184,14 @@ public class HospitalAppointmentSchedulingApplication {
 					}
 					case 6: {
 						System.out.print("Enter the Start Date in the format (YYYY-MM-DD): ");
-						String start_date = sc.next();
+						String startDate = sc.next();
 						System.out.print("Enter the End Date in the format (YYYY-MM-DD): ");
-						String end_date = sc.next();
-						DateTimeFormatter format_appt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-						LocalDate started_date = LocalDate.parse(start_date, format_appt);
-						LocalDate ended_date = LocalDate.parse(end_date, format_appt);
+						String endDate = sc.next();
+						DateTimeFormatter formatAppt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+						LocalDate startedDate = LocalDate.parse(startDate, formatAppt);
+						LocalDate endedDate = LocalDate.parse(endDate, formatAppt);
 
-						ref.fetchApptBetweenTwoDates(started_date, ended_date);
+						ref.fetchApptBetweenTwoDates(startedDate, endedDate);
 						break;
 					}
 					case 7: {
@@ -310,7 +310,7 @@ public class HospitalAppointmentSchedulingApplication {
 	// ------------------------------------------------------------------------------------------------------------------------------//
 
 	// associate method:
-	public void AssociatePatientwithAppointment() {
+	public void associatePatientWithAppointment() {
 
 		Scanner sc = new Scanner(System.in);
 		PatientVO patient = new PatientVO();
@@ -345,10 +345,10 @@ public class HospitalAppointmentSchedulingApplication {
 			AppointmentsVO appt = new AppointmentsVO();
 
 			System.out.print("Enter the Date of Appointment in the format (YYYY-MM-DD): ");
-			String appt_date = sc.next();
-			DateTimeFormatter format_appt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			LocalDate appnt_date = LocalDate.parse(appt_date, format_appt);
-			appt.setAppointmentDate(appnt_date);
+			String apptDate = sc.next();
+			DateTimeFormatter formatAppt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate appntDate = LocalDate.parse(apptDate, formatAppt);
+			appt.setAppointmentDate(appntDate);
 
 			sc.nextLine();
 			System.out.println("Enter the reason: ");
