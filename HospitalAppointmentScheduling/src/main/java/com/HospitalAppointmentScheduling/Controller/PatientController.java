@@ -236,10 +236,10 @@ public class PatientController {
 		}
 	}
 
-	// Appointment by between two days:
+	// patient details by between two days:
 	@GetMapping("/patientDetailsAmongTwoDate/{sd}/{ld}")
 	public ResponseEntity<?> betweenTwoDOBpat(@PathVariable("sd") LocalDate sd, @PathVariable("ld") LocalDate ld) {
-		log.info("patient chooses ferching the patient details with the two dates...");
+		log.info("patient chooses fetching the patient details with the two dates...");
 		try {
 			res = pservice.betweenTwoDOBpat(sd, ld);
 			List<PatientVO> list = res.getListPatient();
