@@ -97,7 +97,7 @@ public class HospitalAppointmentSchedulingApplication {
 						break;
 					}
 					case 5: {
-						ref.AssociatePatientwithAppointment();
+						ref.associatePatientWithAppointment();
 						System.out.println("Patient Details Fetched by ID:");
 						break;
 					}

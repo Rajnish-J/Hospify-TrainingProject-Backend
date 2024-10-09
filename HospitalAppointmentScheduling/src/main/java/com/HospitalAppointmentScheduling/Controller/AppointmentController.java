@@ -174,18 +174,18 @@ public class AppointmentController {
 
 	// fetch all:
 	@GetMapping("/fetchallAppointments")
-	public List<AppointmentsVO> fetchall() {
+	public List<AppointmentDTO> fetchall() {
 		log.info("appointment chooses fetch all the details option...");
 		apptRes = aser.fetchAll();
 		List<AppointmentsVO> list = apptRes.getList();
-//		List<AppointmentDTO> listd = new ArrayList<>();
+		List<AppointmentDTO> listd = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
 			AppointmentsVO vo = list.get(i);
-//			AppointmentDTO getDto = mapToDTO(vo);
-			list.add(vo);
+			AppointmentDTO getDto = mapToDTO(vo);
+			listd.add(getDto);
 		}
 
-		return list;
+		return listd;
 
 	}
 
@@ -253,7 +253,7 @@ public class AppointmentController {
 		dto.setAppointmentDate(vo.getAppointmentDate());
 		dto.setAppointmentID(vo.getAppointmentID());
 		dto.setDoctorID(vo.getDoctorId());
-		dto.setPatient(vo.getPatient());
+//		dto.setPatient(vo.getPatient());
 		dto.setReason(vo.getReason());
 		dto.setCreatedAt(vo.getCreatedAt());
 		dto.setUpdatedAt(vo.getUpdatedAt());
