@@ -90,8 +90,10 @@ public class AppointmentController {
 		}
 
 		vo.setPatient(patRes.getPatient());
+		log.info("Assigned Patient to Appointment VO.");
 
 		try {
+			log.info("Attempting to insert appointment details...");
 			apptRes = aser.insertAppointments(vo);
 			dto.getAppointment().setAppointmentID(vo.getAppointmentID());
 			dto.getAppointment().setCreatedAt(vo.getCreatedAt());
@@ -132,7 +134,10 @@ public class AppointmentController {
 		vo1.setPatientId(dto.getPatient().getPatientId());
 		vo.setPatient(vo1);
 
+		log.info("Assigned Patient ID to Appointment VO");
+
 		try {
+			log.info("Attempting to insert appointment details with existing patient ID...");
 			apptRes = aser.insertAppointmentsWithPatientID(vo);
 			dto.getAppointment().setAppointmentID(vo.getAppointmentID());
 			dto.getAppointment().setCreatedAt(vo.getCreatedAt());
@@ -163,6 +168,7 @@ public class AppointmentController {
 	public ResponseEntity<?> findByappointmentId(@PathVariable("id") long id) {
 		log.info("appointment details by their ID...");
 		try {
+			log.info("Fetching appointment details by ID: " + id);
 			apptRes = aser.fetchByID(id);
 			return ResponseEntity.ok("Appointment Details Fetched by ID:" + apptRes.getAppoVo());
 		} catch (IdException e) {
@@ -184,7 +190,7 @@ public class AppointmentController {
 			AppointmentDTO getDto = mapToDTO(vo);
 			listd.add(getDto);
 		}
-
+		log.info("All appointment details fetched successfully.");
 		return listd;
 
 	}
@@ -196,6 +202,7 @@ public class AppointmentController {
 
 		try {
 			apptRes = aser.update(id);
+			log.info("Appointment ID: " + apptRes.getAppoVo().getAppointmentID() + " updated successfully.");
 			return ResponseEntity.ok("Appointment ID: " + apptRes.getAppoVo().getAppointmentID() + " updated");
 		} catch (IdException e) {
 			log.error("ID not found in the DataBase", e);
@@ -208,6 +215,7 @@ public class AppointmentController {
 	public ResponseEntity<?> betweenTwoDOBpat(@PathVariable("sd") LocalDate sd, @PathVariable("ld") LocalDate ld) {
 		log.info("Appointment details with the two dates...");
 		try {
+			log.info("Fetching between start date: " + sd + " and end date: " + ld);
 			apptRes = aser.fetchApptBetweenTwoDates(sd, ld);
 			List<AppointmentsVO> list = apptRes.getList();
 			List<AppointmentDTO> listd = new ArrayList<>();
@@ -215,6 +223,7 @@ public class AppointmentController {
 				AppointmentsVO vo = list.get(i);
 				AppointmentDTO getDto = mapToDTO(vo);
 				listd.add(getDto);
+				log.info("Fetched appointment details between two dates successfully.");
 			}
 		} catch (DateException e) {
 			log.error("Id Exception", e);

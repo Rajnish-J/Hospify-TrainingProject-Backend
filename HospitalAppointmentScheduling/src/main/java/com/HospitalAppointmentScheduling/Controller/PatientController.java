@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentBookingDateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateOfBirthException;
@@ -24,7 +25,9 @@ import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
+import com.HospitalAppointmentScheduling.DTO.AppointmentDTO;
 import com.HospitalAppointmentScheduling.DTO.PatientDTO;
+import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandle;
 import com.HospitalAppointmentScheduling.Service.PatientService;
@@ -54,12 +57,14 @@ public class PatientController {
 		vo.setPatientPassword(dto.getPatientPassword());
 		vo.setPatientPhone(dto.getPatientPhone());
 		vo.setDob(dto.getDob());
+		log.info("Patient details being processed for insertion: " + vo);
 
 		try {
 			res = pservice.insertPatientDetails(vo);
 			dto.setUpdatedAt(res.getPatient().getUpdatedAt());
 			dto.setCreatedAt(res.getPatient().getCreatedAt());
 			dto.setPatientId(res.getPatient().getPatientId());
+			log.info("Patient details successfully inserted with ID: " + res.getPatient().getPatientId());
 			return ResponseEntity.ok("Patient Details successfully saved: " + res.getPatient().getPatientId());
 		} catch (PatientException e) {
 			log.error("Patient Details details records not in the format", e);
@@ -86,6 +91,7 @@ public class PatientController {
 		log.info("patient chooses fetch Details by their ID...");
 		try {
 			res = pservice.fetchById(id);
+			log.info("Patient details successfully fetched for ID: " + id);
 			return ResponseEntity.ok("Patient Details Fetched by ID:" + res.getPatient());
 		} catch (IdException e) {
 			log.error("ID not found in the DateBase", e);
@@ -97,7 +103,7 @@ public class PatientController {
 	// fetch all:
 	@GetMapping("/fetchallPatient")
 	public List<PatientDTO> fetchall() {
-		log.info("patient chooses fetch all the details option...");
+		log.info("fetch all the details option...");
 		res = pservice.fetchAll();
 		List<PatientVO> list = res.getListPatient();
 		List<PatientDTO> listd = new ArrayList<>();
@@ -106,7 +112,7 @@ public class PatientController {
 			PatientDTO getDto = mapToDTO(vo);
 			listd.add(getDto);
 		}
-
+		log.info("All patient details successfully fetched.");
 		return listd;
 
 	}
@@ -117,6 +123,7 @@ public class PatientController {
 		log.info("patient chooses Update their information by their ID...");
 		try {
 			res = pservice.updatePatientDetails(id);
+			log.info("Patient details updated successfully for ID: " + id);
 			return ResponseEntity.ok(mapToDTO(res.getPatient()));
 		} catch (IdException e) {
 			log.error("ID not found in the DataBase", e);
@@ -125,67 +132,68 @@ public class PatientController {
 	}
 
 	// association method
-//	@PostMapping("/associatePatientsWithAppointments")
-//	public ResponseEntity<?> associate(@RequestBody PatientDTO dto) {
-//		log.info("Patient chooses to create an account with booking appointments...");
-//
-//		// Create PatientVO object
-//		PatientVO vo = new PatientVO();
-//		vo.setFirstName(dto.getFirstName());
-//		vo.setLastName(dto.getLastName());
-//		vo.setPatientEmail(dto.getPatientEmail());
-//		vo.setPatientPassword(dto.getPatientPassword());
-//		vo.setPatientPhone(dto.getPatientPhone());
-//		vo.setDob(dto.getDob());
-//
-//		// Create a list of AppointmentsVO and associate them with the patient
-//		List<AppointmentDTO> list = dto.getAppointments();
-//		List<AppointmentsVO> listvo = new ArrayList<>();
-//		for (AppointmentDTO obj : dto.getAppointments()) {
-//			AppointmentsVO avo = new AppointmentsVO();
-//			avo.setAppointmentDate(obj.getAppointmentDate());
-//			avo.setReason(obj.getReason());
-//			avo.setDoctorId(obj.getDoctorID());
-//			avo.setPatient(vo);
-//			listvo.add(avo);
-//		}
-//		vo.setAppointments(listvo);
-//
-//		try {
-//			// Associate patient and appointments via the service layer
-//			res = pservice.associate(vo);
-//			return ResponseEntity.ok("Patient Details and Appointments added successfully. Patient ID: "
-//					+ res.getPatient().getPatientId());
-//
-//		} catch (PatientException e) {
-//			log.error("Patient details are not in the correct format", e);
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//
-//		} catch (PhoneNumberException e) {
-//			log.error("Phone number format is incorrect", e);
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//
-//		} catch (EmailException e) {
-//			log.error("Email format is invalid", e);
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//
-//		} catch (PasswordException e) {
-//			log.error("Password format is invalid", e);
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//
-//		} catch (AppointmentException e) {
-//			log.error("At least one appointment must be booked", e);
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//
-//		} catch (AppointmentBookingDateException e) {
-//			log.error("Appointment booking date cannot be in the past", e);
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//
-//		} catch (DateOfBirthException e) {
-//			log.error("Date of birth cannot be in the future", e);
-//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//		}
-//	}
+	@PostMapping("/associatePatientsWithAppointments")
+	public ResponseEntity<?> associate(@RequestBody PatientDTO dto) {
+		log.info("Patient chooses to create an account with booking appointments...");
+
+		// Create PatientVO object
+		PatientVO vo = new PatientVO();
+		vo.setFirstName(dto.getFirstName());
+		vo.setLastName(dto.getLastName());
+		vo.setPatientEmail(dto.getPatientEmail());
+		vo.setPatientPassword(dto.getPatientPassword());
+		vo.setPatientPhone(dto.getPatientPhone());
+		vo.setDob(dto.getDob());
+		log.info("Patient details to be associated with appointments: " + vo);
+
+		List<AppointmentDTO> list = dto.getAppointments();
+		List<AppointmentsVO> listvo = new ArrayList<>();
+		for (AppointmentDTO obj : dto.getAppointments()) {
+			AppointmentsVO avo = new AppointmentsVO();
+			avo.setAppointmentDate(obj.getAppointmentDate());
+			avo.setReason(obj.getReason());
+			avo.setDoctorId(obj.getDoctorID());
+			avo.setPatient(vo);
+			listvo.add(avo);
+		}
+		vo.setAppointments(listvo);
+		log.info("Patient appointments successfully associated: " + listvo);
+
+		try {
+			res = pservice.associate(vo);
+			log.info("Patient and appointments successfully saved.");
+			return ResponseEntity.ok("Patient Details and Appointments added successfully. Patient ID: "
+					+ res.getPatient().getPatientId());
+
+		} catch (PatientException e) {
+			log.error("Patient details are not in the correct format", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+		} catch (PhoneNumberException e) {
+			log.error("Phone number format is incorrect", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+		} catch (EmailException e) {
+			log.error("Email format is invalid", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+		} catch (PasswordException e) {
+			log.error("Password format is invalid", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+		} catch (AppointmentException e) {
+			log.error("At least one appointment must be booked", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+		} catch (AppointmentBookingDateException e) {
+			log.error("Appointment booking date cannot be in the past", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+
+		} catch (DateOfBirthException e) {
+			log.error("Date of birth cannot be in the future", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
 
 	// find by patient phone number:
 	@GetMapping("/fetchByPhoneNumber/{ph}")
@@ -193,6 +201,7 @@ public class PatientController {
 		log.info("patient chooses fetching their details by their phone number...");
 		try {
 			res = pservice.findbyphone(ph);
+			log.info("Patient details successfully fetched by phone number: " + ph);
 			return ResponseEntity.ok("Patient Details Fetched by ID:" + res.getPatient());
 		} catch (PhoneNumberException e) {
 			log.error("phone number exception caught", e);
@@ -207,6 +216,7 @@ public class PatientController {
 		log.info("patient chooses to fetch the appointment details by the day...");
 		try {
 			res = pservice.findapptDay(td);
+			log.info("Appointments successfully fetched for the date: " + td);
 		} catch (AppointmentException e) {
 			log.error("Appointment exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -228,6 +238,7 @@ public class PatientController {
 		log.info("patient chooses Find their First and Last names in the records...");
 		try {
 			res = pservice.findName(n);
+			log.info("First and last names successfully fetched for patient ID: " + n);
 			return ResponseEntity
 					.ok("First name: " + res.getPro().getFirstName() + " Second name: " + res.getPro().getLastName());
 		} catch (IdException e) {
@@ -239,9 +250,10 @@ public class PatientController {
 	// patient details by between two days:
 	@GetMapping("/patientDetailsAmongTwoDate/{sd}/{ld}")
 	public ResponseEntity<?> betweenTwoDOBpat(@PathVariable("sd") LocalDate sd, @PathVariable("ld") LocalDate ld) {
-		log.info("patient chooses fetching the patient details with the two dates...");
+		log.info("Fetching patient details between two dates: " + sd + " and " + ld);
 		try {
 			res = pservice.betweenTwoDOBpat(sd, ld);
+			log.info("Patient details successfully fetched between two dates.");
 			List<PatientVO> list = res.getListPatient();
 			List<PatientDTO> listd = new ArrayList<>();
 			for (int i = 0; i < list.size(); i++) {
@@ -264,6 +276,7 @@ public class PatientController {
 		log.info("patient chooses fetching all the patient details in ascending order...");
 		try {
 			res = pservice.ascending();
+			log.info("Patient details successfully fetched in ascending order");
 			List<PatientVO> list = res.getListPatient();
 			List<PatientDTO> listd = new ArrayList<>();
 			for (int i = 0; i < list.size(); i++) {
