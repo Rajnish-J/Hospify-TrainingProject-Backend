@@ -43,6 +43,7 @@ public class HospitalAppointmentSchedulingApplication {
 	@Autowired
 	private ResponseHandle response;
 
+	@Autowired
 	private ResponseHandleAppointments resAppt;
 
 	static Logger log = Logger.getLogger(HospitalAppointmentSchedulingApplication.class);
@@ -216,6 +217,7 @@ public class HospitalAppointmentSchedulingApplication {
 			}
 			}
 		} while (mainRepeat);
+		sc.close();
 	}
 	// ------------------------------------------------------------------------------------------------------------------------------//
 
@@ -265,6 +267,7 @@ public class HospitalAppointmentSchedulingApplication {
 		} else {
 			System.out.println("Failed");
 		}
+		sc.close();
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------//
@@ -387,7 +390,7 @@ public class HospitalAppointmentSchedulingApplication {
 		} else {
 			System.out.println(response.getFailureMessage());
 		}
-
+		sc.close();
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------//
@@ -422,6 +425,7 @@ public class HospitalAppointmentSchedulingApplication {
 		if (response.getSucessMessage() != null) {
 			System.out.println(response.getListPatient());
 		}
+		sc.close();
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------//
@@ -548,6 +552,7 @@ public class HospitalAppointmentSchedulingApplication {
 		} else {
 			System.out.println("Failed");
 		}
+		sc.close();
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------//
@@ -598,6 +603,7 @@ public class HospitalAppointmentSchedulingApplication {
 		} else {
 			System.out.println("Failed");
 		}
+		sc.close();
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------//

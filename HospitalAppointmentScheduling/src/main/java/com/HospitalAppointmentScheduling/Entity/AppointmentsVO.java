@@ -68,14 +68,6 @@ public class AppointmentsVO {
 	@JoinColumn(name = "patient_id", nullable = false)
 	private PatientVO patient;
 
-	public Long getDoctorId() {
-		return doctorId;
-	}
-
-	public void setDoctorId(Long doctorId) {
-		this.doctorId = doctorId;
-	}
-
 	// mapping to appointment status
 //	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //	@JoinColumn(name = "status_id", nullable = false)
@@ -88,6 +80,14 @@ public class AppointmentsVO {
 
 	public void setAppointmentID(Long appointmentID) {
 		this.appointmentID = appointmentID;
+	}
+
+	public Long getDoctorId() {
+		return doctorId;
+	}
+
+	public void setDoctorId(Long doctorId) {
+		this.doctorId = doctorId;
 	}
 
 	public LocalDate getAppointmentDate() {

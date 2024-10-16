@@ -41,7 +41,7 @@ public class AppointmentsBO {
 
 	public AppointmentsVO insertAppointmentsWithPatientID(AppointmentsVO vo)
 			throws IdException, EmailException, PasswordException, PhoneNumberException, AppointmentException {
-		if (vo.getPatient().getPatientId() != null && validateID(vo.getPatient().getPatientId())) {
+		if (vo.getPatient().getPatientId() != null && validatePatID(vo.getPatient().getPatientId())) {
 			PatientVO pvo = pRepo.findById(vo.getPatient().getPatientId()).get();
 			vo.setPatient(pvo);
 			if (validateEmail(vo.getPatient().getPatientEmail())
@@ -57,7 +57,7 @@ public class AppointmentsBO {
 
 	// fetchById method:
 	public AppointmentsVO fetchByID(Long id) throws IdException {
-		if (validateID(id)) {
+		if (validateApptID(id)) {
 			AppointmentsVO ret = appointmentsRepo.findById(id).get();
 			return ret;
 		}
@@ -71,7 +71,7 @@ public class AppointmentsBO {
 	}
 
 	public AppointmentsVO updateAppointmentDetails(Long id) throws IdException {
-		if (validateID(id)) {
+		if (validateApptID(id)) {
 			AppointmentsVO vo = appointmentsRepo.findById(id).get();
 			vo.setReason("Cured");
 			vo = appointmentsRepo.save(vo);
@@ -175,12 +175,35 @@ public class AppointmentsBO {
 		return hasUppercase && hasLowercase && hasDigit && hasSpecial;
 	}
 
-	// checks the ID Checking
-	public boolean validateID(Long id) throws IdException {
+	// checks the Patient ID Checking
+	public boolean validatePatID(Long id) throws IdException {
 		List<Long> pID = pRepo.fetchPatientId();
 
 		boolean contains = false;
 		for (Long obj : pID) {
+			if (obj == id) {
+				contains = true;
+				break;
+			}
+		}
+		if (!contains) {
+			throw new IdException("ERROR: Patient ID not exist in the database");
+		}
+		if (id == null) {
+			throw new IdException("ERROR: Patient Id field could not be null");
+		} else if (id <= 0) {
+			throw new IdException("ERROR: Patient ID could not be negative or zero");
+		}
+
+		return id != null && id > 0;
+	}
+
+	// checks the Patient ID Checking
+	public boolean validateApptID(Long id) throws IdException {
+		List<Long> aID = appointmentsRepo.fetchAppointmentIds();
+
+		boolean contains = false;
+		for (Long obj : aID) {
 			if (obj == id) {
 				contains = true;
 				break;
