@@ -14,8 +14,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -51,17 +51,17 @@ public class HospitalVO {
 
 	// mapping:
 	// Many-to-One relationship with City
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "city_id", nullable = false)
 	private CityVO city;
 
 	// Many-to-One relationship with State
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "state_id", nullable = false)
 	private StateVO state;
 
 	// Many-to-One relationship with Country
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "country_id", nullable = false)
 	private CountryVO country;
 
