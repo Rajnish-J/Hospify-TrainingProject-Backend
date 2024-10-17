@@ -59,7 +59,7 @@ public class AppointmentController {
 		// converting DTO to entity
 		AppointmentsVO vo = new AppointmentsVO();
 		vo.setAppointmentDate(dto.getAppointment().getAppointmentDate());
-		vo.setDoctorId(dto.getAppointment().getDoctorID());
+		vo.setDoctor(dto.getAppointment().getDoctor());
 		vo.setReason(dto.getAppointment().getReason());
 
 		PatientVO vo1 = new PatientVO();
@@ -127,7 +127,7 @@ public class AppointmentController {
 		// converting DTO to entity
 		AppointmentsVO vo = new AppointmentsVO();
 		vo.setAppointmentDate(dto.getAppointment().getAppointmentDate());
-		vo.setDoctorId(dto.getAppointment().getDoctorID());
+		vo.setDoctor(dto.getAppointment().getDoctor());
 		vo.setReason(dto.getAppointment().getReason());
 
 		PatientVO vo1 = new PatientVO();
@@ -261,8 +261,7 @@ public class AppointmentController {
 		AppointmentDTO dto = new AppointmentDTO();
 		dto.setAppointmentDate(vo.getAppointmentDate());
 		dto.setAppointmentID(vo.getAppointmentID());
-		dto.setDoctorID(vo.getDoctorId());
-//		dto.setPatient(vo.getPatient());
+		dto.setDoctor(vo.getDoctor());
 		dto.setReason(vo.getReason());
 		dto.setCreatedAt(vo.getCreatedAt());
 		dto.setUpdatedAt(vo.getUpdatedAt());

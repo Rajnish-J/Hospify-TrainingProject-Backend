@@ -23,11 +23,15 @@ import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
+import com.HospitalAppointmentScheduling.DAO.DoctorDetailsProjection;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
+import com.HospitalAppointmentScheduling.Entity.DoctorVO;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandle;
 import com.HospitalAppointmentScheduling.Response.ResponseHandleAppointments;
+import com.HospitalAppointmentScheduling.Response.ResponseHandleDoctor;
 import com.HospitalAppointmentScheduling.Service.AppointmentsService;
+import com.HospitalAppointmentScheduling.Service.DoctorService;
 import com.HospitalAppointmentScheduling.Service.PatientService;
 
 @SpringBootApplication
@@ -45,6 +49,12 @@ public class HospitalAppointmentSchedulingApplication {
 
 	@Autowired
 	private ResponseHandleAppointments resAppt;
+
+	@Autowired
+	private DoctorService dser;
+
+	@Autowired
+	private ResponseHandleDoctor docRes;
 
 	static Logger log = Logger.getLogger(HospitalAppointmentSchedulingApplication.class);
 
@@ -217,7 +227,6 @@ public class HospitalAppointmentSchedulingApplication {
 			}
 			}
 		} while (mainRepeat);
-		sc.close();
 	}
 	// ------------------------------------------------------------------------------------------------------------------------------//
 
@@ -267,7 +276,6 @@ public class HospitalAppointmentSchedulingApplication {
 		} else {
 			System.out.println("Failed");
 		}
-		sc.close();
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------//
@@ -358,7 +366,9 @@ public class HospitalAppointmentSchedulingApplication {
 			appt.setReason(sc.nextLine());
 
 			System.out.println("Enter the doctor ID: ");
-			appt.setDoctorId(sc.nextLong());
+			DoctorVO dVO = new DoctorVO();
+			dVO.setDoctorId(1l);
+			appt.setDoctor(dVO);
 
 			appt.setPatient(patient);
 			list.add(appt);
@@ -390,7 +400,6 @@ public class HospitalAppointmentSchedulingApplication {
 		} else {
 			System.out.println(response.getFailureMessage());
 		}
-		sc.close();
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------//
@@ -490,7 +499,9 @@ public class HospitalAppointmentSchedulingApplication {
 		avo.setReason(sc.nextLine());
 
 		System.out.print("Enter the doctor ID: ");
-		avo.setDoctorId(sc.nextLong());
+		DoctorVO dVO = new DoctorVO();
+		dVO.setDoctorId(1l);
+		avo.setDoctor(dVO);
 
 		sc.nextLine();
 
@@ -552,7 +563,6 @@ public class HospitalAppointmentSchedulingApplication {
 		} else {
 			System.out.println("Failed");
 		}
-		sc.close();
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------//
@@ -574,8 +584,23 @@ public class HospitalAppointmentSchedulingApplication {
 		sc.nextLine();
 		avo.setReason(sc.nextLine());
 
-		System.out.print("Enter the doctor ID: ");
-		avo.setDoctorId(sc.nextLong());
+		resAppt = dser.fetch();
+		for (DoctorDetailsProjection obj : resAppt.getListSpecialiaztion()) {
+			System.out.println(obj.getDoctorId() + ", " + obj.getFirstName() + ", " + obj.getLastName() + ", "
+					+ obj.getSpecialtyName());
+		}
+
+		System.out.print("Enter the doctor ID respect to the specilization: ");
+		DoctorVO dVO = new DoctorVO();
+		dVO.setDoctorId(sc.nextLong());
+		try {
+			if (docRes.getSucessMessage() != null) {
+				docRes = dser.insertDoctorWithAppointment(dVO);
+			}
+		} catch (IdException e) {
+			System.out.println(e.getMessage());
+		}
+		avo.setDoctor(docRes.getDocVo());
 		sc.nextLine();
 
 		PatientVO patient = new PatientVO();
@@ -603,7 +628,6 @@ public class HospitalAppointmentSchedulingApplication {
 		} else {
 			System.out.println("Failed");
 		}
-		sc.close();
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------//

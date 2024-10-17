@@ -152,7 +152,7 @@ public class PatientController {
 			AppointmentsVO avo = new AppointmentsVO();
 			avo.setAppointmentDate(obj.getAppointmentDate());
 			avo.setReason(obj.getReason());
-			avo.setDoctorId(obj.getDoctorID());
+			avo.setDoctor(obj.getDoctor());
 			avo.setPatient(vo);
 			listvo.add(avo);
 		}

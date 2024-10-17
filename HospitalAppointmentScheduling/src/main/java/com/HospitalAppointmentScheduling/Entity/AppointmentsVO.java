@@ -42,12 +42,6 @@ public class AppointmentsVO {
 	@Column(name = "reason", nullable = false)
 	private String reason;
 
-	// temporary field => for joining two tables, if I had doctor object I need to
-	// connect all the remaining tables so I created one temporary Long field to
-	// store doctor ID.
-	@Column(name = "doctor_id", nullable = false)
-	private Long doctorId;
-
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createdAt", nullable = false)
@@ -59,9 +53,9 @@ public class AppointmentsVO {
 	private LocalDateTime updatedAt;
 
 	// Mapping to doctor
-//	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//	@JoinColumn(name = "doctor_id", nullable = false)
-//	private doctorVO doctor;
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "doctor_id", nullable = false)
+	private DoctorVO doctor;
 
 	// mapping to patient
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
@@ -82,12 +76,12 @@ public class AppointmentsVO {
 		this.appointmentID = appointmentID;
 	}
 
-	public Long getDoctorId() {
-		return doctorId;
+	public DoctorVO getDoctor() {
+		return doctor;
 	}
 
-	public void setDoctorId(Long doctorId) {
-		this.doctorId = doctorId;
+	public void setDoctor(DoctorVO doctor) {
+		this.doctor = doctor;
 	}
 
 	public LocalDate getAppointmentDate() {
@@ -122,14 +116,6 @@ public class AppointmentsVO {
 		this.updatedAt = updatedAt;
 	}
 
-//	public doctorVO getDoctor() {
-//		return doctor;
-//	}
-//
-//	public void setDoctor(doctorVO doctor) {
-//		this.doctor = doctor;
-//	}
-
 	public PatientVO getPatient() {
 		return patient;
 	}
@@ -149,9 +135,9 @@ public class AppointmentsVO {
 	// ToString method:
 	@Override
 	public String toString() {
-		return "appointmentsVO [appointmentID=" + appointmentID + ", appointmentDate=" + appointmentDate + ", reason="
-				+ reason + ", doctorId=" + doctorId + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-				+ ", patient=" + patient + "]";
+		return "AppointmentsVO [appointmentID=" + appointmentID + ", appointmentDate=" + appointmentDate + ", reason="
+				+ reason + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", doctor=" + doctor + ", patient="
+				+ patient + "]";
 	}
 
 }

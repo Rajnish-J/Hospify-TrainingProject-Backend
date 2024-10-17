@@ -3,6 +3,7 @@ package com.HospitalAppointmentScheduling.DTO;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.HospitalAppointmentScheduling.Entity.DoctorVO;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
 
 public class AppointmentDTO {
@@ -10,7 +11,7 @@ public class AppointmentDTO {
 	private Long appointmentID;
 	private LocalDate appointmentDate;
 	private String reason;
-	private Long doctorID;
+	private DoctorVO doctor;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private PatientVO patient;
@@ -63,12 +64,12 @@ public class AppointmentDTO {
 		this.patient = patient;
 	}
 
-	public Long getDoctorID() {
-		return doctorID;
+	public DoctorVO getDoctor() {
+		return doctor;
 	}
 
-	public void setDoctorID(Long doctorID) {
-		this.doctorID = doctorID;
+	public void setDoctor(DoctorVO doctor) {
+		this.doctor = doctor;
 	}
 
 }
