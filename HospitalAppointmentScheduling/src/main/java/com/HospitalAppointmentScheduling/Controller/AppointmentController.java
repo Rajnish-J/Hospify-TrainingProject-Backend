@@ -25,8 +25,9 @@ import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.DTO.AppointmentDTO;
-import com.HospitalAppointmentScheduling.DTO.AppointmentPatientDTO;
+import com.HospitalAppointmentScheduling.DTO.AppointmentPatientDoctorDTO;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
+import com.HospitalAppointmentScheduling.Entity.DoctorVO;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandle;
 import com.HospitalAppointmentScheduling.Response.ResponseHandleAppointments;
@@ -53,13 +54,16 @@ public class AppointmentController {
 
 	// insert:
 	@PostMapping("/insert")
-	public ResponseEntity<?> insertAppointment(@RequestBody AppointmentPatientDTO dto) {
+	public ResponseEntity<?> insertAppointment(@RequestBody AppointmentPatientDoctorDTO dto) {
 		log.info("Appointment booking with patient details method triggered in controller layer...");
 
 		// converting DTO to entity
+		DoctorVO dVO = new DoctorVO();
+		dVO.setDoctorId(dto.getDoctor().getDoctorId());
+
 		AppointmentsVO vo = new AppointmentsVO();
 		vo.setAppointmentDate(dto.getAppointment().getAppointmentDate());
-		vo.setDoctor(dto.getAppointment().getDoctor());
+		vo.setDoctor(dVO);
 		vo.setReason(dto.getAppointment().getReason());
 
 		PatientVO vo1 = new PatientVO();
@@ -121,13 +125,16 @@ public class AppointmentController {
 
 	// insert appointments with patient ID
 	@PostMapping("/insertWithPatientID")
-	public ResponseEntity<?> insertAppointmentsWithPatientID(@RequestBody AppointmentPatientDTO dto) {
+	public ResponseEntity<?> insertAppointmentsWithPatientID(@RequestBody AppointmentPatientDoctorDTO dto) {
 		log.info("Appointment booking with patient ID method triggered in controller layer...");
 
 		// converting DTO to entity
+		DoctorVO dVO = new DoctorVO();
+		dVO.setDoctorId(dto.getDoctor().getDoctorId());
+
 		AppointmentsVO vo = new AppointmentsVO();
 		vo.setAppointmentDate(dto.getAppointment().getAppointmentDate());
-		vo.setDoctor(dto.getAppointment().getDoctor());
+		vo.setDoctor(dVO);
 		vo.setReason(dto.getAppointment().getReason());
 
 		PatientVO vo1 = new PatientVO();
@@ -168,7 +175,8 @@ public class AppointmentController {
 	public ResponseEntity<?> findByappointmentId(@PathVariable("id") long id) {
 		log.info("appointment details by their ID...");
 		try {
-			log.info("Fetching appointment details by ID: " + id);
+			String pass = "Fetching appointment details by ID: " + id;
+			log.info(pass);
 			apptRes = aser.fetchByID(id);
 			return ResponseEntity.ok("Appointment Details Fetched by ID:" + apptRes.getAppoVo());
 		} catch (IdException e) {
@@ -202,7 +210,8 @@ public class AppointmentController {
 
 		try {
 			apptRes = aser.update(id);
-			log.info("Appointment ID: " + apptRes.getAppoVo().getAppointmentID() + " updated successfully.");
+			String pass = "Appointment ID: \" + apptRes.getAppoVo().getAppointmentID() + \" updated successfully.";
+			log.info(pass);
 			return ResponseEntity.ok("Appointment ID: " + apptRes.getAppoVo().getAppointmentID() + " updated");
 		} catch (IdException e) {
 			log.error("ID not found in the DataBase", e);
@@ -215,7 +224,8 @@ public class AppointmentController {
 	public ResponseEntity<?> betweenTwoDOBpat(@PathVariable("sd") LocalDate sd, @PathVariable("ld") LocalDate ld) {
 		log.info("Appointment details with the two dates...");
 		try {
-			log.info("Fetching between start date: " + sd + " and end date: " + ld);
+			String pass = "Fetching between start date: " + sd + " and end date: " + ld;
+			log.info(pass);
 			apptRes = aser.fetchApptBetweenTwoDates(sd, ld);
 			List<AppointmentsVO> list = apptRes.getList();
 			List<AppointmentDTO> listd = new ArrayList<>();
@@ -261,7 +271,7 @@ public class AppointmentController {
 		AppointmentDTO dto = new AppointmentDTO();
 		dto.setAppointmentDate(vo.getAppointmentDate());
 		dto.setAppointmentID(vo.getAppointmentID());
-		dto.setDoctor(vo.getDoctor());
+//		dto.setDoctor(vo.getDoctor());
 		dto.setReason(vo.getReason());
 		dto.setCreatedAt(vo.getCreatedAt());
 		dto.setUpdatedAt(vo.getUpdatedAt());

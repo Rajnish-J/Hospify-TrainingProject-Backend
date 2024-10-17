@@ -350,6 +350,12 @@ public class HospitalAppointmentSchedulingApplication {
 		System.out.println("Enter Number of Appointments Details :");
 		int n = sc.nextInt();
 
+		resAppt = dser.fetch();
+		for (DoctorDetailsProjection obj : resAppt.getListSpecialiaztion()) {
+			System.out.println(obj.getDoctorId() + ", " + obj.getFirstName() + ", " + obj.getLastName() + ", "
+					+ obj.getSpecialtyName());
+		}
+
 		List<AppointmentsVO> list = new ArrayList<>();
 
 		for (int i = 0; i < n; i++) {
@@ -367,7 +373,7 @@ public class HospitalAppointmentSchedulingApplication {
 
 			System.out.println("Enter the doctor ID: ");
 			DoctorVO dVO = new DoctorVO();
-			dVO.setDoctorId(1l);
+			dVO.setDoctorId(sc.nextLong());
 			appt.setDoctor(dVO);
 
 			appt.setPatient(patient);
@@ -498,9 +504,14 @@ public class HospitalAppointmentSchedulingApplication {
 		System.out.print("Enter the reason: ");
 		avo.setReason(sc.nextLine());
 
+		resAppt = dser.fetch();
+		for (DoctorDetailsProjection obj : resAppt.getListSpecialiaztion()) {
+			System.out.println(obj.getDoctorId() + ", " + obj.getFirstName() + ", " + obj.getLastName() + ", "
+					+ obj.getSpecialtyName());
+		}
 		System.out.print("Enter the doctor ID: ");
 		DoctorVO dVO = new DoctorVO();
-		dVO.setDoctorId(1l);
+		dVO.setDoctorId(sc.nextLong());
 		avo.setDoctor(dVO);
 
 		sc.nextLine();
@@ -593,14 +604,7 @@ public class HospitalAppointmentSchedulingApplication {
 		System.out.print("Enter the doctor ID respect to the specilization: ");
 		DoctorVO dVO = new DoctorVO();
 		dVO.setDoctorId(sc.nextLong());
-		try {
-			if (docRes.getSucessMessage() != null) {
-				docRes = dser.insertDoctorWithAppointment(dVO);
-			}
-		} catch (IdException e) {
-			System.out.println(e.getMessage());
-		}
-		avo.setDoctor(docRes.getDocVo());
+		avo.setDoctor(dVO);
 		sc.nextLine();
 
 		PatientVO patient = new PatientVO();

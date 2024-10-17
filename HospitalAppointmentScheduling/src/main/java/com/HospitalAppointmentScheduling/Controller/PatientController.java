@@ -27,7 +27,9 @@ import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.DTO.AppointmentDTO;
 import com.HospitalAppointmentScheduling.DTO.PatientDTO;
+import com.HospitalAppointmentScheduling.DTO.PatientDoctorDTO;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
+import com.HospitalAppointmentScheduling.Entity.DoctorVO;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandle;
 import com.HospitalAppointmentScheduling.Service.PatientService;
@@ -57,14 +59,16 @@ public class PatientController {
 		vo.setPatientPassword(dto.getPatientPassword());
 		vo.setPatientPhone(dto.getPatientPhone());
 		vo.setDob(dto.getDob());
-		log.info("Patient details being processed for insertion: " + vo);
+		String pass = "Patient details being processed for insertion: " + vo;
+		log.info(pass);
 
 		try {
 			res = pservice.insertPatientDetails(vo);
 			dto.setUpdatedAt(res.getPatient().getUpdatedAt());
 			dto.setCreatedAt(res.getPatient().getCreatedAt());
 			dto.setPatientId(res.getPatient().getPatientId());
-			log.info("Patient details successfully inserted with ID: " + res.getPatient().getPatientId());
+			String pass1 = "Patient details successfully inserted with ID: " + res.getPatient().getPatientId();
+			log.info(pass1);
 			return ResponseEntity.ok("Patient Details successfully saved: " + res.getPatient().getPatientId());
 		} catch (PatientException e) {
 			log.error("Patient Details details records not in the format", e);
@@ -91,7 +95,8 @@ public class PatientController {
 		log.info("patient chooses fetch Details by their ID...");
 		try {
 			res = pservice.fetchById(id);
-			log.info("Patient details successfully fetched for ID: " + id);
+			String pass = "Patient details successfully fetched for ID: " + id;
+			log.info(pass);
 			return ResponseEntity.ok("Patient Details Fetched by ID:" + res.getPatient());
 		} catch (IdException e) {
 			log.error("ID not found in the DateBase", e);
@@ -123,7 +128,8 @@ public class PatientController {
 		log.info("patient chooses Update their information by their ID...");
 		try {
 			res = pservice.updatePatientDetails(id);
-			log.info("Patient details updated successfully for ID: " + id);
+			String pass = "Patient details updated successfully for ID: " + id;
+			log.info(pass);
 			return ResponseEntity.ok(mapToDTO(res.getPatient()));
 		} catch (IdException e) {
 			log.error("ID not found in the DataBase", e);
@@ -133,31 +139,37 @@ public class PatientController {
 
 	// association method
 	@PostMapping("/associatePatientsWithAppointments")
-	public ResponseEntity<?> associate(@RequestBody PatientDTO dto) {
+	public ResponseEntity<?> associate(@RequestBody PatientDoctorDTO dto) {
 		log.info("Patient chooses to create an account with booking appointments...");
 
 		// Create PatientVO object
 		PatientVO vo = new PatientVO();
-		vo.setFirstName(dto.getFirstName());
-		vo.setLastName(dto.getLastName());
-		vo.setPatientEmail(dto.getPatientEmail());
-		vo.setPatientPassword(dto.getPatientPassword());
-		vo.setPatientPhone(dto.getPatientPhone());
-		vo.setDob(dto.getDob());
-		log.info("Patient details to be associated with appointments: " + vo);
+		vo.setFirstName(dto.getPatient().getFirstName());
+		vo.setLastName(dto.getPatient().getLastName());
+		vo.setPatientEmail(dto.getPatient().getPatientEmail());
+		vo.setPatientPassword(dto.getPatient().getPatientPassword());
+		vo.setPatientPhone(dto.getPatient().getPatientPhone());
+		vo.setDob(dto.getPatient().getDob());
+		String pass = "Patient details to be associated with appointments: " + vo;
+		log.info(pass);
 
-		List<AppointmentDTO> list = dto.getAppointments();
+		List<AppointmentDTO> list = dto.getPatient().getAppointments();
 		List<AppointmentsVO> listvo = new ArrayList<>();
-		for (AppointmentDTO obj : dto.getAppointments()) {
+		for (AppointmentDTO obj : dto.getPatient().getAppointments()) {
 			AppointmentsVO avo = new AppointmentsVO();
 			avo.setAppointmentDate(obj.getAppointmentDate());
 			avo.setReason(obj.getReason());
-			avo.setDoctor(obj.getDoctor());
+
+			DoctorVO dVO = new DoctorVO();
+			dVO.setDoctorId(dto.getDoctor().getDoctorId());
+
+			avo.setDoctor(dVO);
 			avo.setPatient(vo);
 			listvo.add(avo);
 		}
 		vo.setAppointments(listvo);
-		log.info("Patient appointments successfully associated: " + listvo);
+		String pass1 = "Patient appointments successfully associated: " + listvo;
+		log.info(pass1);
 
 		try {
 			res = pservice.associate(vo);
@@ -201,7 +213,8 @@ public class PatientController {
 		log.info("patient chooses fetching their details by their phone number...");
 		try {
 			res = pservice.findbyphone(ph);
-			log.info("Patient details successfully fetched by phone number: " + ph);
+			String pass = "Patient details successfully fetched by phone number: " + ph;
+			log.info(pass);
 			return ResponseEntity.ok("Patient Details Fetched by ID:" + res.getPatient());
 		} catch (PhoneNumberException e) {
 			log.error("phone number exception caught", e);
@@ -216,7 +229,8 @@ public class PatientController {
 		log.info("patient chooses to fetch the appointment details by the day...");
 		try {
 			res = pservice.findapptDay(td);
-			log.info("Appointments successfully fetched for the date: " + td);
+			String pass = "Appointments successfully fetched for the date: " + td;
+			log.info(pass);
 		} catch (AppointmentException e) {
 			log.error("Appointment exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -238,7 +252,8 @@ public class PatientController {
 		log.info("patient chooses Find their First and Last names in the records...");
 		try {
 			res = pservice.findName(n);
-			log.info("First and last names successfully fetched for patient ID: " + n);
+			String pass = "First and last names successfully fetched for patient ID: " + n;
+			log.info(pass);
 			return ResponseEntity
 					.ok("First name: " + res.getPro().getFirstName() + " Second name: " + res.getPro().getLastName());
 		} catch (IdException e) {
@@ -250,7 +265,8 @@ public class PatientController {
 	// patient details by between two days:
 	@GetMapping("/patientDetailsAmongTwoDate/{sd}/{ld}")
 	public ResponseEntity<?> betweenTwoDOBpat(@PathVariable("sd") LocalDate sd, @PathVariable("ld") LocalDate ld) {
-		log.info("Fetching patient details between two dates: " + sd + " and " + ld);
+		String pass = "Fetching patient details between two dates: " + sd + " and " + ld;
+		log.info(pass);
 		try {
 			res = pservice.betweenTwoDOBpat(sd, ld);
 			log.info("Patient details successfully fetched between two dates.");

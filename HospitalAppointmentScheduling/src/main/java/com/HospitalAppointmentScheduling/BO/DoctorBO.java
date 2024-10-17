@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.DAO.DoctorDetailsProjection;
 import com.HospitalAppointmentScheduling.DAO.DoctorRepo;
-import com.HospitalAppointmentScheduling.Entity.DoctorVO;
 
 @Component
 public class DoctorBO {
@@ -18,13 +17,6 @@ public class DoctorBO {
 	public List<DoctorDetailsProjection> fetch() {
 		List<DoctorDetailsProjection> list = doctorRepo.findDoctorDetailsWithSpecialization();
 		return list;
-	}
-
-	public DoctorVO insertDoctorWithAppointment(DoctorVO vo) throws IdException {
-		if (vo.getDoctorId() != null && validateDocID(vo.getDoctorId())) {
-			vo = doctorRepo.findById(vo.getDoctorId()).get();
-		}
-		return vo;
 	}
 
 	// validations

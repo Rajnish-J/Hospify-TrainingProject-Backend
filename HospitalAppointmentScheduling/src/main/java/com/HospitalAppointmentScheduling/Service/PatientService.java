@@ -41,7 +41,8 @@ public class PatientService {
 		PatientVO flag = patientBO.insertPatientDetails(vo);
 		log.info("insertPatientDetails called in BO layer");
 		if (flag != null) {
-			log.info("Patient details successfully inserted for Patient ID: " + flag.getPatientId());
+			String pass = "Patient details successfully inserted for Patient ID: " + flag.getPatientId();
+			log.info(pass);
 			response.setSucessMessage("patient Details added successfully");
 			response.setPatient(flag);
 		} else {
@@ -57,7 +58,8 @@ public class PatientService {
 		PatientVO vo = patientBO.fetchByID(id);
 		log.info("fetchByID called in BO layer");
 		if (vo != null) {
-			log.info("Successfully fetched patient details for Patient ID: " + vo.getPatientId());
+			String pass = "Successfully fetched patient details for Patient ID: " + vo.getPatientId();
+			log.info(pass);
 			response.setPatient(vo);
 			response.setId(vo.getPatientId());
 			response.setSucessMessage("patient details fetched by Patient ID: ");
@@ -74,7 +76,8 @@ public class PatientService {
 		List<PatientVO> list = patientBO.fetchAll();
 		log.info("fetchAll called in BO layer");
 		if (list.size() > 0) {
-			log.info("Successfully fetched all patient details. Total records: " + list.size());
+			String pass = "Successfully fetched all patient details. Total records: " + list.size();
+			log.info(pass);
 			response.setListPatient(list);
 			response.setSucessMessage("Fetching all the patiend details is successfully executed");
 		} else {
@@ -91,7 +94,8 @@ public class PatientService {
 		PatientVO flag = patientBO.updatePatientDetails(id);
 		log.info("updatePatientDetails called in BO layer");
 		if (flag != null) {
-			log.info("Successfully updated patient details for Patient ID: " + id);
+			String pass = "Successfully updated patient details for Patient ID: " + id;
+			log.info(pass);
 			response.setSucessMessage("updated the patient details successfully for the patient ID: ");
 			response.setPatient(flag);
 		} else {
@@ -109,7 +113,8 @@ public class PatientService {
 		PatientVO inserted = patientBO.associate(vo);
 		log.info("associate method called in BO layer");
 		if (inserted != null) {
-			log.info("Appointment successfully added for Patient ID: " + inserted.getPatientId());
+			String pass = "Appointment successfully added for Patient ID: " + inserted.getPatientId();
+			log.info(pass);
 			response.setSucessMessage("Appointment added successfully");
 			response.setPatient(inserted);
 			response.setId(inserted.getPatientId());
@@ -126,7 +131,8 @@ public class PatientService {
 		PatientVO vo = patientBO.fetchbyPhoneNumber(ph);
 		log.info("fetchByPhoneNumber called in BO layer");
 		if (vo != null) {
-			log.info("Successfully fetched patient details for Phone Number: " + ph);
+			String pass = "Successfully fetched patient details for Phone Number: " + ph;
+			log.info(pass);
 			response.setPatient(vo);
 			response.setSucessMessage("patient details fetched by phone number");
 		} else {
@@ -142,7 +148,8 @@ public class PatientService {
 		List<PatientVO> list = patientBO.fetchapptDay(td);
 		log.info("fetchapptDay called in BO layer");
 		if (list.size() > 0) {
-			log.info("Successfully fetched appointments for Date: " + td + ". Total appointments: " + list.size());
+			String pass = "Successfully fetched appointments for Date: " + td + ". Total appointments: " + list.size();
+			log.info(pass);
 			response.setListPatient(list);
 			response.setSucessMessage("fetching the appoinment details within the day is successfully executed");
 		} else {
@@ -157,7 +164,8 @@ public class PatientService {
 		PatientProjection p = patientBO.findname(n);
 		log.info("findname called in BO layer");
 		if (p != null) {
-			log.info("Successfully fetched patient name for Patient ID: " + n);
+			String pass = "Successfully fetched patient name for Patient ID: " + n;
+			log.info(pass);
 			response.setPro(p);
 			response.setSucessMessage("fetching patient first name and last name is successfully executed");
 		} else {
@@ -173,8 +181,9 @@ public class PatientService {
 		List<PatientVO> list = patientBO.betweenTwoDOBpat(sd, ld);
 		log.info("betweenTwoDOBpat called in BO layer");
 		if (list.size() > 0) {
-			log.info("Successfully fetched patient details between Dates: " + sd + " and " + ld + ". Total records: "
-					+ response.getListPatient().size());
+			String pass = "Successfully fetched patient details between Dates: " + sd + " and " + ld
+					+ ". Total records: " + response.getListPatient().size();
+			log.info(pass);
 			response.setListPatient(list);
 			response.setSucessMessage(
 					"fetching patient details between the two dates with respect to DOB is successfully executed");
@@ -190,7 +199,8 @@ public class PatientService {
 		List<PatientVO> list = patientBO.ascending();
 		log.info("ascending called in BO layer");
 		if (list.size() > 0) {
-			log.info("Successfully fetched patient details in ascending order. Total records: " + list.size());
+			String pass = "Successfully fetched patient details in ascending order. Total records: " + list.size();
+			log.info(pass);
 			response.setListPatient(list);
 			response.setSucessMessage("fetching the paitent details in ascending order is successfully executed");
 		} else {
