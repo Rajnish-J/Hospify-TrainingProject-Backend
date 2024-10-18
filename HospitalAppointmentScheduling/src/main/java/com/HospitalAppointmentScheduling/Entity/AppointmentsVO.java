@@ -63,9 +63,9 @@ public class AppointmentsVO {
 	private PatientVO patient;
 
 	// mapping to appointment status
-//	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//	@JoinColumn(name = "status_id", nullable = false)
-//	private AppointmentStatusVO status;
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "status_id", nullable = false)
+	private AppointmentStatusVO status;
 
 	// Getters and Setters method
 	public Long getAppointmentID() {
@@ -124,20 +124,20 @@ public class AppointmentsVO {
 		this.patient = patient;
 	}
 
-//	public AppointmentStatusVO getStatus() {
-//		return status;
-//	}
-//
-//	public void setStatus(AppointmentStatusVO status) {
-//		this.status = status;
-//	}
+	public AppointmentStatusVO getStatus() {
+		return status;
+	}
+
+	public void setStatus(AppointmentStatusVO status) {
+		this.status = status;
+	}
 
 	// ToString method:
 	@Override
 	public String toString() {
 		return "AppointmentsVO [appointmentID=" + appointmentID + ", appointmentDate=" + appointmentDate + ", reason="
 				+ reason + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", doctor=" + doctor + ", patient="
-				+ patient + "]";
+				+ patient + ", status=" + status + "]";
 	}
 
 }

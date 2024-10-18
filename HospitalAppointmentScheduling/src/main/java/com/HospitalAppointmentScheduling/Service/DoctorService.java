@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.HospitalAppointmentScheduling.BO.DoctorBO;
 import com.HospitalAppointmentScheduling.DAO.DoctorDetailsProjection;
 import com.HospitalAppointmentScheduling.Response.ResponseHandleAppointments;
-import com.HospitalAppointmentScheduling.Response.ResponseHandleDoctor;
 
 @Service
 public class DoctorService {
@@ -17,9 +16,6 @@ public class DoctorService {
 
 	@Autowired
 	ResponseHandleAppointments apptsRes;
-
-	@Autowired
-	ResponseHandleDoctor docRes;
 
 	public ResponseHandleAppointments fetch() {
 		List<DoctorDetailsProjection> list = doctorBO.fetch();

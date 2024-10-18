@@ -7,5 +7,4 @@ import com.HospitalAppointmentScheduling.Entity.AppointmentStatusVO;
 
 @Repository
 public interface AppointmentStatusRepo extends JpaRepository<AppointmentStatusVO, Integer> {
-
 }

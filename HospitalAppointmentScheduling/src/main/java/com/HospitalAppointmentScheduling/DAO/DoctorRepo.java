@@ -15,7 +15,7 @@ public interface DoctorRepo extends JpaRepository<DoctorVO, Long> {
 			+ "FROM DoctorVO d JOIN d.specialization s")
 	List<DoctorDetailsProjection> findDoctorDetailsWithSpecialization();
 
-	// fetching all patients id for validation:
+	// fetching all doctors id for validation:
 	@Query("SELECT d.doctorId AS doctorId FROM DoctorVO d")
 	List<Long> fetchPatientId();
 

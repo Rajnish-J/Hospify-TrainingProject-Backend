@@ -24,6 +24,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.DAO.DoctorDetailsProjection;
+import com.HospitalAppointmentScheduling.Entity.AppointmentStatusVO;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
 import com.HospitalAppointmentScheduling.Entity.DoctorVO;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
@@ -352,7 +353,7 @@ public class HospitalAppointmentSchedulingApplication {
 
 		resAppt = dser.fetch();
 		for (DoctorDetailsProjection obj : resAppt.getListSpecialiaztion()) {
-			System.out.println(obj.getDoctorId() + ", " + obj.getFirstName() + ", " + obj.getLastName() + ", "
+			System.out.println(obj.getDoctorId() + ". " + obj.getFirstName() + " " + obj.getLastName() + ": "
 					+ obj.getSpecialtyName());
 		}
 
@@ -375,6 +376,10 @@ public class HospitalAppointmentSchedulingApplication {
 			DoctorVO dVO = new DoctorVO();
 			dVO.setDoctorId(sc.nextLong());
 			appt.setDoctor(dVO);
+
+			AppointmentStatusVO asVO = new AppointmentStatusVO();
+			asVO.setStatusName("Pending");
+			appt.setStatus(asVO);
 
 			appt.setPatient(patient);
 			list.add(appt);
@@ -506,15 +511,18 @@ public class HospitalAppointmentSchedulingApplication {
 
 		resAppt = dser.fetch();
 		for (DoctorDetailsProjection obj : resAppt.getListSpecialiaztion()) {
-			System.out.println(obj.getDoctorId() + ", " + obj.getFirstName() + ", " + obj.getLastName() + ", "
+			System.out.println(obj.getDoctorId() + ". " + obj.getFirstName() + " " + obj.getLastName() + ": "
 					+ obj.getSpecialtyName());
 		}
 		System.out.print("Enter the doctor ID: ");
 		DoctorVO dVO = new DoctorVO();
 		dVO.setDoctorId(sc.nextLong());
 		avo.setDoctor(dVO);
-
 		sc.nextLine();
+
+		AppointmentStatusVO asVO = new AppointmentStatusVO();
+		asVO.setStatusName("Pending");
+		avo.setStatus(asVO);
 
 		PatientVO patient = new PatientVO();
 		System.out.print("Enter the First Name: ");
@@ -597,7 +605,7 @@ public class HospitalAppointmentSchedulingApplication {
 
 		resAppt = dser.fetch();
 		for (DoctorDetailsProjection obj : resAppt.getListSpecialiaztion()) {
-			System.out.println(obj.getDoctorId() + ", " + obj.getFirstName() + ", " + obj.getLastName() + ", "
+			System.out.println(obj.getDoctorId() + ". " + obj.getFirstName() + " " + obj.getLastName() + ": "
 					+ obj.getSpecialtyName());
 		}
 
@@ -606,6 +614,10 @@ public class HospitalAppointmentSchedulingApplication {
 		dVO.setDoctorId(sc.nextLong());
 		avo.setDoctor(dVO);
 		sc.nextLine();
+
+		AppointmentStatusVO asVO = new AppointmentStatusVO();
+		asVO.setStatusName("Pending");
+		avo.setStatus(asVO);
 
 		PatientVO patient = new PatientVO();
 		System.out.print("Enter the already registerd Patient ID:");

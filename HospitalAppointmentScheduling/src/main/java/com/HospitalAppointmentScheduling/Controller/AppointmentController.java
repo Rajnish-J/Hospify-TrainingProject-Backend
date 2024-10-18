@@ -25,7 +25,8 @@ import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.DTO.AppointmentDTO;
-import com.HospitalAppointmentScheduling.DTO.AppointmentPatientDoctorDTO;
+import com.HospitalAppointmentScheduling.DTO.AppointmentPatientDoctorAppointmentStatusDTO;
+import com.HospitalAppointmentScheduling.Entity.AppointmentStatusVO;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
 import com.HospitalAppointmentScheduling.Entity.DoctorVO;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
@@ -54,16 +55,20 @@ public class AppointmentController {
 
 	// insert:
 	@PostMapping("/insert")
-	public ResponseEntity<?> insertAppointment(@RequestBody AppointmentPatientDoctorDTO dto) {
+	public ResponseEntity<?> insertAppointment(@RequestBody AppointmentPatientDoctorAppointmentStatusDTO dto) {
 		log.info("Appointment booking with patient details method triggered in controller layer...");
 
 		// converting DTO to entity
 		DoctorVO dVO = new DoctorVO();
 		dVO.setDoctorId(dto.getDoctor().getDoctorId());
 
+		AppointmentStatusVO asVO = new AppointmentStatusVO();
+		asVO.setStatusName("Pending");
+
 		AppointmentsVO vo = new AppointmentsVO();
 		vo.setAppointmentDate(dto.getAppointment().getAppointmentDate());
 		vo.setDoctor(dVO);
+		vo.setStatus(asVO);
 		vo.setReason(dto.getAppointment().getReason());
 
 		PatientVO vo1 = new PatientVO();
@@ -125,16 +130,21 @@ public class AppointmentController {
 
 	// insert appointments with patient ID
 	@PostMapping("/insertWithPatientID")
-	public ResponseEntity<?> insertAppointmentsWithPatientID(@RequestBody AppointmentPatientDoctorDTO dto) {
+	public ResponseEntity<?> insertAppointmentsWithPatientID(
+			@RequestBody AppointmentPatientDoctorAppointmentStatusDTO dto) {
 		log.info("Appointment booking with patient ID method triggered in controller layer...");
 
 		// converting DTO to entity
 		DoctorVO dVO = new DoctorVO();
 		dVO.setDoctorId(dto.getDoctor().getDoctorId());
 
+		AppointmentStatusVO asVO = new AppointmentStatusVO();
+		asVO.setStatusName("Pending");
+
 		AppointmentsVO vo = new AppointmentsVO();
 		vo.setAppointmentDate(dto.getAppointment().getAppointmentDate());
 		vo.setDoctor(dVO);
+		vo.setStatus(asVO);
 		vo.setReason(dto.getAppointment().getReason());
 
 		PatientVO vo1 = new PatientVO();

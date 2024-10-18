@@ -28,6 +28,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.DTO.AppointmentDTO;
 import com.HospitalAppointmentScheduling.DTO.PatientDTO;
 import com.HospitalAppointmentScheduling.DTO.PatientDoctorDTO;
+import com.HospitalAppointmentScheduling.Entity.AppointmentStatusVO;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
 import com.HospitalAppointmentScheduling.Entity.DoctorVO;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
@@ -163,7 +164,11 @@ public class PatientController {
 			DoctorVO dVO = new DoctorVO();
 			dVO.setDoctorId(dto.getDoctor().getDoctorId());
 
+			AppointmentStatusVO asVO = new AppointmentStatusVO();
+			asVO.setStatusName("Pending");
+
 			avo.setDoctor(dVO);
+			avo.setStatus(asVO);
 			avo.setPatient(vo);
 			listvo.add(avo);
 		}

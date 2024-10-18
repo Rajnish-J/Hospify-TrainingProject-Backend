@@ -17,17 +17,17 @@ public class AppointmentStatusVO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "status_id")
-	private Integer statusId;
+	private int statusId;
 
 	@Column(name = "StatusName", nullable = false)
 	private String statusName;
 
 	// Getters and Setters method
-	public Integer getStatusId() {
+	public int getStatusId() {
 		return statusId;
 	}
 
-	public void setStatusId(Integer statusId) {
+	public void setStatusId(int statusId) {
 		this.statusId = statusId;
 	}
 
