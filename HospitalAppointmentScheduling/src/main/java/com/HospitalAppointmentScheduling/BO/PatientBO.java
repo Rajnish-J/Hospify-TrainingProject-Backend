@@ -128,9 +128,15 @@ public class PatientBO {
 		if (phoneNumber == null || phoneNumber.length() != 10) {
 			throw new PhoneNumberException("ERROR: The phone number lenght is atleast 10");
 		}
+
+		char firstChar = phoneNumber.charAt(0);
+		if (firstChar != '9' && firstChar != '8' && firstChar != '7' && firstChar != '6') {
+			throw new PhoneNumberException("ERROR: Phone number must start with 9, 8, 7, or 6.");
+		}
+
 		for (char c : phoneNumber.toCharArray()) {
 			if (!Character.isDigit(c)) {
-				throw new PhoneNumberException("ERROR: phone number does not have any alphabets");
+				throw new PhoneNumberException("ERROR: Phone number can only contain digits.");
 			}
 		}
 		return true;
@@ -169,6 +175,10 @@ public class PatientBO {
 		}
 		if (atCount == 0) {
 			throw new EmailException("ERROR: Email should contain atleast one " + "@" + " charactre in it");
+		}
+
+		if (email.contains("..")) {
+			throw new EmailException("ERROR: Email cannot contain consecutive dots.");
 		}
 		return atCount == 1;
 	}
@@ -261,9 +271,76 @@ public class PatientBO {
 	public boolean validateDOB(LocalDate ld) throws DateOfBirthException {
 		LocalDate today = LocalDate.now();
 
-		if (!(ld.isBefore(today) || ld.isEqual(today))) {
+		if (ld.isAfter(today)) {
 			throw new DateOfBirthException("date of birth could not be in the future");
 		}
+		if (today.minusYears(18).isBefore(ld)) {
+			throw new DateOfBirthException("ERROR: Patient must be at least 18 years old.");
+		}
+		return true;
+	}
+
+	public boolean validateCombinedName(String firstName, String lastName) throws PatientException {
+		String combinedName = firstName + " " + lastName;
+
+		if (combinedName.length() > 50) {
+			throw new PatientException("ERROR: Combined first and last name cannot exceed 50 characters.");
+		}
+
+		for (char c : combinedName.toCharArray()) {
+			if (!Character.isAlphabetic(c) && !Character.isSpaceChar(c)) {
+				throw new PatientException("ERROR: Combined first and last name contains invalid characters.");
+			}
+		}
+
+		if (combinedName.contains("  ")) {
+			throw new PatientException("ERROR: Combined first and last name cannot contain consecutive spaces.");
+		}
+
+		return true;
+	}
+
+	public boolean validateFirstName(String firstName) throws PatientException {
+		if (firstName == null || firstName.isEmpty()) {
+			throw new PatientException("ERROR: First name cannot be empty.");
+		}
+
+		if (firstName.length() < 2) {
+			throw new PatientException("ERROR: First name must be at least 2 characters long.");
+		}
+
+		for (char c : firstName.toCharArray()) {
+			if (!Character.isAlphabetic(c)) {
+				throw new PatientException("ERROR: First name can only contain alphabetic characters.");
+			}
+		}
+
+		if (firstName.trim().length() != firstName.length()) {
+			throw new PatientException("ERROR: First name cannot have leading or trailing spaces.");
+		}
+
+		return true;
+	}
+
+	public boolean validateLastName(String lastName) throws PatientException {
+		if (lastName == null || lastName.isEmpty()) {
+			throw new PatientException("ERROR: Last name cannot be empty.");
+		}
+
+		if (lastName.length() < 2) {
+			throw new PatientException("ERROR: Last name must be at least 2 characters long.");
+		}
+
+		for (char c : lastName.toCharArray()) {
+			if (!Character.isAlphabetic(c)) {
+				throw new PatientException("ERROR: Last name can only contain alphabetic characters.");
+			}
+		}
+
+		if (lastName.equalsIgnoreCase("N/A") || lastName.equalsIgnoreCase("Unknown")) {
+			throw new PatientException("ERROR: Last name cannot be 'N/A' or 'Unknown'.");
+		}
+
 		return true;
 	}
 
@@ -271,6 +348,9 @@ public class PatientBO {
 	public boolean validatePatient(PatientVO vo)
 			throws PatientException, PhoneNumberException, EmailException, PasswordException {
 		return validatePhoneNumber(vo.getPatientPhone()) && validateEmail(vo.getPatientEmail())
-				&& validatePassword(vo.getPatientPassword());
+				&& validatePassword(vo.getPatientPassword())
+				&& validateCombinedName(vo.getFirstName(), vo.getLastName()) && validateFirstName(vo.getFirstName())
+				&& validateLastName(vo.getLastName());
+
 	}
 }

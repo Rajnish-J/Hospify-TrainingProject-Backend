@@ -574,6 +574,10 @@ public class HospitalAppointmentSchedulingApplication {
 			System.out.println(e.getMessage());
 		} catch (AppointmentException e) {
 			System.out.println(e.getMessage());
+		} catch (PatientException e) {
+			System.out.println(e.getMessage());
+		} catch (DateOfBirthException e) {
+			System.out.println(e.getMessage());
 		}
 
 		if (resAppt.getAppoVo().getAppointmentID() > 0) {
@@ -635,6 +639,10 @@ public class HospitalAppointmentSchedulingApplication {
 		} catch (PhoneNumberException e) {
 			System.out.println(e.getMessage());
 		} catch (AppointmentException e) {
+			System.out.println(e.getMessage());
+		} catch (PatientException e) {
+			System.out.println(e.getMessage());
+		} catch (DateOfBirthException e) {
 			System.out.println(e.getMessage());
 		}
 

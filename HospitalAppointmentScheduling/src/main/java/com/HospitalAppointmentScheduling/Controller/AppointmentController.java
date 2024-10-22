@@ -101,31 +101,35 @@ public class AppointmentController {
 		vo.setPatient(patRes.getPatient());
 		log.info("Assigned Patient to Appointment VO.");
 
+		log.info("Attempting to insert appointment details...");
 		try {
-			log.info("Attempting to insert appointment details...");
 			apptRes = aser.insertAppointments(vo);
-			dto.getAppointment().setAppointmentID(vo.getAppointmentID());
-			dto.getAppointment().setCreatedAt(vo.getCreatedAt());
-			dto.getAppointment().setUpdatedAt(vo.getUpdatedAt());
-			return ResponseEntity
-					.ok("Appointments Details successfully saved: " + apptRes.getAppoVo().getAppointmentID());
 		} catch (IdException e) {
 			log.error("Appointment ID is not present in the DataBase", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (EmailException e) {
-			log.error("email format is not valid", e);
+			log.error("email Exception caught valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (PasswordException e) {
 			log.error("password format is not valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (PhoneNumberException e) {
-			log.error("Date of Birth format is not in the pattern", e);
+			log.error("Phone number Exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (AppointmentException e) {
 			log.error("Appointment exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (PatientException e) {
+			log.error("Patient Exception caught", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (DateOfBirthException e) {
+			log.error("Date of Birth exception caught", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-
+		dto.getAppointment().setAppointmentID(vo.getAppointmentID());
+		dto.getAppointment().setCreatedAt(vo.getCreatedAt());
+		dto.getAppointment().setUpdatedAt(vo.getUpdatedAt());
+		return ResponseEntity.ok("Appointments Details successfully saved: " + apptRes.getAppoVo().getAppointmentID());
 	}
 
 	// insert appointments with patient ID
@@ -153,30 +157,35 @@ public class AppointmentController {
 
 		log.info("Assigned Patient ID to Appointment VO");
 
+		log.info("Attempting to insert appointment details with existing patient ID...");
 		try {
-			log.info("Attempting to insert appointment details with existing patient ID...");
 			apptRes = aser.insertAppointmentsWithPatientID(vo);
-			dto.getAppointment().setAppointmentID(vo.getAppointmentID());
-			dto.getAppointment().setCreatedAt(vo.getCreatedAt());
-			dto.getAppointment().setUpdatedAt(vo.getUpdatedAt());
-			return ResponseEntity
-					.ok("Appointments Details successfully saved: " + apptRes.getAppoVo().getAppointmentID());
 		} catch (IdException e) {
 			log.error("Appointment ID is not present in the DataBase", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (EmailException e) {
-			log.error("email format is not valid", e);
+			log.error("email Exception caught valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (PasswordException e) {
 			log.error("password format is not valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (PhoneNumberException e) {
-			log.error("Date of Birth format is not in the pattern", e);
+			log.error("Phone number Exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (AppointmentException e) {
 			log.error("Appointment exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (PatientException e) {
+			log.error("Patient Exception caught", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (DateOfBirthException e) {
+			log.error("Date of Birth exception caught", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
+		dto.getAppointment().setAppointmentID(vo.getAppointmentID());
+		dto.getAppointment().setCreatedAt(vo.getCreatedAt());
+		dto.getAppointment().setUpdatedAt(vo.getUpdatedAt());
+		return ResponseEntity.ok("Appointments Details successfully saved: " + apptRes.getAppoVo().getAppointmentID());
 
 	}
 

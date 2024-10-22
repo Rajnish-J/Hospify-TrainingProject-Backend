@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 import com.HospitalAppointmentScheduling.BO.AppointmentsBO;
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
+import com.HospitalAppointmentScheduling.CustomExceptions.DateOfBirthException;
 import com.HospitalAppointmentScheduling.CustomExceptions.EmailException;
 import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
+import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandleAppointments;
@@ -32,8 +34,8 @@ public class AppointmentsService {
 
 	// Insert method:
 	@Transactional
-	public ResponseHandleAppointments insertAppointments(AppointmentsVO vo)
-			throws IdException, EmailException, PasswordException, PhoneNumberException, AppointmentException {
+	public ResponseHandleAppointments insertAppointments(AppointmentsVO vo) throws IdException, EmailException,
+			PasswordException, PhoneNumberException, AppointmentException, PatientException, DateOfBirthException {
 		log.info("Appointments insert method triggered");
 		AppointmentsVO flag = apptBO.insertAppointments(vo);
 		if (flag != null) {
@@ -47,7 +49,8 @@ public class AppointmentsService {
 
 	@Transactional
 	public ResponseHandleAppointments insertAppointmentsWithPatientID(AppointmentsVO vo)
-			throws IdException, EmailException, PasswordException, PhoneNumberException, AppointmentException {
+			throws IdException, EmailException, PasswordException, PhoneNumberException, AppointmentException,
+			PatientException, DateOfBirthException {
 		log.info("Appointments insert method triggered");
 		AppointmentsVO flag = apptBO.insertAppointmentsWithPatientID(vo);
 		log.info("insertAppointments method - Appointment insertion logic executed");
