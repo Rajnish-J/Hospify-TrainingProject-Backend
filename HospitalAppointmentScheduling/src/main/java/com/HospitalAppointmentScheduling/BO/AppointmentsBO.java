@@ -41,8 +41,8 @@ public class AppointmentsBO {
 
 	}
 
-	public AppointmentsVO insertAppointmentsWithPatientID(AppointmentsVO vo)
-			throws IdException, EmailException, PasswordException, PhoneNumberException, AppointmentException, PatientException, DateOfBirthException {
+	public AppointmentsVO insertAppointmentsWithPatientID(AppointmentsVO vo) throws IdException, EmailException,
+			PasswordException, PhoneNumberException, AppointmentException, PatientException, DateOfBirthException {
 		if (vo.getPatient().getPatientId() != null && validatePatID(vo.getPatient().getPatientId())) {
 			PatientVO pvo = pRepo.findById(vo.getPatient().getPatientId()).get();
 			vo.setPatient(pvo);
@@ -226,29 +226,6 @@ public class AppointmentsBO {
 			throw new IdException("ERROR: appointment Id field could not be null");
 		} else if (id <= 0) {
 			throw new IdException("ERROR: appointment ID could not be negative or zero");
-		}
-
-		return id != null && id > 0;
-	}
-
-	// checks the ID Checking
-	public boolean validateID(Long id) throws IdException {
-		List<Long> pID = pRepo.fetchPatientId();
-
-		boolean contains = false;
-		for (Long obj : pID) {
-			if (obj == id) {
-				contains = true;
-				break;
-			}
-		}
-		if (!contains) {
-			throw new IdException("ERROR: patient ID not exist in the database");
-		}
-		if (id == null) {
-			throw new IdException("ERROR: patient Id field could not be null");
-		} else if (id <= 0) {
-			throw new IdException("ERROR: patient ID could not be negative or zero");
 		}
 
 		return id != null && id > 0;
