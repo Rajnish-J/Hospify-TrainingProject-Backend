@@ -15,6 +15,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
+import com.HospitalAppointmentScheduling.CustomExceptions.ReasonException;
 import com.HospitalAppointmentScheduling.DAO.PatientProjection;
 import com.HospitalAppointmentScheduling.DAO.PatientRepo;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
@@ -62,12 +63,15 @@ public class PatientBO {
 	}
 
 	// associate method
-	public PatientVO associate(PatientVO vo) throws PatientException, PhoneNumberException, EmailException,
-			PasswordException, AppointmentException, AppointmentBookingDateException, DateOfBirthException {
+	public PatientVO associate(PatientVO vo)
+			throws PatientException, PhoneNumberException, EmailException, PasswordException, AppointmentException,
+			AppointmentBookingDateException, DateOfBirthException, ReasonException {
 		List<AppointmentsVO> appts = vo.getAppointments();
 		for (AppointmentsVO obj : appts) {
-			LocalDate d = obj.getAppointmentDate();
-			validateAppointmentBookingDate(d);
+			LocalDate date = obj.getAppointmentDate();
+			validateAppointmentBookingDate(date);
+			String reason = obj.getReason();
+			isValidReason(reason);
 		}
 
 		if (validatePatient(vo) && validateAppointmentCount(vo) && validateDOB(vo.getDob())) {
@@ -342,6 +346,18 @@ public class PatientBO {
 		}
 
 		return true;
+	}
+
+	private boolean isValidReason(String reason) throws ReasonException {
+		boolean flag = true;
+		int reasonLength = reason.length();
+		if (reasonLength > 31) {
+			throw new ReasonException("Reason is too short");
+		}
+		if (reasonLength <= 0) {
+			throw new ReasonException("Reason is too long");
+		}
+		return flag;
 	}
 
 	// Main validation method to validate a patient object:

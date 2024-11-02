@@ -17,6 +17,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
+import com.HospitalAppointmentScheduling.CustomExceptions.ReasonException;
 import com.HospitalAppointmentScheduling.DAO.PatientProjection;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandle;
@@ -106,9 +107,12 @@ public class PatientService {
 	}
 
 	// Associate method:
-	@Transactional
-	public ResponseHandle associate(PatientVO vo) throws PatientException, PhoneNumberException, EmailException,
-			PasswordException, AppointmentException, AppointmentBookingDateException, DateOfBirthException {
+	@Transactional(rollbackOn = { PatientException.class, PhoneNumberException.class, EmailException.class,
+			PasswordException.class, AppointmentException.class, AppointmentBookingDateException.class,
+			DateOfBirthException.class })
+	public ResponseHandle associate(PatientVO vo)
+			throws PatientException, PhoneNumberException, EmailException, PasswordException, AppointmentException,
+			AppointmentBookingDateException, DateOfBirthException, ReasonException {
 		log.info("Asscoiate method triggered...");
 		PatientVO inserted = patientBO.associate(vo);
 		log.info("associate method called in BO layer");

@@ -23,6 +23,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
+import com.HospitalAppointmentScheduling.CustomExceptions.ReasonException;
 import com.HospitalAppointmentScheduling.DAO.DoctorDetailsProjection;
 import com.HospitalAppointmentScheduling.Entity.AppointmentStatusVO;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
@@ -109,8 +110,8 @@ public class HospitalAppointmentSchedulingApplication {
 						break;
 					}
 					case 5: {
-						ref.associatePatientWithAppointment();
-						System.out.println("Patient Details Fetched by ID:");
+						long id = ref.associatePatientWithAppointment();
+						System.out.println("Patient Details Fetched by ID:" + id);
 						break;
 					}
 					case 6: {
@@ -322,7 +323,7 @@ public class HospitalAppointmentSchedulingApplication {
 	// ------------------------------------------------------------------------------------------------------------------------------//
 
 	// associate method:
-	public void associatePatientWithAppointment() {
+	public long associatePatientWithAppointment() {
 
 		Scanner sc = new Scanner(System.in);
 		PatientVO patient = new PatientVO();
@@ -402,6 +403,8 @@ public class HospitalAppointmentSchedulingApplication {
 			System.err.println(e.getMessage());
 		} catch (DateOfBirthException e) {
 			System.err.println(e.getMessage());
+		} catch (ReasonException e) {
+			System.err.println(e.getMessage());
 		}
 
 		long id = response.getId();
@@ -411,6 +414,8 @@ public class HospitalAppointmentSchedulingApplication {
 		} else {
 			System.out.println(response.getFailureMessage());
 		}
+
+		return id;
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------//
