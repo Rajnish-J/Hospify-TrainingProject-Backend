@@ -352,10 +352,10 @@ public class PatientBO {
 		boolean flag = true;
 		int reasonLength = reason.length();
 		if (reasonLength > 31) {
-			throw new ReasonException("Reason is too short");
+			throw new ReasonException("Reason is too long, hence your patient could not registered");
 		}
 		if (reasonLength <= 0) {
-			throw new ReasonException("Reason is too long");
+			throw new ReasonException("Reason is too short, hence your patient could not registered");
 		}
 		return flag;
 	}

@@ -261,15 +261,15 @@ public class HospitalAppointmentSchedulingApplication {
 		try {
 			response = pService.insertPatientDetails(patient);
 		} catch (PatientException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		} catch (PhoneNumberException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		} catch (EmailException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		} catch (PasswordException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		} catch (DateOfBirthException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		}
 
 		if (response.getPatient().getPatientId() > 0) {
@@ -390,21 +390,21 @@ public class HospitalAppointmentSchedulingApplication {
 		try {
 			response = pService.associate(patient);
 		} catch (PatientException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		} catch (PhoneNumberException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		} catch (EmailException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		} catch (PasswordException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		} catch (AppointmentException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		} catch (AppointmentBookingDateException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		} catch (DateOfBirthException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		} catch (ReasonException e) {
-			System.err.println(e.getMessage());
+			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		}
 
 		long id = response.getId();
