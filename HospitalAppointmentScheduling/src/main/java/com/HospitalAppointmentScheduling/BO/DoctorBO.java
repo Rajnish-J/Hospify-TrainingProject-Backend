@@ -24,7 +24,7 @@ public class DoctorBO {
 	// check ID present in the DB
 	public boolean validateDocID(Long id) throws IdException {
 		boolean flag = false;
-		List<Long> dID = doctorRepo.fetchPatientId();
+		List<Long> dID = doctorRepo.fetchDoctorId();
 		for (Long obj : dID) {
 			if (obj == id) {
 				flag = true;

@@ -44,4 +44,16 @@ public interface PatientRepo extends JpaRepository<PatientVO, Long> {
 	@Query("SELECT p.patientPhone AS patientPhone FROM PatientVO p ")
 	List<String> fetchPatientPhoneNumber();
 
+	// Finds the most common date of birth (DOB) among patients.
+	@Query("SELECT p.dob FROM PatientVO p GROUP BY p.dob ORDER BY COUNT(p) DESC")
+	LocalDate findMostCommonDOB();
+
+	// Finds the ID of the patient who has the highest number of appointments.
+	@Query("SELECT p.patientId FROM PatientVO p JOIN p.appointments a GROUP BY p.patientId ORDER BY COUNT(a) DESC")
+	Long findPatientWithMostAppointments();
+
+	// Retrieves the total count of patients in the Patients table.
+	@Query("SELECT COUNT(p) FROM PatientVO p")
+	Long findTotalPatientsCount();
+
 }
