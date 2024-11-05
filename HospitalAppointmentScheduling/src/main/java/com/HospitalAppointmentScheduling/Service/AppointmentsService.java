@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.HospitalAppointmentScheduling.BO.AppointmentsBO;
+import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentBookingDateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateOfBirthException;
@@ -16,6 +17,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
+import com.HospitalAppointmentScheduling.CustomExceptions.ReasonException;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandleAppointments;
 
@@ -50,7 +52,7 @@ public class AppointmentsService {
 	@Transactional
 	public ResponseHandleAppointments insertAppointmentsWithPatientID(AppointmentsVO vo)
 			throws IdException, EmailException, PasswordException, PhoneNumberException, AppointmentException,
-			PatientException, DateOfBirthException {
+			PatientException, DateOfBirthException, AppointmentBookingDateException, ReasonException {
 		log.info("Appointments insert method triggered");
 		AppointmentsVO flag = apptBO.insertAppointmentsWithPatientID(vo);
 		log.info("insertAppointments method - Appointment insertion logic executed");
@@ -133,9 +135,9 @@ public class AppointmentsService {
 	}
 
 	// ascending order:
-	public ResponseHandleAppointments acending() throws AppointmentException {
+	public ResponseHandleAppointments acendingDate() throws AppointmentException {
 		log.info("Fetching the patient details in ascending order method triggered...");
-		List<AppointmentsVO> list = apptBO.ascending();
+		List<AppointmentsVO> list = apptBO.ascendingDate();
 		log.info("acending method - Fetching patient details in ascending order executed");
 		if (list.size() > 0) {
 			log.info("Fetching patient details in ascending order successful");

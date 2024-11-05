@@ -275,6 +275,10 @@ public class PatientBO {
 	public boolean validateDOB(LocalDate ld) throws DateOfBirthException {
 		LocalDate today = LocalDate.now();
 
+		if (ld == null) {
+			throw new DateOfBirthException("Date of birth could not be empty..");
+		}
+
 		if (ld.isAfter(today)) {
 			throw new DateOfBirthException("date of birth could not be in the future");
 		}
@@ -364,9 +368,8 @@ public class PatientBO {
 	public boolean validatePatient(PatientVO vo)
 			throws PatientException, PhoneNumberException, EmailException, PasswordException {
 		return validatePhoneNumber(vo.getPatientPhone()) && validateEmail(vo.getPatientEmail())
-				&& validatePassword(vo.getPatientPassword())
-				&& validateCombinedName(vo.getFirstName(), vo.getLastName()) && validateFirstName(vo.getFirstName())
-				&& validateLastName(vo.getLastName());
+				&& validatePassword(vo.getPatientPassword()) && validateFirstName(vo.getFirstName())
+				&& validateLastName(vo.getLastName()) && validateCombinedName(vo.getFirstName(), vo.getLastName());
 
 	}
 }

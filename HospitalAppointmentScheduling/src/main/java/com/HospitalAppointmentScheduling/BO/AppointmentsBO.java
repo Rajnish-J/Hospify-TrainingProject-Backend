@@ -15,6 +15,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
+import com.HospitalAppointmentScheduling.CustomExceptions.ReasonException;
 import com.HospitalAppointmentScheduling.DAO.AppointmentsRepo;
 import com.HospitalAppointmentScheduling.DAO.PatientRepo;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
@@ -41,9 +42,11 @@ public class AppointmentsBO {
 
 	}
 
-	public AppointmentsVO insertAppointmentsWithPatientID(AppointmentsVO vo) throws IdException, EmailException,
-			PasswordException, PhoneNumberException, AppointmentException, PatientException, DateOfBirthException {
-		if (vo.getPatient().getPatientId() != null && validatePatID(vo.getPatient().getPatientId())) {
+	public AppointmentsVO insertAppointmentsWithPatientID(AppointmentsVO vo)
+			throws IdException, EmailException, PasswordException, PhoneNumberException, AppointmentException,
+			PatientException, DateOfBirthException, AppointmentBookingDateException, ReasonException {
+		if (vo.getPatient().getPatientId() != null && validatePatID(vo.getPatient().getPatientId())
+				&& validateAppointmentBookingDate(vo.getAppointmentDate()) && isValidReason(vo.getReason())) {
 			PatientVO pvo = pRepo.findById(vo.getPatient().getPatientId()).get();
 			vo.setPatient(pvo);
 			if (validatePatient(pvo)) {
@@ -91,8 +94,8 @@ public class AppointmentsBO {
 	}
 
 	// ascending order:
-	public List<AppointmentsVO> ascending() throws AppointmentException {
-		List<AppointmentsVO> list = appointmentsRepo.fetchApptsAscending();
+	public List<AppointmentsVO> ascendingDate() throws AppointmentException {
+		List<AppointmentsVO> list = appointmentsRepo.fetchApptsAscendingDate();
 		if (!(list.size() > 0)) {
 			throw new AppointmentException("ERROR: There is no Records in the DataBase");
 		}
@@ -321,15 +324,23 @@ public class AppointmentsBO {
 			}
 		}
 
-		if (lastName.equals(lastName.toUpperCase()) || lastName.equals(lastName.toLowerCase())) {
-			throw new PatientException("ERROR: Last name cannot be all uppercase or all lowercase.");
-		}
-
 		if (lastName.equalsIgnoreCase("N/A") || lastName.equalsIgnoreCase("Unknown")) {
 			throw new PatientException("ERROR: Last name cannot be 'N/A' or 'Unknown'.");
 		}
 
 		return true;
+	}
+
+	private boolean isValidReason(String reason) throws ReasonException {
+		boolean flag = true;
+		int reasonLength = reason.length();
+		if (reasonLength > 31) {
+			throw new ReasonException("Reason is too long, hence your patient could not registered");
+		}
+		if (reasonLength <= 0) {
+			throw new ReasonException("Reason is too short, hence your patient could not registered");
+		}
+		return flag;
 	}
 
 	// Main validation method to validate a patient object:

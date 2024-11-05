@@ -23,6 +23,6 @@ public interface AppointmentsRepo extends JpaRepository<AppointmentsVO, Long> {
 
 	// Appointments by order date
 	@Query(name = "AppointmentsVO.findAllByPatientIdOrderByDate")
-	List<AppointmentsVO> fetchApptsAscending();
+	List<AppointmentsVO> fetchApptsAscendingDate();
 
 }

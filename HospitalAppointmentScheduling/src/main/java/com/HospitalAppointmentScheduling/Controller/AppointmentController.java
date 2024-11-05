@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentBookingDateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateOfBirthException;
@@ -24,6 +25,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
+import com.HospitalAppointmentScheduling.CustomExceptions.ReasonException;
 import com.HospitalAppointmentScheduling.DTO.AppointmentDTO;
 import com.HospitalAppointmentScheduling.DTO.AppointmentPatientDoctorAppointmentStatusDTO;
 import com.HospitalAppointmentScheduling.Entity.AppointmentStatusVO;
@@ -181,6 +183,12 @@ public class AppointmentController {
 		} catch (DateOfBirthException e) {
 			log.error("Date of Birth exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (AppointmentBookingDateException e) {
+			log.error("Appointment Booking Date Exception caught", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (ReasonException e) {
+			log.error("Invalid Reason Exception caught", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 		dto.getAppointment().setAppointmentID(vo.getAppointmentID());
 		dto.getAppointment().setCreatedAt(vo.getCreatedAt());
@@ -264,11 +272,11 @@ public class AppointmentController {
 	}
 
 	// ascending order:
-	@GetMapping("/AppointmentAscendingOrder")
-	public ResponseEntity<?> acending() {
+	@GetMapping("/AppointmentAscendingOrderByDate")
+	public ResponseEntity<?> acendingDate() {
 		log.info("Appointments fetching all the details in ascending order...");
 		try {
-			apptRes = aser.acending();
+			apptRes = aser.acendingDate();
 			List<AppointmentsVO> list = apptRes.getList();
 			List<AppointmentDTO> listd = new ArrayList<>();
 			for (int i = 0; i < list.size(); i++) {
