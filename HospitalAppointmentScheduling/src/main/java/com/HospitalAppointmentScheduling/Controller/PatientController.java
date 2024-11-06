@@ -318,6 +318,45 @@ public class PatientController {
 
 	}
 
+	// find Latest Phone Number Entry
+	@GetMapping("/findMostCommonDOB")
+	public ResponseEntity<?> findMostCommonDOB() {
+		log.info("patient chooses fetching the recent number added in the controller layer");
+		res = pservice.findMostCommonDOB();
+		log.info("patient phone retrieved");
+		if (res.getSucessMessage() != null) {
+			return ResponseEntity.ok(res.getListOfDates());
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res.getFailureMessage());
+		}
+	}
+
+	// find Patient With Most Appointments
+	@GetMapping("/findPatientWithMostAppointments")
+	public ResponseEntity<?> findPatientWithMostAppointments() {
+		log.info("fetching the patient having more appointment triggered in the controller layer");
+		res = pservice.findPatientWithMostAppointments();
+		log.info("patient with more appointments fetched successfully");
+		if (res.getSucessMessage() != null) {
+			return ResponseEntity.ok("Patients with more appointments" + res.getListPatient());
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res.getFailureMessage());
+		}
+	}
+
+	// find Total Patients Count
+	@GetMapping("/findTotalPatientsCount")
+	public ResponseEntity<?> findTotalPatientsCount() {
+		log.info("find the total number of patient records method triggered in the controller layer");
+		res = pservice.findTotalPatientsCount();
+		log.info("total number of patient records fetched" + res.getId());
+		if (res.getSucessMessage() != null) {
+			return ResponseEntity.ok("Total count of patient records: " + res.getId());
+		} else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res.getFailureMessage());
+		}
+	}
+
 	// own method => converts entity to DTO:
 	public static PatientDTO mapToDTO(PatientVO vo) {
 

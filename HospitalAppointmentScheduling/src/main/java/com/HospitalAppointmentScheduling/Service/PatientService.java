@@ -212,4 +212,53 @@ public class PatientService {
 		}
 		return response;
 	}
+
+	// find Most Common DOB
+	public ResponseHandle findMostCommonDOB() {
+		log.info("Fetching the patient phone number recently added method triggered...");
+		List<LocalDate> ld = patientBO.findMostCommonDOB();
+		log.info("find Latest PhoneNumber Entry Triggerred in the BO layer");
+		if (ld != null) {
+			String pass = "Successfully fetched commom date of births: " + ld;
+			log.info(pass);
+			response.setSucessMessage(
+					"fetching the paitent phone number who recently created is successfully executed");
+			response.setListOfDates(ld);
+		} else {
+			response.setFailureMessage("Error in fetching...");
+		}
+		return response;
+	}
+
+	// find Patient With Most Appointments
+	public ResponseHandle findPatientWithMostAppointments() {
+		log.info("Fetching the patient having more appointments method triggered");
+		List<PatientVO> list = patientBO.findPatientWithMostAppointments();
+		log.info("Fetching the patient with most appointments method triggered in the BO layer");
+		if (list.size() > 0) {
+			String pass = "successfully fetched the appointments" + list;
+			log.info(pass);
+			response.setSucessMessage("Patients with more appointments fetched successfully");
+			response.setListPatient(list);
+		} else {
+			response.setFailureMessage("error in fetching the details");
+		}
+		return response;
+	}
+
+	// find Total Patients Count
+	public ResponseHandle findTotalPatientsCount() {
+		log.info("Fetching total no of records present in the database method triggered");
+		long count = patientBO.findTotalPatientsCount();
+		log.info("Fetching the total number of records in the patient method triggered in the BO layer");
+		if (count > 0) {
+			String pass = "successfully fetched the total number of records in the patient table" + count;
+			log.info(pass);
+			response.setSucessMessage("total number of records fetched in the patient table");
+			response.setId(count);
+		} else {
+			response.setFailureMessage("error in fetching the details");
+		}
+		return response;
+	}
 }

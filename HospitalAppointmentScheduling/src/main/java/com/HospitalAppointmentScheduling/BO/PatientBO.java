@@ -127,6 +127,21 @@ public class PatientBO {
 		return list;
 	}
 
+	// find Most Common DOB:
+	public List<LocalDate> findMostCommonDOB() {
+		return patientRepo.findMostCommonDOB();
+	}
+
+	// findPatientWithMostAppointments
+	public List<PatientVO> findPatientWithMostAppointments() {
+		return patientRepo.findPatientWithMostAppointments();
+	}
+
+	// findTotalPatientsCount
+	public Long findTotalPatientsCount() {
+		return patientRepo.findTotalPatientsCount();
+	}
+
 	// validation methods:
 	public boolean validatePhoneNumber(String phoneNumber) throws PhoneNumberException {
 		if (phoneNumber == null || phoneNumber.length() != 10) {

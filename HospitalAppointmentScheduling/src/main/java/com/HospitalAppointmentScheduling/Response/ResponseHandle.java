@@ -1,5 +1,6 @@
 package com.HospitalAppointmentScheduling.Response;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -17,6 +18,24 @@ public class ResponseHandle {
 	private List<PatientVO> listPatient;
 	private String phone;
 	private PatientProjection pro;
+	private LocalDate date;
+	private List<LocalDate> listOfDates;
+
+	public List<LocalDate> getListOfDates() {
+		return listOfDates;
+	}
+
+	public void setListOfDates(List<LocalDate> listOfDates) {
+		this.listOfDates = listOfDates;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
 
 	public String getSucessMessage() {
 		return sucessMessage;
