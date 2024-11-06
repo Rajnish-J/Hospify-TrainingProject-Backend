@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import com.HospitalAppointmentScheduling.Clinet.PatientClient;
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentBookingDateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
@@ -25,6 +26,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.CustomExceptions.ReasonException;
 import com.HospitalAppointmentScheduling.DAO.DoctorDetailsProjection;
+import com.HospitalAppointmentScheduling.DTO.PatientDTO;
 import com.HospitalAppointmentScheduling.Entity.AppointmentStatusVO;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
 import com.HospitalAppointmentScheduling.Entity.DoctorVO;
@@ -58,6 +60,9 @@ public class HospitalAppointmentSchedulingApplication {
 	@Autowired
 	private ResponseHandleDoctor docRes;
 
+	@Autowired
+	private PatientClient patClient;
+
 	static Logger log = Logger.getLogger(HospitalAppointmentSchedulingApplication.class);
 
 	public static void main(String[] args) {
@@ -84,8 +89,11 @@ public class HospitalAppointmentSchedulingApplication {
 					System.out.println(
 							"1. Save Patient\n2. FindByID\n3. FetchAllPatients\n4. Update Details\n5. Associate\n6. "
 									+ "Fetch patient by phone number\n7. fetch appointments by the date\n8. "
-									+ "Find first and last name by patient ID\n9. Fetch all the patient details among the two date\n10. Get the patients in "
-									+ "Ascending order\n11. exit");
+									+ "Find first and last name by patient ID\n9. Fetch all the patient details among the two date"
+									+ "\n10. Get the patients in "
+									+ "Ascending order\n11. Insert patient throught client\n12. Get all patients through "
+									+ "client\n13. find most birthday among patients\n14. patients having most appointments"
+									+ "\n15. Total number of patients in the DateBase\n16. exit");
 					System.out.print("Enter the option: ");
 					int patientOption = sc.nextInt();
 					switch (patientOption) {
@@ -149,6 +157,26 @@ public class HospitalAppointmentSchedulingApplication {
 
 					}
 					case 11: {
+						ref.insertPatientThroughClient();
+						break;
+					}
+					case 12: {
+						ref.fetchAllPatientsThroughClient();
+						break;
+					}
+					case 13: {
+						ref.findMostCommonDOB();
+						break;
+					}
+					case 14: {
+						ref.findPatientWithMostAppointments();
+						break;
+					}
+					case 15: {
+						ref.findTotalPatientsCount();
+						break;
+					}
+					case 16: {
 						log.info("patient chooses to EXIT the application...");
 						patientRepeat = false;
 						System.out.println("Thank you for Using patient page returning to main page");
@@ -479,6 +507,80 @@ public class HospitalAppointmentSchedulingApplication {
 		for (PatientVO obj : response.getListPatient()) {
 			System.out.println(obj);
 		}
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
+	// insert patient through client:
+	public void insertPatientThroughClient() {
+		PatientDTO patient = new PatientDTO();
+		Scanner sc = new Scanner(System.in);
+
+		System.out.print("Enter the First Name: ");
+		patient.setFirstName(sc.next());
+
+		System.out.print("Enter the Last Name: ");
+		patient.setLastName(sc.next());
+
+		System.out.print("Enter the phone number: ");
+		patient.setPatientPhone(sc.next());
+
+		System.out.print("Enter the Date of birth in the format (YYYY-MM-DD): ");
+		String date = sc.next();
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate dob = LocalDate.parse(date, format);
+		patient.setDob(dob);
+
+		System.out.print("Enter the Email: ");
+		patient.setPatientEmail(sc.next());
+
+		System.out.print("Enter the Password: ");
+		patient.setPatientPassword(sc.next());
+
+		String msg = patClient.insertPatientThroughClient(patient);
+		System.out.println(msg);
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
+	// get all patients through client:
+	public void fetchAllPatientsThroughClient() {
+		List<PatientDTO> list = patClient.fetchAllPatientsThroughClient();
+		if (list.size() > 0) {
+			for (PatientDTO obj : list) {
+				System.out.println(obj);
+			}
+		} else {
+			System.out.println("there is no records in the database");
+		}
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
+	// find most birthday among patients
+	public void findMostCommonDOB() {
+		response = pService.findMostCommonDOB();
+		for (LocalDate obj : response.getListOfDates()) {
+			System.out.println(obj);
+		}
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
+	// patients having most appointments
+	public void findPatientWithMostAppointments() {
+		response = pService.findPatientWithMostAppointments();
+		for (PatientVO obj : response.getListPatient()) {
+			System.out.println(obj);
+		}
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
+	// Total number of patients in the DateBase
+	public void findTotalPatientsCount() {
+		response = pService.findTotalPatientsCount();
+		System.out.println(response.getId());
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------//
