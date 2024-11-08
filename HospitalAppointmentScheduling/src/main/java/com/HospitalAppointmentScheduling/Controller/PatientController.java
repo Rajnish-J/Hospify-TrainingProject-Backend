@@ -136,6 +136,18 @@ public class PatientController {
 		} catch (IdException e) {
 			log.error("ID not found in the DataBase", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (PatientException e) {
+			log.error("Patient does not having the valid inputs", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (PhoneNumberException e) {
+			log.error("Phone number format is wrong", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (EmailException e) {
+			log.error("email format is not valid", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (PasswordException e) {
+			log.error("password format is not valid", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
 

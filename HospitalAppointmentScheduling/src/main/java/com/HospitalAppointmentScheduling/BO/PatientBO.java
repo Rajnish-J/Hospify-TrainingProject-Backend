@@ -27,6 +27,11 @@ public class PatientBO {
 	@Autowired
 	PatientRepo patientRepo;
 
+	// patient authentication method:
+	public PatientVO patientAuthentication(String email, String password) {
+
+	}
+
 	// Insert method:
 	public PatientVO insertPatientDetails(PatientVO vo)
 			throws PatientException, PhoneNumberException, EmailException, PasswordException, DateOfBirthException {
@@ -52,9 +57,11 @@ public class PatientBO {
 	}
 
 	// update method:
-	public PatientVO updatePatientDetails(long id) throws IdException {
+	public PatientVO updatePatientDetails(long id)
+			throws IdException, PatientException, PhoneNumberException, EmailException, PasswordException {
 		if (validateID(id)) {
 			PatientVO vo = patientRepo.findById(id).get();
+			validatePatient(vo);
 			vo.setLastName("Jai");
 			vo = patientRepo.save(vo);
 			return vo;

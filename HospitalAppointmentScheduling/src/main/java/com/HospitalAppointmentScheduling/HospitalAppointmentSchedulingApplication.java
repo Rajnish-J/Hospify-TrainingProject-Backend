@@ -345,6 +345,14 @@ public class HospitalAppointmentSchedulingApplication {
 			}
 		} catch (IdException e) {
 			System.err.println(e.getMessage());
+		} catch (PatientException e) {
+			System.err.println(e.getMessage());
+		} catch (PhoneNumberException e) {
+			System.err.println(e.getMessage());
+		} catch (EmailException e) {
+			System.err.println(e.getMessage());
+		} catch (PasswordException e) {
+			System.err.println(e.getMessage());
 		}
 	}
 

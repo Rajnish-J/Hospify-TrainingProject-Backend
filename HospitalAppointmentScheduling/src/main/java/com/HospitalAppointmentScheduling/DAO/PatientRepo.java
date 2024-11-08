@@ -13,6 +13,10 @@ import com.HospitalAppointmentScheduling.Entity.PatientVO;
 @Repository
 public interface PatientRepo extends JpaRepository<PatientVO, Long> {
 
+	// patient authentication for the login page in the console
+	@Query("SELECT p FROM PatientVO p WHERE p.patientEmail = :email AND p.patientPassword = :password")
+	PatientVO patientAuthentication(@Param("email") String email, @Param("password") String password);
+
 	// fetch by phone number
 	@Query("SELECT p FROM PatientVO p WHERE p.patientPhone = :phone")
 	PatientVO findByPhoneNumber(@Param("phone") String phone);

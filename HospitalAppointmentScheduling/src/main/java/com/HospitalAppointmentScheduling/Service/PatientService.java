@@ -90,7 +90,8 @@ public class PatientService {
 
 	// update method
 	@Transactional
-	public ResponseHandle updatePatientDetails(long id) throws IdException {
+	public ResponseHandle updatePatientDetails(long id)
+			throws IdException, PatientException, PhoneNumberException, EmailException, PasswordException {
 		log.info("Update method triggered...");
 		PatientVO flag = patientBO.updatePatientDetails(id);
 		log.info("updatePatientDetails called in BO layer");
