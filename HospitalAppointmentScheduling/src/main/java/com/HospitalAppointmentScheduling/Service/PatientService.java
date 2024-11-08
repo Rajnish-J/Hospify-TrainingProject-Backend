@@ -34,6 +34,18 @@ public class PatientService {
 
 	Logger log = Logger.getLogger(PatientService.class);
 
+	// patient authentication method:
+	public ResponseHandle patientAuthentication(String email, String password) {
+		PatientVO vo = patientBO.patientAuthentication(email, password);
+		if (vo != null) {
+			response.setSucessMessage("Patient ID available in the db");
+			response.setPatient(vo);
+		} else {
+			response.setFailureMessage("patient don't have any account in the database");
+		}
+		return response;
+	}
+
 	// insert method
 	@Transactional
 	public ResponseHandle insertPatientDetails(PatientVO vo)

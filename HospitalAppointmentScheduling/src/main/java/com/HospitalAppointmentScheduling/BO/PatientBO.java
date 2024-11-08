@@ -29,7 +29,12 @@ public class PatientBO {
 
 	// patient authentication method:
 	public PatientVO patientAuthentication(String email, String password) {
-
+		PatientVO vo = patientRepo.patientAuthentication(email, password);
+		if (vo != null) {
+			return vo;
+		} else {
+			return null;
+		}
 	}
 
 	// Insert method:

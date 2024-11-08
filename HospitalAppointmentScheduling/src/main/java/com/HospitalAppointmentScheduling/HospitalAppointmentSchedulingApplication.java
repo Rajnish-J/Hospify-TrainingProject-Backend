@@ -75,188 +75,215 @@ public class HospitalAppointmentSchedulingApplication {
 				"C:\\Users\\Lenovo\\OneDrive\\Desktop\\GIT\\Hospital-Appointment-Scheduling\\HospitalAppointmentScheduling\\src\\main\\java\\log4j\\log4j.properities");
 		log.info(" Application Started Started..");
 
-		boolean mainRepeat = true;
-		log.info("Patient chooses create account option...");
-		do {
-			System.out.println("1. Patient menu\n2. Appointments menu\n3. Exit");
-			System.out.print("Enter the option: ");
-			int mainOption = sc.nextInt();
+		System.out.println("Welcome to Appoinment management Application...");
 
-			switch (mainOption) {
-			case 1: {
-				boolean patientRepeat = true;
+		System.out.println(
+				"You are having three Log In chances if you don't LogIn success then you can LogIn tomorrow only...");
+
+		int tryLogIn = 3;
+		while (tryLogIn > 0) {
+			System.out.print("Enter the registered patient emailID: ");
+			String email = sc.next();
+
+			System.out.print("Enter the registered patient Password: ");
+			String password = sc.next();
+
+			ResponseHandle refAuth = ref.pService.patientAuthentication(email, password);
+			if (refAuth.getSucessMessage() != null) {
+				tryLogIn = 0;
+				System.out.println("Your LogIn Success...");
+				boolean mainRepeat = true;
 				do {
-					System.out.println(
-							"1. Save Patient\n2. FindByID\n3. FetchAllPatients\n4. Update Details\n5. Associate\n6. "
-									+ "Fetch patient by phone number\n7. fetch appointments by the date\n8. "
-									+ "Find first and last name by patient ID\n9. Fetch all the patient details among the two date"
-									+ "\n10. Get the patients in "
-									+ "Ascending order\n11. Insert patient throught client\n12. Get all patients through "
-									+ "client\n13. find most birthday among patients\n14. patients having most appointments"
-									+ "\n15. Total number of patients in the DateBase\n16. exit");
+					System.out.println("1. Patient menu\n2. Appointments menu\n3. Exit");
 					System.out.print("Enter the option: ");
-					int patientOption = sc.nextInt();
-					switch (patientOption) {
+					int mainOption = sc.nextInt();
+
+					switch (mainOption) {
 					case 1: {
-						ref.insertPatient();
+						boolean patientRepeat = true;
+						do {
+							System.out.println(
+									"1. Save Patient\n2. FindByID\n3. FetchAllPatients\n4. Update Details\n5. Associate\n6. "
+											+ "Fetch patient by phone number\n7. fetch appointments by the date\n8. "
+											+ "Find first and last name by patient ID\n9. Fetch all the patient details among the two date"
+											+ "\n10. Get the patients in "
+											+ "Ascending order\n11. Insert patient throught client\n12. Get all patients through "
+											+ "client\n13. find most birthday among patients\n14. patients having most appointments"
+											+ "\n15. Total number of patients in the DateBase\n16. exit");
+							System.out.print("Enter the option: ");
+							int patientOption = sc.nextInt();
+							switch (patientOption) {
+							case 1: {
+								ref.insertPatient();
+								break;
+							}
+							case 2: {
+								System.out.print("Enter the patient ID: ");
+								long id = sc.nextLong();
+								ref.fetchByIDPatient(id);
+								break;
+							}
+							case 3: {
+								ref.fetchAllPatients();
+								break;
+							}
+							case 4: {
+								System.out.print("Enter the patient ID: ");
+								int id = sc.nextInt();
+								ref.updatePatient(id);
+								break;
+							}
+							case 5: {
+								long id = ref.associatePatientWithAppointment();
+								System.out.println("Patient Details Fetched by ID:" + id);
+								break;
+							}
+							case 6: {
+								System.out.print("Enter the patient phone number to fetch patient Details: ");
+								String ph = sc.next();
+								ref.fetchbyPatientPhone(ph);
+								break;
+							}
+							case 7: {
+								ref.fetchapptday();
+								break;
+							}
+							case 8: {
+								System.out.println("Enter the patient ID: ");
+								long id = sc.nextLong();
+								ref.findPatientName(id);
+								break;
+							}
+							case 9: {
+								System.out.print("Enter the Start Date in the format (YYYY-MM-DD): ");
+								String startDate = sc.next();
+								System.out.print("Enter the End Date in the format (YYYY-MM-DD): ");
+								String endDate = sc.next();
+								DateTimeFormatter formatAppt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+								LocalDate startedDate = LocalDate.parse(startDate, formatAppt);
+								LocalDate endedDate = LocalDate.parse(endDate, formatAppt);
+
+								ref.betweenTwoDOBpat(startedDate, endedDate);
+								break;
+
+							}
+							case 10: {
+								ref.ascendingPatient();
+								break;
+
+							}
+							case 11: {
+								ref.insertPatientThroughClient();
+								break;
+							}
+							case 12: {
+								ref.fetchAllPatientsThroughClient();
+								break;
+							}
+							case 13: {
+								ref.findMostCommonDOB();
+								break;
+							}
+							case 14: {
+								ref.findPatientWithMostAppointments();
+								break;
+							}
+							case 15: {
+								ref.findTotalPatientsCount();
+								break;
+							}
+							case 16: {
+								log.info("patient chooses to EXIT the application...");
+								patientRepeat = false;
+								System.out.println("Thank you for Using patient page returning to main page");
+								break;
+							}
+							default: {
+								System.out.println("Enter the correct option");
+							}
+							}
+						} while (patientRepeat);
 						break;
 					}
 					case 2: {
-						System.out.print("Enter the patient ID: ");
-						long id = sc.nextLong();
-						ref.fetchByIDPatient(id);
+						boolean appointmentRepeat = true;
+						do {
+							System.out.println(
+									"1. Add appointments with creating patient account\n2. Add appointments with already registered patient ID\n3. "
+											+ "Fetch appointments by ID\n4. fetch all appointments\n5. Update appointmens status\n6. Fetch appointments in two dates"
+											+ "\n7. Fetch appointments in ascending order" + "\n8. EXIT");
+							System.out.print("Enter the option: ");
+							int appointmentOption = sc.nextInt();
+							switch (appointmentOption) {
+							case 1: {
+								ref.insertApptWithPatientAcc();
+								break;
+							}
+							case 2: {
+								ref.insertAppointmentsWithPatientID();
+								break;
+							}
+							case 3: {
+								System.out.print("Enter the Appointment ID: ");
+								long id = sc.nextLong();
+								ref.fetchByIDAppointment(id);
+								break;
+							}
+							case 4: {
+								ref.fetchAllAppointments();
+								break;
+							}
+							case 5: {
+								System.out.print("Enter the Appointment ID: ");
+								long id = sc.nextLong();
+								ref.updateAppointment(id);
+								break;
+							}
+							case 6: {
+								System.out.print("Enter the Start Date in the format (YYYY-MM-DD): ");
+								String startDate = sc.next();
+								System.out.print("Enter the End Date in the format (YYYY-MM-DD): ");
+								String endDate = sc.next();
+								DateTimeFormatter formatAppt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+								LocalDate startedDate = LocalDate.parse(startDate, formatAppt);
+								LocalDate endedDate = LocalDate.parse(endDate, formatAppt);
+
+								ref.fetchApptBetweenTwoDates(startedDate, endedDate);
+								break;
+							}
+							case 7: {
+								ref.ascendingAppointmentsDate();
+								break;
+							}
+							case 8: {
+								System.out
+										.println("Thank you for using Appointment booking page, retuning to main page");
+								appointmentRepeat = false;
+								break;
+							}
+							}
+						} while (appointmentRepeat);
 						break;
 					}
 					case 3: {
-						ref.fetchAllPatients();
-						break;
-					}
-					case 4: {
-						System.out.print("Enter the patient ID: ");
-						int id = sc.nextInt();
-						ref.updatePatient(id);
-						break;
-					}
-					case 5: {
-						long id = ref.associatePatientWithAppointment();
-						System.out.println("Patient Details Fetched by ID:" + id);
-						break;
-					}
-					case 6: {
-						System.out.print("Enter the patient phone number to fetch patient Details: ");
-						String ph = sc.next();
-						ref.fetchbyPatientPhone(ph);
-						break;
-					}
-					case 7: {
-						ref.fetchapptday();
-						break;
-					}
-					case 8: {
-						System.out.println("Enter the patient ID: ");
-						long id = sc.nextLong();
-						ref.findPatientName(id);
-						break;
-					}
-					case 9: {
-						System.out.print("Enter the Start Date in the format (YYYY-MM-DD): ");
-						String startDate = sc.next();
-						System.out.print("Enter the End Date in the format (YYYY-MM-DD): ");
-						String endDate = sc.next();
-						DateTimeFormatter formatAppt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-						LocalDate startedDate = LocalDate.parse(startDate, formatAppt);
-						LocalDate endedDate = LocalDate.parse(endDate, formatAppt);
-
-						ref.betweenTwoDOBpat(startedDate, endedDate);
-						break;
-
-					}
-					case 10: {
-						ref.ascendingPatient();
-						break;
-
-					}
-					case 11: {
-						ref.insertPatientThroughClient();
-						break;
-					}
-					case 12: {
-						ref.fetchAllPatientsThroughClient();
-						break;
-					}
-					case 13: {
-						ref.findMostCommonDOB();
-						break;
-					}
-					case 14: {
-						ref.findPatientWithMostAppointments();
-						break;
-					}
-					case 15: {
-						ref.findTotalPatientsCount();
-						break;
-					}
-					case 16: {
-						log.info("patient chooses to EXIT the application...");
-						patientRepeat = false;
-						System.out.println("Thank you for Using patient page returning to main page");
+						System.out.println("Thank you for using Hospital Management System application");
 						break;
 					}
 					default: {
 						System.out.println("Enter the correct option");
 					}
 					}
-				} while (patientRepeat);
-				break;
-			}
-			case 2: {
-				boolean appointmentRepeat = true;
-				do {
+				} while (mainRepeat);
+			} else {
+				tryLogIn--;
+				System.out.println(refAuth.getFailureMessage());
+				if (tryLogIn == 0) {
 					System.out.println(
-							"1. Add appointments with creating patient account\n2. Add appointments with already registered patient ID\n3. "
-									+ "Fetch appointments by ID\n4. fetch all appointments\n5. Update appointmens status\n6. Fetch appointments in two dates"
-									+ "\n7. Fetch appointments in ascending order" + "\n8. EXIT");
-					System.out.print("Enter the option: ");
-					int appointmentOption = sc.nextInt();
-					switch (appointmentOption) {
-					case 1: {
-						ref.insertApptWithPatientAcc();
-						break;
-					}
-					case 2: {
-						ref.insertAppointmentsWithPatientID();
-						break;
-					}
-					case 3: {
-						System.out.print("Enter the Appointment ID: ");
-						long id = sc.nextLong();
-						ref.fetchByIDAppointment(id);
-						break;
-					}
-					case 4: {
-						ref.fetchAllAppointments();
-						break;
-					}
-					case 5: {
-						System.out.print("Enter the Appointment ID: ");
-						long id = sc.nextLong();
-						ref.updateAppointment(id);
-						break;
-					}
-					case 6: {
-						System.out.print("Enter the Start Date in the format (YYYY-MM-DD): ");
-						String startDate = sc.next();
-						System.out.print("Enter the End Date in the format (YYYY-MM-DD): ");
-						String endDate = sc.next();
-						DateTimeFormatter formatAppt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-						LocalDate startedDate = LocalDate.parse(startDate, formatAppt);
-						LocalDate endedDate = LocalDate.parse(endDate, formatAppt);
+							"Your all chances are finished, here after you can only logIn on tomorrow, Thanks for using Hospital Management System application");
+				}
+			}
+		}
 
-						ref.fetchApptBetweenTwoDates(startedDate, endedDate);
-						break;
-					}
-					case 7: {
-						ref.ascendingAppointmentsDate();
-						break;
-					}
-					case 8: {
-						System.out.println("Thank you for using Appointment booking page, retuning to main page");
-						appointmentRepeat = false;
-						break;
-					}
-					}
-				} while (appointmentRepeat);
-				break;
-			}
-			case 3: {
-				System.out.println("Thank you for using Hospital Management System application");
-				break;
-			}
-			default: {
-				System.out.println("Enter the correct option");
-			}
-			}
-		} while (mainRepeat);
 	}
 	// ------------------------------------------------------------------------------------------------------------------------------//
 
