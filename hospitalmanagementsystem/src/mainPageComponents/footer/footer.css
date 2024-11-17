@@ -1,0 +1,10 @@
+.FooterRow {
+  background-color: rgb(96, 139, 193, 0.75);
+  height: 10vh;
+}
+
+.FooterCol {
+  font-size: medium;
+  display: flex;
+  justify-content: center;
+}

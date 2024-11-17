@@ -1,0 +1,20 @@
+.ContentRow {
+  background-color: lightgray;
+  height: 80vh;
+}
+
+.ContentRow {
+  background-color: lightgrey;
+  height: 80vh;
+}
+
+.menuCol {
+  background-color: rgb(201, 230, 240);
+}
+
+/* .Routerstyles{
+  background-color: rgb(212, 246, 255);
+  float: left;
+  height: 80vh;
+  padding: 5px 5px 5px 5px;
+} */

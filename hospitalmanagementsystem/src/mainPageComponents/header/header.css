@@ -1,0 +1,18 @@
+.gif-logo {
+  /* border: 2px solid red; */
+  float: left;
+  width: 90px;
+}
+
+.headerCont {
+  background-color: rgb(150, 148, 255, 0.4);
+  height: 10vh;
+}
+
+.headerContainer {
+  height: 100vh;
+}
+
+.logoCol {
+  background-color: rgb(235, 234, 255);
+}
