@@ -138,25 +138,30 @@ root.render(
 
             {/* Switch */}
             {/* <MainDataContext.Provider value = {this.state.name}/> */}
-            <Routes>
-              {/* <Route path="/" element={<Admin />} /> */}
-              <Route path="/InsertPatient" element={<InsertPatient />} />
-              <Route path="/Patientdetails" element={<FetchPatient />} />
-              <Route path="/fetchAll" element={<FetchAll />} />
-              <Route path="/updatePatient" element={<UpdatePatient />} />
-              <Route path="/addAppointment" element={<AddAppointments />} />
-              <Route path="/fetchByPhoneNumber" element={<FetchByPhone />} />
-              <Route path="/getDetailsByDate" element={<AppointmentDate />} />
-              <Route path="/fullname" element={<PatientName />} />
-              <Route
-                path="/patientDetailsByDOB"
-                element={<PatientsBetTwoDates />}
-              />
-              <Route path="/Ascending" element={<Ascending />} />
-              <Route path="/MostDOB" element={<CommomDOB />} />
-              <Route path="/mostAppointments" element={<MostAppointments />} />
-              <Route path="/patientCount" element={<Count />} />
-            </Routes>
+            <div>
+              <Routes>
+                {/* <Route path="/" element={<Admin />} /> */}
+                <Route path="/InsertPatient" element={<InsertPatient />} />
+                <Route path="/Patientdetails" element={<FetchPatient />} />
+                <Route path="/fetchAll" element={<FetchAll />} />
+                <Route path="/updatePatient" element={<UpdatePatient />} />
+                <Route path="/addAppointment" element={<AddAppointments />} />
+                <Route path="/fetchByPhoneNumber" element={<FetchByPhone />} />
+                <Route path="/getDetailsByDate" element={<AppointmentDate />} />
+                <Route path="/fullname" element={<PatientName />} />
+                <Route
+                  path="/patientDetailsByDOB"
+                  element={<PatientsBetTwoDates />}
+                />
+                <Route path="/Ascending" element={<Ascending />} />
+                <Route path="/MostDOB" element={<CommomDOB />} />
+                <Route
+                  path="/mostAppointments"
+                  element={<MostAppointments />}
+                />
+                <Route path="/patientCount" element={<Count />} />
+              </Routes>
+            </div>
           </Router>
         </Col>
 
@@ -168,7 +173,9 @@ root.render(
       <Row className="FooterRow">
         {/* Footer column */}
         <Col>
-          <h1 className="FooterCol">Copyright @2024 Hospital Management. All rights reserved</h1>
+          <h1 className="FooterCol">
+            Copyright @2024 Hospital Management. All rights reserved
+          </h1>
         </Col>
       </Row>
     </Container>
