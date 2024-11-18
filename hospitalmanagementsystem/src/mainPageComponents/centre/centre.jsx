@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import {
   BrowserRouter as Router,
@@ -24,18 +24,31 @@ import MostAppointments from "../../findPatientWithMostAppointments/findPatientW
 import Count from "../../findTotalPatientsCount/findTotalPatientsCount.jsx";
 
 export default class centre extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeRoute: "/",
+    };
+  }
+
+  handleButtonClick = (route) => {
+    this.setState({ activeRoute: route });
+  };
+
   render() {
+    const { activeRoute } = this.state;
     return (
       <div>
-        <Container fluid>
-          {/* Content Row */}
-          <Row className="ContentRow">
-            {/* ! menu column */}
-            <Col sm={2} xs={2} md={2} lg={2} className="menuCol">
-              {/* Router tags */}
-              <Router>
-                <div className="Routerstyles">
-                  {/* unordered lists */}
+        {/* Router for the menu part and content part */}
+        <Router>
+          {/* Container tag */}
+          <Container fluid>
+            {/* Single row for the menu and content parts */}
+            <Row className="ContentRow">
+              {/* first column: menu */}
+              <Col sm={2} xs={2} md={2} lg={2} className="menuCol">
+                {/* change to button from unordered lists */}
+                <div>
                   <ul>
                     <li>
                       <NavLink activeClassName="active" to="/InsertPatient">
@@ -122,49 +135,42 @@ export default class centre extends Component {
                     </li>
                   </ul>
                 </div>
+              </Col>
 
-                {/* Switch */}
-                {/* <MainDataContext.Provider value = {this.state.name}/> */}
-                <div>
-                  <Routes>
-                    {/* <Route path="/" element={<Admin />} /> */}
-                    <Route path="/InsertPatient" element={<InsertPatient />} />
-                    <Route path="/Patientdetails" element={<FetchPatient />} />
-                    <Route path="/fetchAll" element={<FetchAll />} />
-                    <Route path="/updatePatient" element={<UpdatePatient />} />
-                    <Route
-                      path="/addAppointment"
-                      element={<AddAppointments />}
-                    />
-                    <Route
-                      path="/fetchByPhoneNumber"
-                      element={<FetchByPhone />}
-                    />
-                    <Route
-                      path="/getDetailsByDate"
-                      element={<AppointmentDate />}
-                    />
-                    <Route path="/fullname" element={<PatientName />} />
-                    <Route
-                      path="/patientDetailsByDOB"
-                      element={<PatientsBetTwoDates />}
-                    />
-                    <Route path="/Ascending" element={<Ascending />} />
-                    <Route path="/MostDOB" element={<CommomDOB />} />
-                    <Route
-                      path="/mostAppointments"
-                      element={<MostAppointments />}
-                    />
-                    <Route path="/patientCount" element={<Count />} />
-                  </Routes>
-                </div>
-              </Router>
-            </Col>
-
-            {/* content column */}
-            <Col sm={10} xs={10} md={10} lg={10}></Col>
-          </Row>
-        </Container>
+              {/* second column: content showing column */}
+              <Col sm={10} xs={10} md={10} lg={10}>
+                <Routes>
+                  <Route path="/" element={<Admin />} />
+                  <Route path="/InsertPatient" element={<InsertPatient />} />
+                  <Route path="/Patientdetails" element={<FetchPatient />} />
+                  <Route path="/fetchAll" element={<FetchAll />} />
+                  <Route path="/updatePatient" element={<UpdatePatient />} />
+                  <Route path="/addAppointment" element={<AddAppointments />} />
+                  <Route
+                    path="/fetchByPhoneNumber"
+                    element={<FetchByPhone />}
+                  />
+                  <Route
+                    path="/getDetailsByDate"
+                    element={<AppointmentDate />}
+                  />
+                  <Route path="/fullname" element={<PatientName />} />
+                  <Route
+                    path="/patientDetailsByDOB"
+                    element={<PatientsBetTwoDates />}
+                  />
+                  <Route path="/Ascending" element={<Ascending />} />
+                  <Route path="/MostDOB" element={<CommomDOB />} />
+                  <Route
+                    path="/mostAppointments"
+                    element={<MostAppointments />}
+                  />
+                  <Route path="/patientCount" element={<Count />} />
+                </Routes>
+              </Col>
+            </Row>
+          </Container>
+        </Router>
       </div>
     );
   }
