@@ -1,7 +1,9 @@
 .gif-logo {
   /* border: 2px solid red; */
-  float: left;
-  width: 90px;
+  /* float: left; */
+  align-items: center;
+  max-width: 70%;
+  height: auto;
 }
 
 .headerCont {

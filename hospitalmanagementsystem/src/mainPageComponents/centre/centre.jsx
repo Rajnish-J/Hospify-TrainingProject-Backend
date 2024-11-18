@@ -1,9 +1,10 @@
 import React, { Component, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Button } from "react-bootstrap";
 import {
   BrowserRouter as Router,
   Route,
   NavLink,
+  Link,
   Routes,
 } from "react-router-dom";
 import "../centre/centre.css";
@@ -24,10 +25,10 @@ import MostAppointments from "../../findPatientWithMostAppointments/findPatientW
 import Count from "../../findTotalPatientsCount/findTotalPatientsCount.jsx";
 
 export default class centre extends Component {
-  constructor(props) {
+  constructor(props) { 
     super(props);
     this.state = {
-      activeRoute: "/",
+      activeRoute: "",
     };
   }
 
@@ -47,98 +48,196 @@ export default class centre extends Component {
             <Row className="ContentRow">
               {/* first column: menu */}
               <Col sm={2} xs={2} md={2} lg={2} className="menuCol">
-                {/* change to button from unordered lists */}
-                <div>
-                  <ul>
-                    <li>
-                      <NavLink activeClassName="active" to="/InsertPatient">
-                        Insert patient
-                      </NavLink>
-                    </li>
+                {/* div: menu */}
+                <div className="menuDiv">
+                  {/* Insert new patient */}
+                  <Link to="/InsertPatient">
+                    <Button
+                      variant={
+                        activeRoute === "/InsertPatient" ? "primary" : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() => this.handleButtonClick("/InsertPatient")}
+                    >
+                      Add Patient
+                    </Button>
+                  </Link>
 
-                    <li>
-                      <NavLink activeClassName="active" to="/Patientdetails">
-                        Fetch Details by Id
-                      </NavLink>
-                    </li>
+                  {/* fetch patient details by id */}
+                  <Link to="/Patientdetails">
+                    <Button
+                      variant={
+                        activeRoute === "/Patientdetails" ? "primary" : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() => this.handleButtonClick("/Patientdetails")}
+                    >
+                      Fetch Patient Details
+                    </Button>
+                  </Link>
 
-                    <li>
-                      <NavLink activeClassName="active" to="/fetchAll">
-                        Fetch all patient Details
-                      </NavLink>
-                    </li>
+                  {/* fetching all patient details */}
+                  <Link to="/fetchAll">
+                    <Button
+                      variant={
+                        activeRoute === "/fetchAll" ? "primary" : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() => this.handleButtonClick("/fetchAll")}
+                    >
+                      Fetch all patient Details
+                    </Button>
+                  </Link>
 
-                    <li>
-                      <NavLink activeClassName="active" to="/updatePatient">
-                        update patient Details
-                      </NavLink>
-                    </li>
+                  {/* updating patient details */}
+                  <Link to="/updatePatient">
+                    <Button
+                      variant={
+                        activeRoute === "/updatePatient" ? "primary" : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() => this.handleButtonClick("/updatePatient")}
+                    >
+                      update patient Details
+                    </Button>
+                  </Link>
 
-                    <li>
-                      <NavLink activeClassName="active" to="/addAppointment">
-                        add appointment
-                      </NavLink>
-                    </li>
+                  {/* associate: adding one or more appointments */}
+                  <Link to="/addAppointment">
+                    <Button
+                      variant={
+                        activeRoute === "/addAppointment" ? "primary" : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() => this.handleButtonClick("/addAppointment")}
+                    >
+                      Add appointment
+                    </Button>
+                  </Link>
 
-                    <li>
-                      <NavLink
-                        activeClassName="active"
-                        to="/fetchByPhoneNumber"
-                      >
-                        Get Details by phone number
-                      </NavLink>
-                    </li>
+                  {/* fetching patient details  by phone number */}
+                  <Link to="/fetchByPhoneNumber">
+                    <Button
+                      variant={
+                        activeRoute === "/fetchByPhoneNumber"
+                          ? "primary"
+                          : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() =>
+                        this.handleButtonClick("/fetchByPhoneNumber")
+                      }
+                    >
+                      Get Details by phone number
+                    </Button>
+                  </Link>
 
-                    <li>
-                      <NavLink activeClassName="active" to="/getDetailsByDate">
-                        Get patient details by appointment date
-                      </NavLink>
-                    </li>
+                  {/* fetching the patient details by the appointment date */}
+                  <Link to="/getDetailsByDate">
+                    <Button
+                      variant={
+                        activeRoute === "/getDetailsByDate"
+                          ? "primary"
+                          : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() =>
+                        this.handleButtonClick("/getDetailsByDate")
+                      }
+                    >
+                      Get patient details by appointment date
+                    </Button>
+                  </Link>
 
-                    <li>
-                      <NavLink activeClassName="active" to="/fullname">
-                        get patient full name
-                      </NavLink>
-                    </li>
+                  {/* fetching the patient full name */}
+                  <Link to="/fullname">
+                    <Button
+                      variant={
+                        activeRoute === "/fullname" ? "primary" : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() => this.handleButtonClick("/fullname")}
+                    >
+                      get patient full name
+                    </Button>
+                  </Link>
 
-                    <li>
-                      <NavLink
-                        activeClassName="active"
-                        to="/patientDetailsByDOB"
-                      >
-                        get patients by two dates
-                      </NavLink>
-                    </li>
+                  {/* fetching patients details between two birthday dates */}
+                  <Link to="/patientDetailsByDOB">
+                    <Button
+                      variant={
+                        activeRoute === "/patientDetailsByDOB"
+                          ? "primary"
+                          : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() =>
+                        this.handleButtonClick("/patientDetailsByDOB")
+                      }
+                    >
+                      get patients Details between two birthdat dates
+                    </Button>
+                  </Link>
 
-                    <li>
-                      <NavLink activeClassName="active" to="/Ascending">
-                        fetch ascending order
-                      </NavLink>
-                    </li>
+                  {/* fetching all the patient details in the ascending order */}
+                  <Link to="/Ascending">
+                    <Button
+                      variant={
+                        activeRoute === "/Ascending" ? "primary" : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() => this.handleButtonClick("/Ascending")}
+                    >
+                      Ascending
+                    </Button>
+                  </Link>
 
-                    <li>
-                      <NavLink activeClassName="active" to="/MostDOB">
-                        Patients Having most Date Of Birth
-                      </NavLink>
-                    </li>
+                  {/* patients details having more commom date of birthday's */}
+                  <Link to="/MostDOB">
+                    <Button
+                      variant={activeRoute === "/MostDOB" ? "primary" : "light"}
+                      className="w-100 mb-2 Button"
+                      onClick={() => this.handleButtonClick("/MostDOB")}
+                    >
+                      Patients having most same DOB
+                    </Button>
+                  </Link>
 
-                    <li>
-                      <NavLink activeClassName="active" to="/mostAppointments">
-                        Patient with Most appointments
-                      </NavLink>
-                    </li>
+                  {/* patient having more appointments */}
+                  <Link to="/mostAppointments">
+                    <Button
+                      variant={
+                        activeRoute === "/mostAppointments"
+                          ? "primary"
+                          : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() =>
+                        this.handleButtonClick("/mostAppointments")
+                      }
+                    >
+                      Patient with Most appointments
+                    </Button>
+                  </Link>
 
-                    <li>
-                      <NavLink activeClassName="active" to="/patientCount">
-                        Total Patient Count
-                      </NavLink>
-                    </li>
-                  </ul>
+                  {/* total patients count */}
+                  <Link to="/patientCount">
+                    <Button
+                      variant={
+                        activeRoute === "/patientCount" ? "primary" : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() => this.handleButtonClick("/patientCount")}
+                    >
+                      Total Patient Count
+                    </Button>
+                  </Link>
                 </div>
               </Col>
 
               {/* second column: content showing column */}
-              <Col sm={10} xs={10} md={10} lg={10}>
+              <Col sm={10} xs={10} md={10} lg={10} className="contentCol">
+                {/* Routes to the respective pages or components or API's */}
                 <Routes>
                   <Route path="/" element={<Admin />} />
                   <Route path="/InsertPatient" element={<InsertPatient />} />

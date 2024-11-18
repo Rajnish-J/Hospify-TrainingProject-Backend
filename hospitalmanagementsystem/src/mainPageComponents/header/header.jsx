@@ -13,7 +13,7 @@ export default class header extends Component {
           {/* header Row */}
           <Row className="headerCont">
             {/* logo column */}
-            <Col sm={1} xs={1} md={1} lg={1} className="logoCol">
+            <Col sm={2} xs={3} md={1} lg={1} className="logoCol">
               <img src={logoGif} alt="Animated Logo" className="gif-logo" />
             </Col>
 
