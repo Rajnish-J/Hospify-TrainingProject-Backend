@@ -239,7 +239,7 @@ export default class centre extends Component {
               <Col sm={10} xs={10} md={10} lg={10} className="contentCol">
                 {/* Routes to the respective pages or components or API's */}
                 <Routes>
-                  <Route path="/" element={<Admin />} />
+                  {/* <Route path="/" element={<Admin />} /> */}
                   <Route path="/InsertPatient" element={<InsertPatient />} />
                   <Route path="/Patientdetails" element={<FetchPatient />} />
                   <Route path="/fetchAll" element={<FetchAll />} />
