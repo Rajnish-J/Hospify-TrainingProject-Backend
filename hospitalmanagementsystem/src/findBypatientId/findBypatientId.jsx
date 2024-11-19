@@ -49,7 +49,7 @@ export default class findBypatientId extends Component {
       return;
     }
 
-    const patientDetails = this.patients[patientID];
+    const patientDetails = this.patients[Number(patientID)];
     if (patientDetails) {
       this.setState({ patientDetails, error: null });
     } else {
