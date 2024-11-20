@@ -103,13 +103,13 @@ public class PatientService {
 
 	// update method
 	@Transactional
-	public ResponseHandle updatePatientDetails(long id) throws IdException, PatientException, PhoneNumberException,
-			EmailException, PasswordException, genderException {
+	public ResponseHandle updatePatientDetails(PatientVO vo, int option) throws IdException, PatientException,
+			PhoneNumberException, EmailException, PasswordException, genderException {
 		log.info("Update method triggered...");
-		PatientVO flag = patientBO.updatePatientDetails(id);
+		PatientVO flag = patientBO.updatePatientDetails(vo, option);
 		log.info("updatePatientDetails called in BO layer");
 		if (flag != null) {
-			String pass = "Successfully updated patient details for Patient ID: " + id;
+			String pass = "Successfully updated patient details for Patient ID: " + vo.getPatientId();
 			log.info(pass);
 			response.setSucessMessage("updated the patient details successfully for the patient ID: ");
 			response.setPatient(flag);

@@ -63,14 +63,51 @@ public class PatientBO {
 	}
 
 	// update method:
-	public PatientVO updatePatientDetails(long id) throws IdException, PatientException, PhoneNumberException,
-			EmailException, PasswordException, genderException {
-		if (validateID(id)) {
-			PatientVO vo = patientRepo.findById(id).get();
-			validatePatient(vo);
-			vo.setLastName("Jai");
-			vo = patientRepo.save(vo);
-			return vo;
+	public PatientVO updatePatientDetails(PatientVO vo, int option) throws IdException, PatientException,
+			PhoneNumberException, EmailException, PasswordException, genderException {
+		if (validateID(vo.getPatientId())) {
+			if (option == 1) {
+				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
+				validatePatient(vo1);
+				vo1.setFirstName(vo.getFirstName());
+				vo1 = patientRepo.save(vo1);
+				return vo1;
+			}
+			if (option == 2) {
+				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
+				validatePatient(vo1);
+				vo1.setLastName(vo.getLastName());
+				vo1 = patientRepo.save(vo1);
+				return vo1;
+			}
+			if (option == 3) {
+				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
+				validatePatient(vo1);
+				vo1.setPatientPhone(vo.getPatientPhone());
+				vo1 = patientRepo.save(vo1);
+				return vo1;
+			}
+			if (option == 4) {
+				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
+				validatePatient(vo1);
+				vo1.setDob(vo.getDob());
+				vo1 = patientRepo.save(vo1);
+				return vo1;
+			}
+			if (option == 5) {
+				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
+				validatePatient(vo1);
+				vo1.setPatientEmail(vo.getPatientEmail());
+				vo1 = patientRepo.save(vo1);
+				return vo1;
+			}
+			if (option == 6) {
+				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
+				validatePatient(vo1);
+				vo1.setPatientPassword(vo.getPatientPassword());
+				vo1 = patientRepo.save(vo1);
+				return vo1;
+			}
 		}
 		return null;
 	}

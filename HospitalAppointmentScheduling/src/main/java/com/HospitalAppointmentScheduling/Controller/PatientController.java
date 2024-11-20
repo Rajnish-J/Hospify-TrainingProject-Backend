@@ -131,10 +131,19 @@ public class PatientController {
 
 	// update method
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updatePatientDetails(@PathVariable long id) {
+	public ResponseEntity<?> updatePatientDetails(@RequestBody PatientDTO dto, @PathVariable int id) {
 		log.info("patient chooses Update their information by their ID...");
+		PatientVO vo = new PatientVO();
+		vo.setPatientId(dto.getPatientId());
+		vo.setFirstName(dto.getFirstName());
+		vo.setLastName(dto.getLastName());
+		vo.setDob(dto.getDob());
+		vo.setPatientPhone(dto.getPatientPhone());
+		vo.setPatientEmail(dto.getPatientEmail());
+		vo.setPatientPassword(dto.getPatientPassword());
+		vo.setGender(dto.getGender());
 		try {
-			res = pservice.updatePatientDetails(id);
+			res = pservice.updatePatientDetails(vo, id);
 			String pass = "Patient details updated successfully for ID: " + id;
 			log.info(pass);
 			return ResponseEntity.ok(mapToDTO(res.getPatient()));

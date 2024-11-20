@@ -277,7 +277,9 @@ public class HospitalAppointmentSchedulingApplication {
 				} while (mainRepeat);
 			} else {
 				tryLogIn--;
-				System.out.println(refAuth.getFailureMessage());
+				if (tryLogIn > 0) {
+					System.out.println(refAuth.getFailureMessage() + "you are having " + tryLogIn + " attempts");
+				}
 				if (tryLogIn == 0) {
 					System.out.println(
 							"Your all chances are finished, here after you can only logIn on tomorrow, Thanks for using Hospital Management System application");
@@ -371,11 +373,88 @@ public class HospitalAppointmentSchedulingApplication {
 
 	// update method:
 	public void updatePatient(long id) {
+		Scanner sc = new Scanner(System.in);
 		try {
-			response = pService.updatePatientDetails(id);
-			if (response.getSucessMessage() != null) {
-				System.out.println(response.getSucessMessage() + response.getId());
+			System.out.print("1. First Name\n2. Last Name\n3. Phone number\n4. Date of Birth\n5. Email\n6. Password");
+			System.out.println();
+			System.out.print("Enter the number to choose the field to change: ");
+			int upt = sc.nextInt();
+			switch (upt) {
+			case 1: {
+				System.out.print("Enter the new First Name: ");
+				PatientVO vo = new PatientVO();
+				vo.setPatientId(id);
+				vo.setFirstName(sc.next());
+				response = pService.updatePatientDetails(vo, 1);
+				if (response.getSucessMessage() != null) {
+					System.out.println(response.getSucessMessage() + response.getId());
+				}
+				break;
 			}
+			case 2: {
+				System.out.print("Enter the new Last Name: ");
+				PatientVO vo = new PatientVO();
+				vo.setPatientId(id);
+				vo.setLastName(sc.next());
+				response = pService.updatePatientDetails(vo, 2);
+				if (response.getSucessMessage() != null) {
+					System.out.println(response.getSucessMessage() + response.getId());
+				}
+				break;
+			}
+			case 3: {
+				System.out.print("Enter the new Phone number: ");
+				PatientVO vo = new PatientVO();
+				vo.setPatientId(id);
+				vo.setPatientPhone(sc.next());
+				response = pService.updatePatientDetails(vo, 3);
+				if (response.getSucessMessage() != null) {
+					System.out.println(response.getSucessMessage() + response.getId());
+				}
+				break;
+			}
+			case 4: {
+				System.out.print("Enter the new Date of Birth in the format (YYYY-MM-DD): ");
+				PatientVO vo = new PatientVO();
+				vo.setPatientId(id);
+				String date = sc.next();
+				DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				LocalDate dob = LocalDate.parse(date, format);
+				vo.setDob(dob);
+				response = pService.updatePatientDetails(vo, 4);
+				if (response.getSucessMessage() != null) {
+					System.out.println(response.getSucessMessage() + response.getId());
+				}
+				break;
+			}
+			case 5: {
+				System.out.print("Enter the new Email: ");
+				PatientVO vo = new PatientVO();
+				vo.setPatientId(id);
+				vo.setPatientEmail(sc.next());
+				response = pService.updatePatientDetails(vo, 5);
+				if (response.getSucessMessage() != null) {
+					System.out.println(response.getSucessMessage() + response.getId());
+				}
+				break;
+			}
+			case 6: {
+				System.out.print("Enter the new Password: ");
+				PatientVO vo = new PatientVO();
+				vo.setPatientId(id);
+				vo.setPatientPassword(sc.next());
+				response = pService.updatePatientDetails(vo, 6);
+				if (response.getSucessMessage() != null) {
+					System.out.println(response.getSucessMessage() + response.getId());
+				}
+				break;
+			}
+			default: {
+				System.out.println("Enter the correct number to update");
+			}
+
+			}
+
 		} catch (IdException e) {
 			System.err.println(e.getMessage());
 		} catch (PatientException e) {
