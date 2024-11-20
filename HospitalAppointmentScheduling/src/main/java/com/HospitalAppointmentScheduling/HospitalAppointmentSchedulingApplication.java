@@ -25,6 +25,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.CustomExceptions.ReasonException;
+import com.HospitalAppointmentScheduling.CustomExceptions.genderException;
 import com.HospitalAppointmentScheduling.DAO.DoctorDetailsProjection;
 import com.HospitalAppointmentScheduling.DTO.PatientDTO;
 import com.HospitalAppointmentScheduling.Entity.AppointmentStatusVO;
@@ -313,6 +314,9 @@ public class HospitalAppointmentSchedulingApplication {
 		System.out.print("Enter the Password: ");
 		patient.setPatientPassword(sc.next());
 
+		System.out.println("Enter the gender: ");
+		patient.setGender(sc.next());
+
 		try {
 			response = pService.insertPatientDetails(patient);
 		} catch (PatientException e) {
@@ -324,6 +328,8 @@ public class HospitalAppointmentSchedulingApplication {
 		} catch (PasswordException e) {
 			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		} catch (DateOfBirthException e) {
+			System.err.println(e.getMessage() + ", hence your patient could not registered");
+		} catch (genderException e) {
 			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		}
 
@@ -379,6 +385,8 @@ public class HospitalAppointmentSchedulingApplication {
 		} catch (EmailException e) {
 			System.err.println(e.getMessage());
 		} catch (PasswordException e) {
+			System.err.println(e.getMessage());
+		} catch (genderException e) {
 			System.err.println(e.getMessage());
 		}
 	}
@@ -468,6 +476,8 @@ public class HospitalAppointmentSchedulingApplication {
 			System.err.println(e.getMessage() + ", hence your patient could not registered");
 		} catch (ReasonException e) {
 			System.err.println(e.getMessage() + ", hence your patient could not registered");
+		} catch (genderException e) {
+			System.err.println(e.getMessage());
 		}
 
 		long id = response.getId();
@@ -688,6 +698,9 @@ public class HospitalAppointmentSchedulingApplication {
 		System.out.print("Enter the Password: ");
 		patient.setPatientPassword(sc.next());
 
+		System.out.println("Enter the gender: ");
+		patient.setGender(sc.next());
+
 		try {
 			response = pService.insertPatientDetails(patient);
 		} catch (PatientException e) {
@@ -699,6 +712,8 @@ public class HospitalAppointmentSchedulingApplication {
 		} catch (PasswordException e) {
 			System.err.println(e.getMessage());
 		} catch (DateOfBirthException e) {
+			System.err.println(e.getMessage());
+		} catch (genderException e) {
 			System.err.println(e.getMessage());
 		}
 

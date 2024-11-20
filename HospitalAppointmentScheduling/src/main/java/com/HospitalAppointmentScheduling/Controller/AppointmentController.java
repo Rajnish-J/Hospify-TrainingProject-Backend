@@ -26,6 +26,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.CustomExceptions.ReasonException;
+import com.HospitalAppointmentScheduling.CustomExceptions.genderException;
 import com.HospitalAppointmentScheduling.DTO.AppointmentDTO;
 import com.HospitalAppointmentScheduling.DTO.AppointmentPatientDoctorAppointmentStatusDTO;
 import com.HospitalAppointmentScheduling.Entity.AppointmentStatusVO;
@@ -97,6 +98,9 @@ public class AppointmentController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (DateOfBirthException e) {
 			log.error("Date of Birth format is not in the pattern", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (genderException e) {
+			log.error("Gender you entered is not valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 

@@ -26,6 +26,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.CustomExceptions.ReasonException;
+import com.HospitalAppointmentScheduling.CustomExceptions.genderException;
 import com.HospitalAppointmentScheduling.DTO.AppointmentDTO;
 import com.HospitalAppointmentScheduling.DTO.PatientDTO;
 import com.HospitalAppointmentScheduling.DTO.PatientDoctorDTO;
@@ -61,6 +62,7 @@ public class PatientController {
 		vo.setPatientPassword(dto.getPatientPassword());
 		vo.setPatientPhone(dto.getPatientPhone());
 		vo.setDob(dto.getDob());
+		vo.setGender(dto.getGender());
 		String pass = "Patient details being processed for insertion: " + vo;
 		log.info(pass);
 
@@ -86,6 +88,9 @@ public class PatientController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (DateOfBirthException e) {
 			log.error("Date of Birth format is not in the pattern", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (genderException e) {
+			log.error("Gender you entered is not valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 
@@ -126,7 +131,7 @@ public class PatientController {
 
 	// update method
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> fetchpatientDetails(@PathVariable long id) {
+	public ResponseEntity<?> updatePatientDetails(@PathVariable long id) {
 		log.info("patient chooses Update their information by their ID...");
 		try {
 			res = pservice.updatePatientDetails(id);
@@ -148,6 +153,9 @@ public class PatientController {
 		} catch (PasswordException e) {
 			log.error("password format is not valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (genderException e) {
+			log.error("Gender you entered is not valid", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
 
@@ -164,6 +172,7 @@ public class PatientController {
 		vo.setPatientPassword(dto.getPatient().getPatientPassword());
 		vo.setPatientPhone(dto.getPatient().getPatientPhone());
 		vo.setDob(dto.getPatient().getDob());
+		vo.setGender(dto.getPatient().getGender());
 		String pass = "Patient details to be associated with appointments: " + vo;
 		log.info(pass);
 
@@ -224,6 +233,9 @@ public class PatientController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (ReasonException e) {
 			log.error("Reason Exception caught: ", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		} catch (genderException e) {
+			log.error("Gender you entered is not valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
@@ -382,6 +394,7 @@ public class PatientController {
 		dto.setUpdatedAt(vo.getUpdatedAt());
 		dto.setCreatedAt(vo.getCreatedAt());
 		dto.setPatientId(vo.getPatientId());
+		dto.setGender(vo.getGender());
 
 		return dto;
 

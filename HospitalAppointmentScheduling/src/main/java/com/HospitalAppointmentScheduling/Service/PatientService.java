@@ -18,6 +18,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.CustomExceptions.ReasonException;
+import com.HospitalAppointmentScheduling.CustomExceptions.genderException;
 import com.HospitalAppointmentScheduling.DAO.PatientProjection;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandle;
@@ -48,8 +49,8 @@ public class PatientService {
 
 	// insert method
 	@Transactional
-	public ResponseHandle insertPatientDetails(PatientVO vo)
-			throws PatientException, PhoneNumberException, EmailException, PasswordException, DateOfBirthException {
+	public ResponseHandle insertPatientDetails(PatientVO vo) throws PatientException, PhoneNumberException,
+			EmailException, PasswordException, DateOfBirthException, genderException {
 		log.info("Insert method triggered...");
 		PatientVO flag = patientBO.insertPatientDetails(vo);
 		log.info("insertPatientDetails called in BO layer");
@@ -102,8 +103,8 @@ public class PatientService {
 
 	// update method
 	@Transactional
-	public ResponseHandle updatePatientDetails(long id)
-			throws IdException, PatientException, PhoneNumberException, EmailException, PasswordException {
+	public ResponseHandle updatePatientDetails(long id) throws IdException, PatientException, PhoneNumberException,
+			EmailException, PasswordException, genderException {
 		log.info("Update method triggered...");
 		PatientVO flag = patientBO.updatePatientDetails(id);
 		log.info("updatePatientDetails called in BO layer");
@@ -125,7 +126,7 @@ public class PatientService {
 			DateOfBirthException.class })
 	public ResponseHandle associate(PatientVO vo)
 			throws PatientException, PhoneNumberException, EmailException, PasswordException, AppointmentException,
-			AppointmentBookingDateException, DateOfBirthException, ReasonException {
+			AppointmentBookingDateException, DateOfBirthException, ReasonException, genderException {
 		log.info("Asscoiate method triggered...");
 		PatientVO inserted = patientBO.associate(vo);
 		log.info("associate method called in BO layer");

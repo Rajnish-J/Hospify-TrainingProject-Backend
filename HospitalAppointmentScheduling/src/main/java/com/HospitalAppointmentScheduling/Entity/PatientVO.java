@@ -54,6 +54,9 @@ public class PatientVO {
 	@Column(name = "patient_password", nullable = false, unique = true)
 	private String patientPassword;
 
+	@Column(name = "gender", nullable = false)
+	private String gender;
+
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createdAt", nullable = false)
@@ -149,12 +152,21 @@ public class PatientVO {
 		this.appointments = appointments;
 	}
 
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
 	// ToString method
 	@Override
 	public String toString() {
-		return "patientVO [patientId=" + patientId + ", firstName=" + firstName + ", lastName=" + lastName + ", dob="
-				+ dob + ", PatientPhone=" + patientPhone + ", PatientEmail=" + patientEmail + ", PatientPassword="
-				+ patientPassword + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+		return "PatientVO [patientId=" + patientId + ", firstName=" + firstName + ", lastName=" + lastName + ", dob="
+				+ dob + ", patientPhone=" + patientPhone + ", patientEmail=" + patientEmail + ", patientPassword="
+				+ patientPassword + ", gender=" + gender + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ ", appointments=" + appointments + "]";
 	}
 
 }

@@ -16,6 +16,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.CustomExceptions.ReasonException;
+import com.HospitalAppointmentScheduling.CustomExceptions.genderException;
 import com.HospitalAppointmentScheduling.DAO.PatientProjection;
 import com.HospitalAppointmentScheduling.DAO.PatientRepo;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
@@ -38,8 +39,8 @@ public class PatientBO {
 	}
 
 	// Insert method:
-	public PatientVO insertPatientDetails(PatientVO vo)
-			throws PatientException, PhoneNumberException, EmailException, PasswordException, DateOfBirthException {
+	public PatientVO insertPatientDetails(PatientVO vo) throws PatientException, PhoneNumberException, EmailException,
+			PasswordException, DateOfBirthException, genderException {
 		if (validatePatient(vo) && validateDOB(vo.getDob())) {
 			patientRepo.save(vo);
 			return vo;
@@ -62,8 +63,8 @@ public class PatientBO {
 	}
 
 	// update method:
-	public PatientVO updatePatientDetails(long id)
-			throws IdException, PatientException, PhoneNumberException, EmailException, PasswordException {
+	public PatientVO updatePatientDetails(long id) throws IdException, PatientException, PhoneNumberException,
+			EmailException, PasswordException, genderException {
 		if (validateID(id)) {
 			PatientVO vo = patientRepo.findById(id).get();
 			validatePatient(vo);
@@ -77,7 +78,7 @@ public class PatientBO {
 	// associate method
 	public PatientVO associate(PatientVO vo)
 			throws PatientException, PhoneNumberException, EmailException, PasswordException, AppointmentException,
-			AppointmentBookingDateException, DateOfBirthException, ReasonException {
+			AppointmentBookingDateException, DateOfBirthException, ReasonException, genderException {
 		List<AppointmentsVO> appts = vo.getAppointments();
 		for (AppointmentsVO obj : appts) {
 			LocalDate date = obj.getAppointmentDate();
@@ -155,6 +156,17 @@ public class PatientBO {
 	}
 
 	// validation methods:
+
+	public boolean validateGender(String gender) throws genderException {
+		if (!(gender.equals("male")) && !(gender.equals("female")) && !(gender.equals("others"))) {
+			throw new genderException("ERROR: give valid gender");
+		}
+		if (gender.isEmpty() || gender == null) {
+			throw new genderException("gender could not be empty");
+		}
+		return true;
+	}
+
 	public boolean validatePhoneNumber(String phoneNumber) throws PhoneNumberException {
 		if (phoneNumber == null || phoneNumber.length() != 10) {
 			throw new PhoneNumberException("ERROR: The phone number lenght is atleast 10");
@@ -393,10 +405,11 @@ public class PatientBO {
 
 	// Main validation method to validate a patient object:
 	public boolean validatePatient(PatientVO vo)
-			throws PatientException, PhoneNumberException, EmailException, PasswordException {
+			throws PatientException, PhoneNumberException, EmailException, PasswordException, genderException {
 		return validatePhoneNumber(vo.getPatientPhone()) && validateEmail(vo.getPatientEmail())
 				&& validatePassword(vo.getPatientPassword()) && validateFirstName(vo.getFirstName())
-				&& validateLastName(vo.getLastName()) && validateCombinedName(vo.getFirstName(), vo.getLastName());
+				&& validateLastName(vo.getLastName()) && validateCombinedName(vo.getFirstName(), vo.getLastName())
+				&& validateGender(vo.getGender().toLowerCase());
 
 	}
 }

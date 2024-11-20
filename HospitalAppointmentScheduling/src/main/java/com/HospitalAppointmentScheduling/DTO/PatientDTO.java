@@ -15,6 +15,7 @@ public class PatientDTO {
 	private String patientPhone;
 	private String patientEmail;
 	private String patientPassword;
+	private String gender;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	private List<AppointmentDTO> appointments;
@@ -108,12 +109,20 @@ public class PatientDTO {
 		this.doctor = doctor;
 	}
 
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
 	@Override
 	public String toString() {
 		return "PatientDTO [patientId=" + patientId + ", firstName=" + firstName + ", lastName=" + lastName + ", dob="
 				+ dob + ", patientPhone=" + patientPhone + ", patientEmail=" + patientEmail + ", patientPassword="
-				+ patientPassword + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", appointments="
-				+ appointments + ", doctor=" + doctor + "]";
+				+ patientPassword + ", gender=" + gender + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ ", appointments=" + appointments + ", doctor=" + doctor + "]";
 	}
 
 }
