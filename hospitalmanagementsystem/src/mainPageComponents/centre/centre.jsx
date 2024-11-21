@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import "../centre/centre.css";
 
+import Login from "../PatientLogin/patlogin.jsx";
 import Admin from "../Admin/admin.jsx";
 import InsertPatient from "../../InsertPatients/insertpatient.jsx";
 import FetchPatient from "../../findBypatientId/findBypatientId.jsx";
@@ -25,7 +26,7 @@ import MostAppointments from "../../findPatientWithMostAppointments/findPatientW
 import Count from "../../findTotalPatientsCount/findTotalPatientsCount.jsx";
 
 export default class centre extends Component {
-  constructor(props) { 
+  constructor(props) {
     super(props);
     this.state = {
       activeRoute: "",
@@ -50,6 +51,17 @@ export default class centre extends Component {
               <Col sm={2} xs={2} md={2} lg={2} className="menuCol">
                 {/* div: menu */}
                 <div className="menuDiv">
+                  {/* Login button */}
+                  <Link to="/login">
+                    <Button
+                      variant={activeRoute === "/login" ? "primary" : "light"}
+                      className="w-100 mb-2 Button"
+                      onClick={() => this.handleButtonClick("/login")}
+                    >
+                      Login
+                    </Button>
+                  </Link>
+
                   {/* Insert new patient */}
                   <Link to="/InsertPatient">
                     <Button
@@ -239,6 +251,8 @@ export default class centre extends Component {
               <Col sm={10} xs={10} md={10} lg={10} className="contentCol">
                 {/* Routes to the respective pages or components or API's */}
                 <Routes>
+                  <Route path="/login" element={<Login />} />
+
                   {/* <Route path="/" element={<Admin />} /> */}
                   <Route path="/InsertPatient" element={<InsertPatient />} />
                   <Route path="/Patientdetails" element={<FetchPatient />} />
