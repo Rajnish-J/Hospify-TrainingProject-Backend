@@ -40,8 +40,10 @@ public class PatientService {
 		PatientVO vo = patientBO.patientAuthentication(email, password);
 		if (vo != null) {
 			response.setSucessMessage("Patient ID available in the db");
+			response.setFailureMessage(null);
 			response.setPatient(vo);
 		} else {
+			response.setSucessMessage(null);
 			response.setFailureMessage("patient don't have any account in the database");
 		}
 		return response;

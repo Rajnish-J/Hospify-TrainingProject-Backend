@@ -89,8 +89,8 @@ public class HospitalAppointmentSchedulingApplication {
 			System.out.print("Enter the registered patient Password: ");
 			String password = sc.next();
 
-			ResponseHandle refAuth = ref.pService.patientAuthentication(email, password);
-			if (refAuth.getSucessMessage() != null) {
+			ResponseHandle resAuth = ref.pService.patientAuthentication(email, password);
+			if (resAuth.getSucessMessage() != null) {
 				tryLogIn = 0;
 				System.out.println("Your LogIn Success...");
 				boolean mainRepeat = true;
@@ -278,7 +278,7 @@ public class HospitalAppointmentSchedulingApplication {
 			} else {
 				tryLogIn--;
 				if (tryLogIn > 0) {
-					System.out.println(refAuth.getFailureMessage() + "you are having " + tryLogIn + " attempts");
+					System.out.println(resAuth.getFailureMessage() + "you are having " + tryLogIn + " attempts");
 				}
 				if (tryLogIn == 0) {
 					System.out.println(
@@ -378,14 +378,14 @@ public class HospitalAppointmentSchedulingApplication {
 			System.out.print("1. First Name\n2. Last Name\n3. Phone number\n4. Date of Birth\n5. Email\n6. Password");
 			System.out.println();
 			System.out.print("Enter the number to choose the field to change: ");
-			int upt = sc.nextInt();
-			switch (upt) {
+			int userOption = sc.nextInt();
+			switch (userOption) {
 			case 1: {
 				System.out.print("Enter the new First Name: ");
 				PatientVO vo = new PatientVO();
 				vo.setPatientId(id);
 				vo.setFirstName(sc.next());
-				response = pService.updatePatientDetails(vo, 1);
+				response = pService.updatePatientDetails(vo, userOption);
 				if (response.getSucessMessage() != null) {
 					System.out.println(response.getSucessMessage() + response.getId());
 				}
@@ -396,7 +396,7 @@ public class HospitalAppointmentSchedulingApplication {
 				PatientVO vo = new PatientVO();
 				vo.setPatientId(id);
 				vo.setLastName(sc.next());
-				response = pService.updatePatientDetails(vo, 2);
+				response = pService.updatePatientDetails(vo, userOption);
 				if (response.getSucessMessage() != null) {
 					System.out.println(response.getSucessMessage() + response.getId());
 				}
@@ -407,7 +407,7 @@ public class HospitalAppointmentSchedulingApplication {
 				PatientVO vo = new PatientVO();
 				vo.setPatientId(id);
 				vo.setPatientPhone(sc.next());
-				response = pService.updatePatientDetails(vo, 3);
+				response = pService.updatePatientDetails(vo, userOption);
 				if (response.getSucessMessage() != null) {
 					System.out.println(response.getSucessMessage() + response.getId());
 				}
@@ -421,7 +421,7 @@ public class HospitalAppointmentSchedulingApplication {
 				DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 				LocalDate dob = LocalDate.parse(date, format);
 				vo.setDob(dob);
-				response = pService.updatePatientDetails(vo, 4);
+				response = pService.updatePatientDetails(vo, userOption);
 				if (response.getSucessMessage() != null) {
 					System.out.println(response.getSucessMessage() + response.getId());
 				}
@@ -432,7 +432,7 @@ public class HospitalAppointmentSchedulingApplication {
 				PatientVO vo = new PatientVO();
 				vo.setPatientId(id);
 				vo.setPatientEmail(sc.next());
-				response = pService.updatePatientDetails(vo, 5);
+				response = pService.updatePatientDetails(vo, userOption);
 				if (response.getSucessMessage() != null) {
 					System.out.println(response.getSucessMessage() + response.getId());
 				}
@@ -443,7 +443,7 @@ public class HospitalAppointmentSchedulingApplication {
 				PatientVO vo = new PatientVO();
 				vo.setPatientId(id);
 				vo.setPatientPassword(sc.next());
-				response = pService.updatePatientDetails(vo, 6);
+				response = pService.updatePatientDetails(vo, userOption);
 				if (response.getSucessMessage() != null) {
 					System.out.println(response.getSucessMessage() + response.getId());
 				}
