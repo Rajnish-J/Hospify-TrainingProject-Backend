@@ -7,10 +7,10 @@ export default class patlogin extends Component {
     super(props);
 
     this.state = {
-      email: "",
-      Password: "",
+      patient_email: "",
+      patient_password: "",
       isLoggedIn: false,
-      user: null,
+      patient: null,
       errorMessage: "",
     };
   }
@@ -22,23 +22,33 @@ export default class patlogin extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { email, Password } = this.state; // Match case sensitivity
-    const requestBody = { email, password: Password }; // Correct payload key
+    const { patient_email, patient_password } = this.state;
 
-    fetch("localhost:8080/loginPage/patientLogin", {
+    const requestBody = {
+      patientEmail: patient_email,
+      patientPassword: patient_password,
+    };
+
+    console.log("Request Body:", requestBody);
+
+    fetch("http://localhost:8080/loginPage/patientLogin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),
     })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Login failed"); // Keep this for non-200 responses
-        }
-        return response.json();
+        console.log("Response status:", response.status);
+        return response.json().then((data) => {
+          console.log("Response data:", data);
+          if (!response.ok) {
+            throw new Error(`Login failed: ${data.message || response.status}`);
+          }
+          return data;
+        });
       })
       .then((data) => {
-        if (data && data.userId) {
-          this.setState({ isLoggedIn: true, user: data });
+        if (data && data.patientId) {
+          this.setState({ isLoggedIn: true, patient: data, errorMessage: "" });
         } else {
           this.setState({ errorMessage: "Invalid credentials" });
         }
@@ -50,12 +60,18 @@ export default class patlogin extends Component {
   };
 
   render() {
-    const { email, password, isLoggedIn, errorMessage, user } = this.state;
+    const {
+      patient_email,
+      patient_password,
+      isLoggedIn,
+      errorMessage,
+      patient,
+    } = this.state;
 
-    // If logged in, render the Main component
     if (isLoggedIn) {
-      console.log(user);
-      return <Main user={user} />; // Render Main component after login
+      console.log(patient);
+
+      return <Main patient={patient} />;
     }
 
     return (
@@ -80,8 +96,8 @@ export default class patlogin extends Component {
                     <Form.Control
                       type="email"
                       placeholder="Enter email"
-                      name="email"
-                      value={email}
+                      name="patient_email"
+                      value={patient_email}
                       onChange={this.handleChange}
                       required
                     />
@@ -91,8 +107,8 @@ export default class patlogin extends Component {
                     <Form.Control
                       type="password"
                       placeholder="Enter password"
-                      name="password"
-                      value={password}
+                      name="patient_password"
+                      value={patient_password}
                       onChange={this.handleChange}
                       required
                     />
