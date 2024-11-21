@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import "../centre/centre.css";
 
-import Login from "../PatientLogin/patlogin.jsx";
+import Login from "../../PatientLogin/patlogin.jsx";
 import Admin from "../Admin/admin.jsx";
 import InsertPatient from "../../InsertPatients/insertpatient.jsx";
 import FetchPatient from "../../findBypatientId/findBypatientId.jsx";
