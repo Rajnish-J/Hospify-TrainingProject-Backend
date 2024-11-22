@@ -72,4 +72,11 @@ public class AppointmentDTO {
 		this.doctor = doctor;
 	}
 
+	@Override
+	public String toString() {
+		return "AppointmentDTO [appointmentID=" + appointmentID + ", appointmentDate=" + appointmentDate + ", reason="
+				+ reason + ", doctor=" + doctor + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", patient="
+				+ patient + "]";
+	}
+
 }

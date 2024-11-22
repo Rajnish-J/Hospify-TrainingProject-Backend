@@ -81,6 +81,7 @@ public class AppointmentController {
 		vo1.setPatientPassword(dto.getPatient().getPatientPassword());
 		vo1.setPatientPhone(dto.getPatient().getPatientPhone());
 		vo1.setDob(dto.getPatient().getDob());
+		vo1.setGender(dto.getPatient().getGender());
 
 		try {
 			patRes = pser.insertPatientDetails(vo1);
@@ -209,7 +210,7 @@ public class AppointmentController {
 			String pass = "Fetching appointment details by ID: " + id;
 			log.info(pass);
 			apptRes = aser.fetchByID(id);
-			return ResponseEntity.ok("Appointment Details Fetched by ID:" + apptRes.getAppoVo());
+			return ResponseEntity.ok(mapToDTO(apptRes.getAppoVo()));
 		} catch (IdException e) {
 			log.error("ID not found in the DateBase", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -266,12 +267,11 @@ public class AppointmentController {
 				listd.add(getDto);
 				log.info("Fetched appointment details between two dates successfully.");
 			}
+			return ResponseEntity.ok(listd);
 		} catch (DateException e) {
 			log.error("Id Exception", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-
-		return ResponseEntity.ok("Appointment detials fetched successfully" + apptRes.getList());
 
 	}
 
@@ -288,12 +288,11 @@ public class AppointmentController {
 				AppointmentDTO getDto = mapToDTO(vo);
 				listd.add(getDto);
 			}
+			return ResponseEntity.ok(listd);
 		} catch (AppointmentException e) {
 			log.error("Id Exception", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-
-		return ResponseEntity.ok("Ascending order detials fetched successfully" + apptRes.getList());
 
 	}
 

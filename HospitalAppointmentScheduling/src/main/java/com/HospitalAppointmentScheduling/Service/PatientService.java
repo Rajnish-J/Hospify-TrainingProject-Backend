@@ -204,11 +204,13 @@ public class PatientService {
 			String pass = "Successfully fetched patient details between Dates: " + sd + " and " + ld
 					+ ". Total records: " + response.getListPatient().size();
 			log.info(pass);
+			response.setFailureMessage(null);
 			response.setListPatient(list);
 			response.setSucessMessage(
 					"fetching patient details between the two dates with respect to DOB is successfully executed");
 		} else {
 			response.setFailureMessage("Error in fetching...");
+			response.setSucessMessage(null);
 		}
 		return response;
 	}

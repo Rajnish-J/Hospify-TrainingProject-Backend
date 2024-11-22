@@ -16,23 +16,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentBookingDateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.AppointmentException;
-import com.HospitalAppointmentScheduling.CustomExceptions.DateException;
 import com.HospitalAppointmentScheduling.CustomExceptions.DateOfBirthException;
 import com.HospitalAppointmentScheduling.CustomExceptions.EmailException;
 import com.HospitalAppointmentScheduling.CustomExceptions.IdException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
-import com.HospitalAppointmentScheduling.CustomExceptions.ReasonException;
 import com.HospitalAppointmentScheduling.CustomExceptions.genderException;
-import com.HospitalAppointmentScheduling.DTO.AppointmentDTO;
 import com.HospitalAppointmentScheduling.DTO.PatientDTO;
-import com.HospitalAppointmentScheduling.DTO.PatientDoctorDTO;
-import com.HospitalAppointmentScheduling.Entity.AppointmentStatusVO;
-import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
-import com.HospitalAppointmentScheduling.Entity.DoctorVO;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandle;
 import com.HospitalAppointmentScheduling.Service.PatientService;
@@ -104,7 +96,7 @@ public class PatientController {
 			res = pservice.fetchById(id);
 			String pass = "Patient details successfully fetched for ID: " + id;
 			log.info(pass);
-			return ResponseEntity.ok("Patient Details Fetched by ID:" + res.getPatient());
+			return ResponseEntity.ok(res.getPatient());
 		} catch (IdException e) {
 			log.error("ID not found in the DateBase", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -169,85 +161,85 @@ public class PatientController {
 	}
 
 	// association method
-	@PostMapping("/associatePatientsWithAppointments")
-	public ResponseEntity<?> associate(@RequestBody PatientDoctorDTO dto) {
-		log.info("Patient chooses to create an account with booking appointments...");
-
-		// Create PatientVO object
-		PatientVO vo = new PatientVO();
-		vo.setFirstName(dto.getPatient().getFirstName());
-		vo.setLastName(dto.getPatient().getLastName());
-		vo.setPatientEmail(dto.getPatient().getPatientEmail());
-		vo.setPatientPassword(dto.getPatient().getPatientPassword());
-		vo.setPatientPhone(dto.getPatient().getPatientPhone());
-		vo.setDob(dto.getPatient().getDob());
-		vo.setGender(dto.getPatient().getGender());
-		String pass = "Patient details to be associated with appointments: " + vo;
-		log.info(pass);
-
-		List<AppointmentDTO> list = dto.getPatient().getAppointments();
-		List<AppointmentsVO> listvo = new ArrayList<>();
-		for (AppointmentDTO obj : dto.getPatient().getAppointments()) {
-			AppointmentsVO avo = new AppointmentsVO();
-			avo.setAppointmentDate(obj.getAppointmentDate());
-			avo.setReason(obj.getReason());
-
-			DoctorVO dVO = new DoctorVO();
-			dVO.setDoctorId(dto.getDoctor().getDoctorId());
-
-			AppointmentStatusVO asVO = new AppointmentStatusVO();
-			asVO.setStatusName("Pending");
-
-			avo.setDoctor(dVO);
-			avo.setStatus(asVO);
-			avo.setPatient(vo);
-			listvo.add(avo);
-		}
-		vo.setAppointments(listvo);
-		String pass1 = "Patient appointments successfully associated: " + listvo;
-		log.info(pass1);
-
-		try {
-			res = pservice.associate(vo);
-			log.info("Patient and appointments successfully saved.");
-			return ResponseEntity.ok("Patient Details and Appointments added successfully. Patient ID: "
-					+ res.getPatient().getPatientId());
-
-		} catch (PatientException e) {
-			log.error("Patient details are not in the correct format", e);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-
-		} catch (PhoneNumberException e) {
-			log.error("Phone number format is incorrect", e);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-
-		} catch (EmailException e) {
-			log.error("Email format is invalid", e);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-
-		} catch (PasswordException e) {
-			log.error("Password format is invalid", e);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-
-		} catch (AppointmentException e) {
-			log.error("At least one appointment must be booked", e);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-
-		} catch (AppointmentBookingDateException e) {
-			log.error("Appointment booking date cannot be in the past", e);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-
-		} catch (DateOfBirthException e) {
-			log.error("Date of birth cannot be in the future", e);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-		} catch (ReasonException e) {
-			log.error("Reason Exception caught: ", e);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-		} catch (genderException e) {
-			log.error("Gender you entered is not valid", e);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-		}
-	}
+//	@PostMapping("/associatePatientsWithAppointments")
+//	public ResponseEntity<?> associate(@RequestBody PatientDoctorDTO dto) {
+//		log.info("Patient chooses to create an account with booking appointments...");
+//
+//		// Create PatientVO object
+//		PatientVO vo = new PatientVO();
+//		vo.setFirstName(dto.getPatient().getFirstName());
+//		vo.setLastName(dto.getPatient().getLastName());
+//		vo.setPatientEmail(dto.getPatient().getPatientEmail());
+//		vo.setPatientPassword(dto.getPatient().getPatientPassword());
+//		vo.setPatientPhone(dto.getPatient().getPatientPhone());
+//		vo.setDob(dto.getPatient().getDob());
+//		vo.setGender(dto.getPatient().getGender());
+//		String pass = "Patient details to be associated with appointments: " + vo;
+//		log.info(pass);
+//
+//		List<AppointmentDTO> list = dto.getPatient().getAppointments();
+//		List<AppointmentsVO> listvo = new ArrayList<>();
+//		for (AppointmentDTO obj : dto.getPatient().getAppointments()) {
+//			AppointmentsVO avo = new AppointmentsVO();
+//			avo.setAppointmentDate(obj.getAppointmentDate());
+//			avo.setReason(obj.getReason());
+//
+//			DoctorVO dVO = new DoctorVO();
+//			dVO.setDoctorId(dto.getDoctor().getDoctorId());
+//
+//			AppointmentStatusVO asVO = new AppointmentStatusVO();
+//			asVO.setStatusName("Pending");
+//
+//			avo.setDoctor(dVO);
+//			avo.setStatus(asVO);
+//			avo.setPatient(vo);
+//			listvo.add(avo);
+//		}
+//		vo.setAppointments(listvo);
+//		String pass1 = "Patient appointments successfully associated: " + listvo;
+//		log.info(pass1);
+//
+//		try {
+//			res = pservice.associate(vo);
+//			log.info("Patient and appointments successfully saved.");
+//			return ResponseEntity.ok("Patient Details and Appointments added successfully. Patient ID: "
+//					+ res.getPatient().getPatientId());
+//
+//		} catch (PatientException e) {
+//			log.error("Patient details are not in the correct format", e);
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//
+//		} catch (PhoneNumberException e) {
+//			log.error("Phone number format is incorrect", e);
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//
+//		} catch (EmailException e) {
+//			log.error("Email format is invalid", e);
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//
+//		} catch (PasswordException e) {
+//			log.error("Password format is invalid", e);
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//
+//		} catch (AppointmentException e) {
+//			log.error("At least one appointment must be booked", e);
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//
+//		} catch (AppointmentBookingDateException e) {
+//			log.error("Appointment booking date cannot be in the past", e);
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//
+//		} catch (DateOfBirthException e) {
+//			log.error("Date of birth cannot be in the future", e);
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//		} catch (ReasonException e) {
+//			log.error("Reason Exception caught: ", e);
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//		} catch (genderException e) {
+//			log.error("Gender you entered is not valid", e);
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//		}
+//	}
 
 	// find by patient phone number:
 	@GetMapping("/fetchByPhoneNumber/{ph}")
@@ -257,7 +249,7 @@ public class PatientController {
 			res = pservice.findbyphone(ph);
 			String pass = "Patient details successfully fetched by phone number: " + ph;
 			log.info(pass);
-			return ResponseEntity.ok("Patient Details Fetched by ID:" + res.getPatient());
+			return ResponseEntity.ok(mapToDTO(res.getPatient()));
 		} catch (PhoneNumberException e) {
 			log.error("phone number exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -305,28 +297,27 @@ public class PatientController {
 	}
 
 	// patient details by between two days:
-	@GetMapping("/patientDetailsAmongTwoDate/{sd}/{ld}")
-	public ResponseEntity<?> betweenTwoDOBpat(@PathVariable("sd") LocalDate sd, @PathVariable("ld") LocalDate ld) {
-		String pass = "Fetching patient details between two dates: " + sd + " and " + ld;
-		log.info(pass);
-		try {
-			res = pservice.betweenTwoDOBpat(sd, ld);
-			log.info("Patient details successfully fetched between two dates.");
-			List<PatientVO> list = res.getListPatient();
-			List<PatientDTO> listd = new ArrayList<>();
-			for (int i = 0; i < list.size(); i++) {
-				PatientVO vo = list.get(i);
-				PatientDTO getDto = mapToDTO(vo);
-				listd.add(getDto);
-			}
-		} catch (DateException e) {
-			log.error("Id Exception", e);
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-		}
-
-		return ResponseEntity.ok("Patient detials fetched successfully" + res.getListPatient());
-
-	}
+//	@GetMapping("/patientDetailsAmongTwoDate/{sd}/{ld}")
+//	public ResponseEntity<?> betweenTwoDOBpat(@PathVariable("sd") LocalDate sd, @PathVariable("ld") LocalDate ld) {
+//		String pass = "Fetching patient details between two dates: " + sd + " and " + ld;
+//		log.info(pass);
+//		try {
+//			res = pservice.betweenTwoDOBpat(sd, ld);
+//			log.info("Patient details successfully fetched between two dates.");
+//			List<PatientVO> list = res.getListPatient();
+//			List<PatientDTO> listd = new ArrayList<>();
+//			for (int i = 0; i < list.size(); i++) {
+//				PatientVO vo = list.get(i);
+//				PatientDTO getDto = mapToDTO(vo);
+//				listd.add(getDto);
+//			}
+//			return ResponseEntity.ok(listd);
+//		} catch (DateException e) {
+//			log.error("Id Exception", e);
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//		}
+//
+//	}
 
 	// ascending order:
 	@GetMapping("/AscendingOrder")
@@ -342,12 +333,11 @@ public class PatientController {
 				PatientDTO getDto = mapToDTO(vo);
 				listd.add(getDto);
 			}
+			return ResponseEntity.ok(listd);
 		} catch (AppointmentException e) {
 			log.error("Id Exception", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-
-		return ResponseEntity.ok("Ascending order detials fetched successfully" + res.getListPatient());
 
 	}
 
@@ -365,17 +355,24 @@ public class PatientController {
 	}
 
 	// find Patient With Most Appointments
-	@GetMapping("/findPatientWithMostAppointments")
-	public ResponseEntity<?> findPatientWithMostAppointments() {
-		log.info("fetching the patient having more appointment triggered in the controller layer");
-		res = pservice.findPatientWithMostAppointments();
-		log.info("patient with more appointments fetched successfully");
-		if (res.getSucessMessage() != null) {
-			return ResponseEntity.ok("Patients with more appointments" + res.getListPatient());
-		} else {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res.getFailureMessage());
-		}
-	}
+//	@GetMapping("/findPatientWithMostAppointments")
+//	public ResponseEntity<?> findPatientWithMostAppointments() {
+//		log.info("fetching the patient having more appointment triggered in the controller layer");
+//		res = pservice.findPatientWithMostAppointments();
+//		List<PatientVO> list = res.getListPatient();
+//		List<PatientDTO> listd = new ArrayList<>();
+//		for (int i = 0; i < list.size(); i++) {
+//			PatientVO vo = list.get(i);
+//			PatientDTO getDto = mapToDTO(vo);
+//			listd.add(getDto);
+//		}
+//		log.info("patient with more appointments fetched successfully");
+//		if (res.getSucessMessage() != null) {
+//			return ResponseEntity.ok(listd);
+//		} else {
+//			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res.getFailureMessage());
+//		}
+//	}
 
 	// find Total Patients Count
 	@GetMapping("/findTotalPatientsCount")

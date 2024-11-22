@@ -180,6 +180,8 @@ public class PatientBO {
 
 	// findPatientWithMostAppointments
 	public List<PatientVO> findPatientWithMostAppointments() {
+		List<PatientVO> che = patientRepo.findPatientWithMostAppointments();
+		System.out.println(che);
 		return patientRepo.findPatientWithMostAppointments();
 	}
 
