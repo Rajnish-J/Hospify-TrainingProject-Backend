@@ -4,8 +4,8 @@ import Login from "./PatientLogin/patlogin.jsx";
 function App() {
   return (
     <div>
-      <Login />
-      {/* <Main /> */}
+      {/* <Login /> */}
+      <Main />
     </div>
   );
 }

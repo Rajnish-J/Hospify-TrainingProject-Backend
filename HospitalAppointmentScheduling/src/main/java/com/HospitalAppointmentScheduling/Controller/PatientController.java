@@ -118,7 +118,6 @@ public class PatientController {
 		}
 		log.info("All patient details successfully fetched.");
 		return listd;
-
 	}
 
 	// update method
