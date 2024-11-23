@@ -96,7 +96,7 @@ public class PatientController {
 			res = pservice.fetchById(id);
 			String pass = "Patient details successfully fetched for ID: " + id;
 			log.info(pass);
-			return ResponseEntity.ok(res.getPatient());
+			return ResponseEntity.ok(mapToDTO(res.getPatient()));
 		} catch (IdException e) {
 			log.error("ID not found in the DateBase", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

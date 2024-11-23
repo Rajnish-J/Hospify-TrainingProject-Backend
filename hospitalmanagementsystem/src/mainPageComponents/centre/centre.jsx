@@ -39,6 +39,7 @@ export default class centre extends Component {
 
   render() {
     const { activeRoute } = this.state;
+    // const patientID = patientID?.patientID;
     return (
       <div>
         {/* Router for the menu part and content part */}
@@ -255,7 +256,10 @@ export default class centre extends Component {
 
                   {/* <Route path="/" element={<Admin />} /> */}
                   <Route path="/InsertPatient" element={<InsertPatient />} />
-                  <Route path="/Patientdetails" element={<FetchPatient />} />
+                  <Route
+                    path="/patientdetails/:patientId"
+                    element={<FetchPatient />}
+                  />
                   <Route path="/fetchAll" element={<FetchAll />} />
                   <Route path="/updatePatient" element={<UpdatePatient />} />
                   <Route path="/addAppointment" element={<AddAppointments />} />
