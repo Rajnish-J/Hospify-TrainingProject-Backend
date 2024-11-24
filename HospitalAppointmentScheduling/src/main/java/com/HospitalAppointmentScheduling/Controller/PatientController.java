@@ -24,7 +24,9 @@ import com.HospitalAppointmentScheduling.CustomExceptions.PasswordException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PatientException;
 import com.HospitalAppointmentScheduling.CustomExceptions.PhoneNumberException;
 import com.HospitalAppointmentScheduling.CustomExceptions.genderException;
+import com.HospitalAppointmentScheduling.DTO.AppointmentDTO;
 import com.HospitalAppointmentScheduling.DTO.PatientDTO;
+import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandle;
 import com.HospitalAppointmentScheduling.Service.PatientService;
@@ -386,22 +388,37 @@ public class PatientController {
 		}
 	}
 
-	// own method => converts entity to DTO:
-	public static PatientDTO mapToDTO(PatientVO vo) {
-
+	public static PatientDTO mapToDTO(PatientVO patientVO) {
+		// Map PatientVO to PatientDTO
 		PatientDTO dto = new PatientDTO();
-		dto.setFirstName(vo.getFirstName());
-		dto.setLastName(vo.getLastName());
-		dto.setPatientEmail(vo.getPatientEmail());
-		dto.setPatientPassword(vo.getPatientPassword());
-		dto.setPatientPhone(vo.getPatientPhone());
-		dto.setDob(vo.getDob());
-		dto.setUpdatedAt(vo.getUpdatedAt());
-		dto.setCreatedAt(vo.getCreatedAt());
-		dto.setPatientId(vo.getPatientId());
-		dto.setGender(vo.getGender());
+		dto.setPatientId(patientVO.getPatientId());
+		dto.setFirstName(patientVO.getFirstName());
+		dto.setLastName(patientVO.getLastName());
+		dto.setDob(patientVO.getDob());
+		dto.setPatientPhone(patientVO.getPatientPhone());
+		dto.setPatientEmail(patientVO.getPatientEmail());
+		dto.setPatientPassword(patientVO.getPatientPassword());
+		dto.setGender(patientVO.getGender());
+		dto.setCreatedAt(patientVO.getCreatedAt());
+		dto.setUpdatedAt(patientVO.getUpdatedAt());
+
+		// Map Appointments
+		List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
+		if (patientVO.getAppointments() != null) {
+			for (AppointmentsVO appointment : patientVO.getAppointments()) {
+				AppointmentDTO appointmentDTO = new AppointmentDTO();
+				appointmentDTO.setAppointmentID(appointment.getAppointmentID());
+				appointmentDTO.setAppointmentDate(appointment.getAppointmentDate());
+				appointmentDTO.setReason(appointment.getReason());
+				appointmentDTO.setCreatedAt(appointment.getCreatedAt());
+				appointmentDTO.setUpdatedAt(appointment.getUpdatedAt());
+
+				appointmentDTOs.add(appointmentDTO);
+			}
+		}
+		dto.setAppointments(appointmentDTOs);
 
 		return dto;
-
 	}
+
 }

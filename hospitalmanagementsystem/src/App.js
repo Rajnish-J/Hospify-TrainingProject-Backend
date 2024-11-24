@@ -1,11 +1,11 @@
 import Main from "../src/mainPageComponents/main.jsx";
-import Login from "./PatientLogin/patlogin.jsx";
+import Login from "./Login/login.jsx";
 
 function App() {
   return (
     <div>
-      {/* <Login /> */}
-      <Main />
+      <Login />
+      {/* <Main /> */}
     </div>
   );
 }
