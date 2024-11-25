@@ -12,5 +12,4 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addMapping("/**").allowedOrigins("http://localhost:3000")
 				.allowedMethods("POST", "GET", "PUT", "DELETE").allowedHeaders("*").allowCredentials(true);
 	}
-
 }

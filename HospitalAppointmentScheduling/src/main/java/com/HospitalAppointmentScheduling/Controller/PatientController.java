@@ -388,6 +388,7 @@ public class PatientController {
 		}
 	}
 
+	// own method: converts entity to DTO
 	public static PatientDTO mapToDTO(PatientVO patientVO) {
 		// Map PatientVO to PatientDTO
 		PatientDTO dto = new PatientDTO();
