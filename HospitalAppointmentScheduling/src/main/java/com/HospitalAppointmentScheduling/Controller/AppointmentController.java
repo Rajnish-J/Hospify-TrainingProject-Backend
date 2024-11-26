@@ -252,14 +252,32 @@ public class AppointmentController {
 		}
 	}
 
-	// delete method
-	// DELETE request to delete a appointment by ID
+	// delete method: to delete a appointment by ID
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<String> deletePatient(@PathVariable("id") Long id) {
+	public ResponseEntity<String> deleteAppointment(@PathVariable("id") Long id) {
 
 		try {
 			apptRes = aser.deleteAppointment(id);
 			return ResponseEntity.ok(apptRes.getSucessMessage());
+		} catch (IdException e) {
+			log.error("Patient does not exists in the database", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+
+	@GetMapping("/fetchAppointmentsForPatientID/{id}")
+	public ResponseEntity<?> findAllApptByPatientId(@PathVariable long id) {
+		log.info("find All Apptointments By Patient Id method triggered in the controller layer");
+		try {
+			apptRes = aser.findAllApptByPatientId(id);
+			List<AppointmentsVO> list = apptRes.getList();
+			List<AppointmentDTO> listd = new ArrayList<>();
+			for (int i = 0; i < list.size(); i++) {
+				AppointmentsVO vo = list.get(i);
+				AppointmentDTO getDto = mapToDTO(vo);
+				listd.add(getDto);
+			}
+			return ResponseEntity.ok(listd);
 		} catch (IdException e) {
 			log.error("Patient does not exists in the database", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -316,8 +334,9 @@ public class AppointmentController {
 		AppointmentDTO dto = new AppointmentDTO();
 		dto.setAppointmentDate(vo.getAppointmentDate());
 		dto.setAppointmentID(vo.getAppointmentID());
-//		dto.setDoctor(vo.getDoctor());
+		dto.setDoctorID(vo.getDoctor().getDoctorId());
 		dto.setReason(vo.getReason());
+		dto.setPatientID(vo.getPatient().getPatientId());
 		dto.setCreatedAt(vo.getCreatedAt());
 		dto.setUpdatedAt(vo.getUpdatedAt());
 

@@ -1,31 +1,22 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import { Col, Container, Row, Button } from "react-bootstrap";
-import {
-  BrowserRouter as Router,
-  Route,
-  NavLink,
-  Link,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import "../centre/centre.css";
+import { UserContext } from "../../Login/login.jsx";
 
-import Login from "../../Login/login.jsx";
 import Admin from "../Admin/admin.jsx";
 import InsertPatient from "../../InsertPatients/insertpatient.jsx";
-import FetchPatient from "../../findBypatientId/findBypatientId.jsx";
-import FetchAll from "../../fetchall/fetchall.jsx";
-import UpdatePatient from "../../updatePatientDetails/updatePatientDetails.jsx";
-import AddAppointments from "../../associate/addAppointments.jsx";
-import FetchByPhone from "../../findbyphone/findbyphone.jsx";
-import AppointmentDate from "../../findapptDay/findapptDay.jsx";
-import PatientName from "../../findName/findName.jsx";
-import PatientsBetTwoDates from "../../betweenTwoDOBpat/betweenTwoDOBpat.jsx";
-import Ascending from "../../acending/acending.jsx";
-import CommomDOB from "../../findMostCommonDOB/findMostCommonDOB.jsx";
-import MostAppointments from "../../findPatientWithMostAppointments/findPatientWithMostAppointments.jsx";
-import Count from "../../findTotalPatientsCount/findTotalPatientsCount.jsx";
+import FetchPatientDetails from "../../fetchPatientDetails/fetchPatientDetails.jsx";
+import FetchAllAppointments from "../../fetchallAppointments/fetchallAppointments.jsx";
+import UpdatePatientDetails from "../../updatePatientDetails/updatePatientDetails.jsx";
+import AddAppointments from "../../AddAppointment/AddAppointment.jsx";
+import DeleteAppointments from "../../DeleteAppointment/DeleteAppointment.jsx";
+import DeletePatient from "../../DeleteAppointment/DeleteAppointment.jsx";
+import UpdateAppointmentDetails from "../../UpdateAppointmentDetails/UpdateAppointmentDetails.jsx";
 
 export default class centre extends Component {
+  static contextType = UserContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -39,6 +30,7 @@ export default class centre extends Component {
 
   render() {
     const { activeRoute } = this.state;
+    const patient = this.context;
     // const patientID = patientID?.patientID;
     return (
       <div>
@@ -52,17 +44,6 @@ export default class centre extends Component {
               <Col sm={2} xs={2} md={2} lg={2} className="menuCol">
                 {/* div: menu */}
                 <div className="menuDiv">
-                  {/* Login button */}
-                  <Link to="/login">
-                    <Button
-                      variant={activeRoute === "/login" ? "primary" : "light"}
-                      className="w-100 mb-2 Button"
-                      onClick={() => this.handleButtonClick("/login")}
-                    >
-                      Login
-                    </Button>
-                  </Link>
-
                   {/* Insert new patient */}
                   <Link to="/InsertPatient">
                     <Button
@@ -90,159 +71,96 @@ export default class centre extends Component {
                   </Link>
 
                   {/* fetching all patient details */}
-                  <Link to="/fetchAll">
+                  <Link to="/fetchAllAppointments">
                     <Button
                       variant={
-                        activeRoute === "/fetchAll" ? "primary" : "light"
+                        activeRoute === "/fetchAllAppointments"
+                          ? "primary"
+                          : "light"
                       }
                       className="w-100 mb-2 Button"
-                      onClick={() => this.handleButtonClick("/fetchAll")}
+                      onClick={() =>
+                        this.handleButtonClick("/fetchAllAppointments")
+                      }
                     >
                       Fetch all patient Details
                     </Button>
                   </Link>
 
                   {/* updating patient details */}
-                  <Link to="/updatePatient">
+                  <Link to="/updatePatientDetails">
                     <Button
                       variant={
-                        activeRoute === "/updatePatient" ? "primary" : "light"
+                        activeRoute === "/updatePatientDetails"
+                          ? "primary"
+                          : "light"
                       }
                       className="w-100 mb-2 Button"
-                      onClick={() => this.handleButtonClick("/updatePatient")}
+                      onClick={() =>
+                        this.handleButtonClick("/updatePatientDetails")
+                      }
                     >
                       update patient Details
                     </Button>
                   </Link>
 
-                  {/* associate: adding one or more appointments */}
-                  <Link to="/addAppointment">
+                  {/* Adding the appointments for the patients */}
+                  <Link to="/AddAppointments">
                     <Button
                       variant={
-                        activeRoute === "/addAppointment" ? "primary" : "light"
+                        activeRoute === "/AddAppointments" ? "primary" : "light"
                       }
                       className="w-100 mb-2 Button"
-                      onClick={() => this.handleButtonClick("/addAppointment")}
+                      onClick={() => this.handleButtonClick("/AddAppointments")}
                     >
-                      Add appointment
+                      Add Appointment
                     </Button>
                   </Link>
 
-                  {/* fetching patient details  by phone number */}
-                  <Link to="/fetchByPhoneNumber">
+                  {/* updating appointment details */}
+                  <Link to="/UpdateAppointmentDetails">
                     <Button
                       variant={
-                        activeRoute === "/fetchByPhoneNumber"
+                        activeRoute === "/UpdateAppointmentDetails"
                           ? "primary"
                           : "light"
                       }
                       className="w-100 mb-2 Button"
                       onClick={() =>
-                        this.handleButtonClick("/fetchByPhoneNumber")
+                        this.handleButtonClick("/UpdateAppointmentDetails")
                       }
                     >
-                      Get Details by phone number
+                      update Appointment Details
                     </Button>
                   </Link>
 
-                  {/* fetching the patient details by the appointment date */}
-                  <Link to="/getDetailsByDate">
+                  {/* delete appointment */}
+                  <Link to="/DeleteAppointment">
                     <Button
                       variant={
-                        activeRoute === "/getDetailsByDate"
+                        activeRoute === "/DeleteAppointment"
                           ? "primary"
                           : "light"
                       }
                       className="w-100 mb-2 Button"
                       onClick={() =>
-                        this.handleButtonClick("/getDetailsByDate")
+                        this.handleButtonClick("/DeleteAppointment")
                       }
                     >
-                      Get patient details by appointment date
+                      Delete Appointment
                     </Button>
                   </Link>
 
-                  {/* fetching the patient full name */}
-                  <Link to="/fullname">
+                  {/* delete patient account */}
+                  <Link to="/DeletePatient">
                     <Button
                       variant={
-                        activeRoute === "/fullname" ? "primary" : "light"
+                        activeRoute === "/DeletePatient" ? "primary" : "light"
                       }
                       className="w-100 mb-2 Button"
-                      onClick={() => this.handleButtonClick("/fullname")}
+                      onClick={() => this.handleButtonClick("/DeletePatient")}
                     >
-                      get patient full name
-                    </Button>
-                  </Link>
-
-                  {/* fetching patients details between two birthday dates */}
-                  <Link to="/patientDetailsByDOB">
-                    <Button
-                      variant={
-                        activeRoute === "/patientDetailsByDOB"
-                          ? "primary"
-                          : "light"
-                      }
-                      className="w-100 mb-2 Button"
-                      onClick={() =>
-                        this.handleButtonClick("/patientDetailsByDOB")
-                      }
-                    >
-                      get patients Details between two birthdat dates
-                    </Button>
-                  </Link>
-
-                  {/* fetching all the patient details in the ascending order */}
-                  <Link to="/Ascending">
-                    <Button
-                      variant={
-                        activeRoute === "/Ascending" ? "primary" : "light"
-                      }
-                      className="w-100 mb-2 Button"
-                      onClick={() => this.handleButtonClick("/Ascending")}
-                    >
-                      Ascending
-                    </Button>
-                  </Link>
-
-                  {/* patients details having more commom date of birthday's */}
-                  <Link to="/MostDOB">
-                    <Button
-                      variant={activeRoute === "/MostDOB" ? "primary" : "light"}
-                      className="w-100 mb-2 Button"
-                      onClick={() => this.handleButtonClick("/MostDOB")}
-                    >
-                      Patients having most same DOB
-                    </Button>
-                  </Link>
-
-                  {/* patient having more appointments */}
-                  <Link to="/mostAppointments">
-                    <Button
-                      variant={
-                        activeRoute === "/mostAppointments"
-                          ? "primary"
-                          : "light"
-                      }
-                      className="w-100 mb-2 Button"
-                      onClick={() =>
-                        this.handleButtonClick("/mostAppointments")
-                      }
-                    >
-                      Patient with Most appointments
-                    </Button>
-                  </Link>
-
-                  {/* total patients count */}
-                  <Link to="/patientCount">
-                    <Button
-                      variant={
-                        activeRoute === "/patientCount" ? "primary" : "light"
-                      }
-                      className="w-100 mb-2 Button"
-                      onClick={() => this.handleButtonClick("/patientCount")}
-                    >
-                      Total Patient Count
+                      Delete Patient Account
                     </Button>
                   </Link>
                 </div>
@@ -252,37 +170,33 @@ export default class centre extends Component {
               <Col sm={10} xs={10} md={10} lg={10} className="contentCol">
                 {/* Routes to the respective pages or components or API's */}
                 <Routes>
-                  <Route path="/login" element={<Login />} />
-
                   {/* <Route path="/" element={<Admin />} /> */}
                   <Route path="/InsertPatient" element={<InsertPatient />} />
                   <Route
                     path="/patientdetails/:patientId"
-                    element={<FetchPatient />}
-                  />
-                  <Route path="/fetchAll" element={<FetchAll />} />
-                  <Route path="/updatePatient" element={<UpdatePatient />} />
-                  <Route path="/addAppointment" element={<AddAppointments />} />
-                  <Route
-                    path="/fetchByPhoneNumber"
-                    element={<FetchByPhone />}
+                    element={<FetchPatientDetails />}
                   />
                   <Route
-                    path="/getDetailsByDate"
-                    element={<AppointmentDate />}
+                    path="/fetchAllAppointments"
+                    element={<FetchAllAppointments />}
                   />
-                  <Route path="/fullname" element={<PatientName />} />
                   <Route
-                    path="/patientDetailsByDOB"
-                    element={<PatientsBetTwoDates />}
+                    path="/updatePatientDetails"
+                    element={<UpdatePatientDetails />}
                   />
-                  <Route path="/Ascending" element={<Ascending />} />
-                  <Route path="/MostDOB" element={<CommomDOB />} />
                   <Route
-                    path="/mostAppointments"
-                    element={<MostAppointments />}
+                    path="/AddAppointments"
+                    element={<AddAppointments />}
                   />
-                  <Route path="/patientCount" element={<Count />} />
+                  <Route
+                    path="/DeleteAppointment"
+                    element={<DeleteAppointments />}
+                  />
+                  <Route path="/DeletePatient" element={<DeletePatient />} />
+                  <Route
+                    path="/UpdateAppointmentDetails"
+                    element={<UpdateAppointmentDetails />}
+                  />
                 </Routes>
               </Col>
             </Row>

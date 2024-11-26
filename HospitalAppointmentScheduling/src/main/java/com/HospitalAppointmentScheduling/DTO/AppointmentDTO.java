@@ -16,6 +16,15 @@ public class AppointmentDTO {
 	private LocalDateTime updatedAt;
 	private PatientVO patient;
 	private Long doctorID;
+	private Long patientID;
+
+	public Long getPatientID() {
+		return patientID;
+	}
+
+	public void setPatientID(Long patientID) {
+		this.patientID = patientID;
+	}
 
 	public Long getDoctorID() {
 		return doctorID;
@@ -85,7 +94,7 @@ public class AppointmentDTO {
 	public String toString() {
 		return "AppointmentDTO [appointmentID=" + appointmentID + ", appointmentDate=" + appointmentDate + ", reason="
 				+ reason + ", doctor=" + doctor + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", patient="
-				+ patient + ", doctorID=" + doctorID + "]";
+				+ patient + ", doctorID=" + doctorID + ", patientID=" + patientID + "]";
 	}
 
 }

@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Button, Form, Container, Row, Col, Card, Alert } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { Container, Card, Alert } from "react-bootstrap";
+import { UserContext } from "../Login/login.jsx";
 
-class FindByPatientId extends Component {
+export default class FindByPatientId extends Component {
+  static contextType = UserContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -21,14 +23,11 @@ class FindByPatientId extends Component {
   }
 
   // Fetch patient details from the API
-  fetchPatientDetails = (patientId) => {
-    if (!patientId) {
-      this.setState({ errorMessage: "Patient ID is required", noResults: false });
-      return;
-    }
+  fetchPatientDetails = () => {
+    const patId = this.context?.patientId;
 
     // Fetch patient data using the provided patientId
-    fetch(`http://localhost:8080/patient/patientId/${patientId}`)
+    fetch(`http://localhost:8080/patient/patientId/${patId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Patient not found");
@@ -82,10 +81,4 @@ class FindByPatientId extends Component {
       </Container>
     );
   }
-}
-
-// Wrap component with useParams hook to fetch patientId from URL params
-export default function FindByPatientIdWrapper(props) {
-  const { patientId } = useParams();
-  return <FindByPatientId {...props} patientId={patientId} />;
 }

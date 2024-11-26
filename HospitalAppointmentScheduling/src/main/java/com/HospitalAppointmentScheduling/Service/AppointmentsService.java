@@ -132,6 +132,22 @@ public class AppointmentsService {
 
 	}
 
+	// fetches all appointments to the respective patient id:
+	public ResponseHandleAppointments findAllApptByPatientId(long id) throws IdException {
+		log.info(
+				"fetching all the appointments with respective to the patient id method triggered in the service layer");
+		List<AppointmentsVO> list = apptBO.findAllAppointmentsByPatientID(id);
+		if (list.size() > 0) {
+			String pass = "successfully fetched the appointment details for the patient ID: " + id;
+			log.info(pass);
+			apptsRes.setList(list);
+			apptsRes.setSucessMessage("all the appointments fetched");
+		} else {
+			apptsRes.setFailureMessage("Error in fetching");
+		}
+		return apptsRes;
+	}
+
 	// fetching appt details between two dates
 	@Transactional
 	public ResponseHandleAppointments fetchApptBetweenTwoDates(LocalDate sd, LocalDate ld) throws DateException {

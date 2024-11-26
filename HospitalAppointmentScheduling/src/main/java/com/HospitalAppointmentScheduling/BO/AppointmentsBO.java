@@ -88,10 +88,21 @@ public class AppointmentsBO {
 	public String deleteAppointment(long id) throws IdException {
 		String ret = "patient ID does not exists in the database give the valid ID";
 		if (validateApptID(id)) {
-			appointmentsRepo.deleteById(id);
-			ret = "appointment deleted";
+			appointmentsRepo.deleteByAppointmentId(id);
+			if (appointmentsRepo.existsById(id)) {
+				ret = "appointment deleted";
+			}
 		}
 		return ret;
+	}
+
+	// fetches all the appointments respect to the patient id:
+	public List<AppointmentsVO> findAllAppointmentsByPatientID(long id) throws IdException {
+		if (validatePatID(id)) {
+			List<AppointmentsVO> apptList = appointmentsRepo.findAllApptByPatientId(id);
+			return apptList;
+		}
+		return null;
 	}
 
 	// Appointment by between two days:
