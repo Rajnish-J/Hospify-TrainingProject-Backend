@@ -122,6 +122,21 @@ public class PatientService {
 		return response;
 	}
 
+	// delete method:
+	public ResponseHandle deletePatient(long id) throws IdException {
+		log.info("delete method triggered in the service layer");
+		String res = patientBO.deletePatient(id);
+		if (!res.isEmpty()) {
+			String pass = "successfully deleted the patient details for the patient ID: " + id;
+			log.info(pass);
+			response.setSucessMessage("Deleted successfully");
+		} else {
+			response.setFailureMessage("Patient ID does not exists in the database");
+		}
+		return response;
+
+	}
+
 	// Associate method:
 	@Transactional(rollbackOn = { PatientException.class, PhoneNumberException.class, EmailException.class,
 			PasswordException.class, AppointmentException.class, AppointmentBookingDateException.class,

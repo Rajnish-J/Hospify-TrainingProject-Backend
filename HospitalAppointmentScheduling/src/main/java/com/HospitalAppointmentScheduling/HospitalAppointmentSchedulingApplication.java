@@ -110,7 +110,7 @@ public class HospitalAppointmentSchedulingApplication {
 											+ "\n10. Get the patients in "
 											+ "Ascending order\n11. Insert patient throught client\n12. Get all patients through "
 											+ "client\n13. find most birthday among patients\n14. patients having most appointments"
-											+ "\n15. Total number of patients in the DateBase\n16. exit");
+											+ "\n15. Total number of patients in the DateBase\n16. Delete patient by ID\n17. exit");
 							System.out.print("Enter the option: ");
 							int patientOption = sc.nextInt();
 							switch (patientOption) {
@@ -194,6 +194,10 @@ public class HospitalAppointmentSchedulingApplication {
 								break;
 							}
 							case 16: {
+								ref.deletePatientByID();
+								break;
+							}
+							case 17: {
 								log.info("patient chooses to EXIT the application...");
 								patientRepeat = false;
 								System.out.println("Thank you for Using patient page returning to main page");
@@ -962,6 +966,21 @@ public class HospitalAppointmentSchedulingApplication {
 		for (AppointmentsVO obj : resAppt.getList()) {
 			System.out.println(obj);
 		}
+	}
+
+	// ------------------------------------------------------------------------------------------------------------------------------//
+
+	public void deletePatientByID() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter the ID to delete the patient details: ");
+		int delID = sc.nextInt();
+
+		try {
+			response = pService.deletePatient(delID);
+		} catch (IdException e) {
+			System.err.println(e.getMessage());
+		}
+		System.out.println("Patient details deleted successfully...");
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------//

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Container, Form, Button, Card, Row, Col } from "react-bootstrap";
 import Main from "../mainPageComponents/main.jsx";
+import { PatientProvider } from "../context/patientcontext.jsx";
 
 export default class patlogin extends Component {
   constructor(props) {
@@ -69,9 +70,14 @@ export default class patlogin extends Component {
     } = this.state;
 
     if (isLoggedIn) {
-      console.log(patient);
+      // ! log for checking the patient object
+      // console.log(patient);
 
-      return <Main patient={patient} />;
+      return (
+        <PatientProvider>
+          <Main patient={this.patient} />
+        </PatientProvider>
+      );
     }
 
     return (

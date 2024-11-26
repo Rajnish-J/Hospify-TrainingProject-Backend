@@ -108,6 +108,16 @@ public class PatientBO {
 		return null;
 	}
 
+	// delete method:
+	public String deletePatient(long id) throws IdException {
+		String ret = "patient ID does not exists in the database give the valid ID";
+		if (validateID(id)) {
+			patientRepo.deleteById(id);
+			ret = "patient deleted";
+		}
+		return ret;
+	}
+
 	// associate method
 	public PatientVO associate(PatientVO vo)
 			throws PatientException, PhoneNumberException, EmailException, PasswordException, AppointmentException,

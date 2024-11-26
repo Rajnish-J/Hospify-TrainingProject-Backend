@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -157,6 +158,20 @@ public class PatientController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (genderException e) {
 			log.error("Gender you entered is not valid", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+
+	// delete method
+	// DELETE request to delete a patient by ID
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> deletePatient(@PathVariable("id") Long id) {
+
+		try {
+			res = pservice.deletePatient(id);
+			return ResponseEntity.ok(res.getSucessMessage());
+		} catch (IdException e) {
+			log.error("Patient does not exists in the database", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}

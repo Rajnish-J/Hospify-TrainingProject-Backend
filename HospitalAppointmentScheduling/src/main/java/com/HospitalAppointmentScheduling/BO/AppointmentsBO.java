@@ -84,6 +84,16 @@ public class AppointmentsBO {
 
 	}
 
+	// delete method:
+	public String deleteAppointment(long id) throws IdException {
+		String ret = "patient ID does not exists in the database give the valid ID";
+		if (validateApptID(id)) {
+			appointmentsRepo.deleteById(id);
+			ret = "appointment deleted";
+		}
+		return ret;
+	}
+
 	// Appointment by between two days:
 	public List<AppointmentsVO> fetchApptBetweenTwoDates(LocalDate sd, LocalDate ld) throws DateException {
 		List<AppointmentsVO> list = appointmentsRepo.findAllByAppointmentDateRange(sd, ld);

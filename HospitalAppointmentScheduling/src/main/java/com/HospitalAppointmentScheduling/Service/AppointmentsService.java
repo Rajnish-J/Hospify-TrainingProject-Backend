@@ -117,6 +117,21 @@ public class AppointmentsService {
 		return apptsRes;
 	}
 
+	// delete method:
+	public ResponseHandleAppointments deleteAppointment(long id) throws IdException {
+		log.info("delete method triggered in the service layer");
+		String res = apptBO.deleteAppointment(id);
+		if (!res.isEmpty()) {
+			String pass = "successfully deleted the appointment details for the appointment ID: " + id;
+			log.info(pass);
+			apptsRes.setSucessMessage("Deleted successfully");
+		} else {
+			apptsRes.setFailureMessage("Appointment ID does not exists in the database");
+		}
+		return apptsRes;
+
+	}
+
 	// fetching appt details between two dates
 	@Transactional
 	public ResponseHandleAppointments fetchApptBetweenTwoDates(LocalDate sd, LocalDate ld) throws DateException {

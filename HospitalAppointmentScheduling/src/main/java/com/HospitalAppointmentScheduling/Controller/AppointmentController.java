@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -247,6 +248,20 @@ public class AppointmentController {
 			return ResponseEntity.ok("Appointment ID: " + apptRes.getAppoVo().getAppointmentID() + " updated");
 		} catch (IdException e) {
 			log.error("ID not found in the DataBase", e);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+
+	// delete method
+	// DELETE request to delete a appointment by ID
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<String> deletePatient(@PathVariable("id") Long id) {
+
+		try {
+			apptRes = aser.deleteAppointment(id);
+			return ResponseEntity.ok(apptRes.getSucessMessage());
+		} catch (IdException e) {
+			log.error("Patient does not exists in the database", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
