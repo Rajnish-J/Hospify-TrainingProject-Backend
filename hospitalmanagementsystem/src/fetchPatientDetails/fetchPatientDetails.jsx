@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Card, Alert } from "react-bootstrap";
+import { Container, Card, Alert, Table } from "react-bootstrap";
 import { UserContext } from "../Login/login.jsx";
 
 export default class FindByPatientId extends Component {
@@ -14,12 +14,8 @@ export default class FindByPatientId extends Component {
     };
   }
 
-  // Fetch patient data using patientId from URL
   componentDidMount() {
-    const { patientId } = this.props.match.params;
-
-    // Fetch data from API using the patientId
-    this.fetchPatientDetails(patientId);
+    this.fetchPatientDetails();
   }
 
   // Fetch patient details from the API
@@ -53,6 +49,7 @@ export default class FindByPatientId extends Component {
 
   render() {
     const { patientDetails, errorMessage, noResults } = this.state;
+    console.log(patientDetails);
 
     return (
       <Container>
@@ -60,18 +57,53 @@ export default class FindByPatientId extends Component {
 
         <div className="mt-5">
           {patientDetails ? (
-            <Card>
-              <Card.Body>
-                <Card.Title>Patient Details</Card.Title>
-                <Card.Text>
-                  <strong>Patient ID:</strong> {patientDetails.id} <br />
-                  <strong>Name:</strong> {patientDetails.name} <br />
-                  <strong>Age:</strong> {patientDetails.age} <br />
-                  <strong>Gender:</strong> {patientDetails.gender} <br />
-                  <strong>Condition:</strong> {patientDetails.condition} <br />
-                </Card.Text>
-              </Card.Body>
-            </Card>
+            <>
+              <Card className="mb-4">
+                <Card.Body>
+                  <Card.Title>Patient Details</Card.Title>
+                  <Card.Text>
+                    <strong>Patient ID:</strong> {patientDetails.patientId}{" "}
+                    <br />
+                    <strong>Name:</strong> {patientDetails.firstName}{" "}
+                    {patientDetails.lastName} <br />
+                    <strong>Date of Birth:</strong> {patientDetails.dob} <br />
+                    <strong>Phone:</strong> {patientDetails.patientPhone} <br />
+                    <strong>Email:</strong> {patientDetails.patientEmail} <br />
+                    <strong>Gender:</strong> {patientDetails.gender} <br />
+                  </Card.Text>
+                  {patientDetails.appointments &&
+                    patientDetails.appointments.length === 0 && (
+                      <Alert variant="info" className="mt-3">
+                        No appointments available.
+                      </Alert>
+                    )}
+                </Card.Body>
+              </Card>
+
+              {patientDetails.appointments &&
+                patientDetails.appointments.length > 0 && (
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>Appointment ID</th>
+                        <th>Appointment Date</th>
+                        <th>Reason</th>
+                        <th>Doctor ID</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {patientDetails.appointments.map((appointment) => (
+                        <tr key={appointment.appointmentID}>
+                          <td>{appointment.appointmentID}</td>
+                          <td>{appointment.appointmentDate}</td>
+                          <td>{appointment.reason}</td>
+                          <td>{appointment.doctorID || "Not Assigned"}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                )}
+            </>
           ) : noResults ? (
             <Alert variant="danger" className="mt-3">
               No Patient Details Available

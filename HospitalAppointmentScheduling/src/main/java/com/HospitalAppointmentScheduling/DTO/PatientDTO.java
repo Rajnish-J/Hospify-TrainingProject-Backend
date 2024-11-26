@@ -20,6 +20,7 @@ public class PatientDTO {
 	private LocalDateTime updatedAt;
 	private List<AppointmentDTO> appointments;
 	private DoctorDTO doctor;
+	private Long doctorID;
 
 	public Long getPatientId() {
 		return patientId;
@@ -117,12 +118,20 @@ public class PatientDTO {
 		this.gender = gender;
 	}
 
+	public Long getDoctorID() {
+		return doctorID;
+	}
+
+	public void setDoctorID(Long doctorID) {
+		this.doctorID = doctorID;
+	}
+
 	@Override
 	public String toString() {
 		return "PatientDTO [patientId=" + patientId + ", firstName=" + firstName + ", lastName=" + lastName + ", dob="
 				+ dob + ", patientPhone=" + patientPhone + ", patientEmail=" + patientEmail + ", patientPassword="
 				+ patientPassword + ", gender=" + gender + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-				+ ", appointments=" + appointments + ", doctor=" + doctor + "]";
+				+ ", appointments=" + appointments + ", doctor=" + doctor + ", doctorID=" + doctorID + "]";
 	}
 
 }

@@ -9,7 +9,7 @@ import InsertPatient from "../../InsertPatients/insertpatient.jsx";
 import FetchPatientDetails from "../../fetchPatientDetails/fetchPatientDetails.jsx";
 import FetchAllAppointments from "../../fetchallAppointments/fetchallAppointments.jsx";
 import UpdatePatientDetails from "../../updatePatientDetails/updatePatientDetails.jsx";
-import AddAppointments from "../../AddAppointment/AddAppointment.jsx";
+import AddAppointment from "../../AddAppointment/AddAppointment.jsx";
 import DeleteAppointments from "../../DeleteAppointment/DeleteAppointment.jsx";
 import DeletePatient from "../../DeleteAppointment/DeleteAppointment.jsx";
 import UpdateAppointmentDetails from "../../UpdateAppointmentDetails/UpdateAppointmentDetails.jsx";
@@ -58,13 +58,13 @@ export default class centre extends Component {
                   </Link>
 
                   {/* fetch patient details by id */}
-                  <Link to="/Patientdetails">
+                  <Link to="/patientdetails">
                     <Button
                       variant={
-                        activeRoute === "/Patientdetails" ? "primary" : "light"
+                        activeRoute === "/patientdetails" ? "primary" : "light"
                       }
                       className="w-100 mb-2 Button"
-                      onClick={() => this.handleButtonClick("/Patientdetails")}
+                      onClick={() => this.handleButtonClick("/patientdetails")}
                     >
                       Fetch Patient Details
                     </Button>
@@ -83,21 +83,21 @@ export default class centre extends Component {
                         this.handleButtonClick("/fetchAllAppointments")
                       }
                     >
-                      Fetch all patient Details
+                      Fetch all Appointment Details
                     </Button>
                   </Link>
 
                   {/* updating patient details */}
-                  <Link to="/updatePatientDetails">
+                  <Link to="/UpdatePatientDetails">
                     <Button
                       variant={
-                        activeRoute === "/updatePatientDetails"
+                        activeRoute === "/UpdatePatientDetails"
                           ? "primary"
                           : "light"
                       }
                       className="w-100 mb-2 Button"
                       onClick={() =>
-                        this.handleButtonClick("/updatePatientDetails")
+                        this.handleButtonClick("/UpdatePatientDetails")
                       }
                     >
                       update patient Details
@@ -173,7 +173,7 @@ export default class centre extends Component {
                   {/* <Route path="/" element={<Admin />} /> */}
                   <Route path="/InsertPatient" element={<InsertPatient />} />
                   <Route
-                    path="/patientdetails/:patientId"
+                    path="/patientdetails"
                     element={<FetchPatientDetails />}
                   />
                   <Route
@@ -181,13 +181,10 @@ export default class centre extends Component {
                     element={<FetchAllAppointments />}
                   />
                   <Route
-                    path="/updatePatientDetails"
+                    path="/UpdatePatientDetails"
                     element={<UpdatePatientDetails />}
                   />
-                  <Route
-                    path="/AddAppointments"
-                    element={<AddAppointments />}
-                  />
+                  <Route path="/AddAppointments" element={<AddAppointment />} />
                   <Route
                     path="/DeleteAppointment"
                     element={<DeleteAppointments />}

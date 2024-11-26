@@ -428,6 +428,7 @@ public class PatientController {
 				appointmentDTO.setReason(appointment.getReason());
 				appointmentDTO.setCreatedAt(appointment.getCreatedAt());
 				appointmentDTO.setUpdatedAt(appointment.getUpdatedAt());
+				appointmentDTO.setDoctorID(appointment.getDoctor().getDoctorId());
 
 				appointmentDTOs.add(appointmentDTO);
 			}
