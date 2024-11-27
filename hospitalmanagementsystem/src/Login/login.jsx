@@ -3,7 +3,11 @@ import { Container, Form, Button, Card, Row, Col } from "react-bootstrap";
 import Main from "../mainPageComponents/main.jsx";
 
 // exports the user context
-export const UserContext = createContext();
+export const UserContext = createContext({
+  patientId: null,
+  appointments: [],
+  setAppointments: () => {}, // Update function for appointments
+});
 
 export default class patlogin extends Component {
   constructor(props) {

@@ -10,9 +10,9 @@ import FetchPatientDetails from "../../fetchPatientDetails/fetchPatientDetails.j
 import FetchAllAppointments from "../../fetchallAppointments/fetchallAppointments.jsx";
 import UpdatePatientDetails from "../../updatePatientDetails/updatePatientDetails.jsx";
 import AddAppointment from "../../AddAppointment/AddAppointment.jsx";
+import UpdateAppointmentDetails from "../../UpdateAppointmentDetails/UpdateAppointmentDetails.jsx";
 import DeleteAppointments from "../../DeleteAppointment/DeleteAppointment.jsx";
 import DeletePatient from "../../DeleteAppointment/DeleteAppointment.jsx";
-import UpdateAppointmentDetails from "../../UpdateAppointmentDetails/UpdateAppointmentDetails.jsx";
 
 export default class centre extends Component {
   static contextType = UserContext;
@@ -26,6 +26,14 @@ export default class centre extends Component {
 
   handleButtonClick = (route) => {
     this.setState({ activeRoute: route });
+  };
+
+  handleLogout = () => {
+    // Clear user session or any stored user data (localStorage, sessionStorage, etc.)
+    localStorage.removeItem("patient"); 
+
+    // After logout, redirect to LoginSelector page or Login page
+    window.location.href = "/login"; // Or navigate to the login route
   };
 
   render() {
@@ -163,6 +171,15 @@ export default class centre extends Component {
                       Delete Patient Account
                     </Button>
                   </Link>
+
+                  {/* logout button */}
+                  <Button
+                      variant="danger"
+                      className="w-100 mt-3"
+                      onClick={this.handleLogout}
+                    >
+                      Logout
+                    </Button>
                 </div>
               </Col>
 
@@ -186,14 +203,15 @@ export default class centre extends Component {
                   />
                   <Route path="/AddAppointments" element={<AddAppointment />} />
                   <Route
+                    path="/UpdateAppointmentDetails"
+                    element={<UpdateAppointmentDetails />}
+                  />
+                  <Route
                     path="/DeleteAppointment"
                     element={<DeleteAppointments />}
                   />
                   <Route path="/DeletePatient" element={<DeletePatient />} />
-                  <Route
-                    path="/UpdateAppointmentDetails"
-                    element={<UpdateAppointmentDetails />}
-                  />
+                  
                 </Routes>
               </Col>
             </Row>

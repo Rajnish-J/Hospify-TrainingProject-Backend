@@ -378,6 +378,7 @@ public class HospitalAppointmentSchedulingApplication {
 	// update method:
 	public void updatePatient(long id) {
 		Scanner sc = new Scanner(System.in);
+		// there are different logic in the controller so check once
 		try {
 			System.out.print("1. First Name\n2. Last Name\n3. Phone number\n4. Date of Birth\n5. Email\n6. Password");
 			System.out.println();

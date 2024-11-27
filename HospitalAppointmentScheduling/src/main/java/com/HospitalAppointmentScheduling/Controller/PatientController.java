@@ -125,10 +125,10 @@ public class PatientController {
 
 	// update method
 	@PutMapping("/update/{id}")
-	public ResponseEntity<?> updatePatientDetails(@RequestBody PatientDTO dto, @PathVariable int id) {
+	public ResponseEntity<?> updatePatientDetails(@RequestBody PatientDTO dto, @PathVariable long id) {
 		log.info("patient chooses Update their information by their ID...");
 		PatientVO vo = new PatientVO();
-		vo.setPatientId(dto.getPatientId());
+
 		vo.setFirstName(dto.getFirstName());
 		vo.setLastName(dto.getLastName());
 		vo.setDob(dto.getDob());

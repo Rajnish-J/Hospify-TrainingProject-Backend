@@ -59,52 +59,67 @@ public class PatientBO {
 	}
 
 	// update method:
-	public PatientVO updatePatientDetails(PatientVO vo, int option) throws IdException, PatientException,
+	public PatientVO updatePatientDetails(PatientVO vo, long id) throws IdException, PatientException,
 			PhoneNumberException, EmailException, PasswordException, genderException {
-		if (validateID(vo.getPatientId())) {
-			if (option == 1) {
-				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
-				validatePatient(vo1);
-				vo1.setFirstName(vo.getFirstName());
-				vo1 = patientRepo.save(vo1);
-				return vo1;
-			}
-			if (option == 2) {
-				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
-				validatePatient(vo1);
-				vo1.setLastName(vo.getLastName());
-				vo1 = patientRepo.save(vo1);
-				return vo1;
-			}
-			if (option == 3) {
-				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
-				validatePatient(vo1);
-				vo1.setPatientPhone(vo.getPatientPhone());
-				vo1 = patientRepo.save(vo1);
-				return vo1;
-			}
-			if (option == 4) {
-				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
-				validatePatient(vo1);
-				vo1.setDob(vo.getDob());
-				vo1 = patientRepo.save(vo1);
-				return vo1;
-			}
-			if (option == 5) {
-				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
-				validatePatient(vo1);
-				vo1.setPatientEmail(vo.getPatientEmail());
-				vo1 = patientRepo.save(vo1);
-				return vo1;
-			}
-			if (option == 6) {
-				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
-				validatePatient(vo1);
-				vo1.setPatientPassword(vo.getPatientPassword());
-				vo1 = patientRepo.save(vo1);
-				return vo1;
-			}
+		if (validateID(id)) {
+			validatePatient(vo);
+			PatientVO existingDetials = patientRepo.findById(id).get();
+			existingDetials.setFirstName(vo.getFirstName());
+			existingDetials.setLastName(vo.getLastName());
+			existingDetials.setDob(vo.getDob());
+			existingDetials.setPatientPhone(vo.getPatientPhone());
+			existingDetials.setPatientEmail(vo.getPatientEmail());
+			existingDetials.setPatientPassword(vo.getPatientPassword());
+			existingDetials.setGender(vo.getGender());
+
+			patientRepo.save(existingDetials);
+			return existingDetials;
+
 		}
+//		if (validateID(vo.getPatientId())) {
+//			if (option == 1) {
+//				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
+//				validatePatient(vo1);
+//				vo1.setFirstName(vo.getFirstName());
+//				vo1 = patientRepo.save(vo1);
+//				return vo1;
+//			}
+//			if (option == 2) {
+//				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
+//				validatePatient(vo1);
+//				vo1.setLastName(vo.getLastName());
+//				vo1 = patientRepo.save(vo1);
+//				return vo1;
+//			}
+//			if (option == 3) {
+//				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
+//				validatePatient(vo1);
+//				vo1.setPatientPhone(vo.getPatientPhone());
+//				vo1 = patientRepo.save(vo1);
+//				return vo1;
+//			}
+//			if (option == 4) {
+//				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
+//				validatePatient(vo1);
+//				vo1.setDob(vo.getDob());
+//				vo1 = patientRepo.save(vo1);
+//				return vo1;
+//			}
+//			if (option == 5) {
+//				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
+//				validatePatient(vo1);
+//				vo1.setPatientEmail(vo.getPatientEmail());
+//				vo1 = patientRepo.save(vo1);
+//				return vo1;
+//			}
+//			if (option == 6) {
+//				PatientVO vo1 = patientRepo.findById(vo.getPatientId()).get();
+//				validatePatient(vo1);
+//				vo1.setPatientPassword(vo.getPatientPassword());
+//				vo1 = patientRepo.save(vo1);
+//				return vo1;
+//			}
+//		}
 		return null;
 	}
 
