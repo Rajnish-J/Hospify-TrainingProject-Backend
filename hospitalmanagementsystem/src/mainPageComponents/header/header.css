@@ -18,3 +18,7 @@
 .logoCol {
   background-color: rgb(235, 234, 255);
 }
+
+.logoutbtn{
+  float: right;
+}

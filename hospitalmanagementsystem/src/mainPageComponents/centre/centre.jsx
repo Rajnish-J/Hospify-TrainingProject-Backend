@@ -28,14 +28,6 @@ export default class centre extends Component {
     this.setState({ activeRoute: route });
   };
 
-  handleLogout = () => {
-    // Clear user session or any stored user data (localStorage, sessionStorage, etc.)
-    localStorage.removeItem("patient"); 
-
-    // After logout, redirect to LoginSelector page or Login page
-    window.location.href = "/login"; // Or navigate to the login route
-  };
-
   render() {
     const { activeRoute } = this.state;
     const patient = this.context;
@@ -171,15 +163,6 @@ export default class centre extends Component {
                       Delete Patient Account
                     </Button>
                   </Link>
-
-                  {/* logout button */}
-                  <Button
-                      variant="danger"
-                      className="w-100 mt-3"
-                      onClick={this.handleLogout}
-                    >
-                      Logout
-                    </Button>
                 </div>
               </Col>
 
@@ -189,36 +172,35 @@ export default class centre extends Component {
                 <Routes>
                   {/* <Route path="/" element={<Admin />} /> */}
                   <Route path="/InsertPatient" element={<InsertPatient />} />
-                  
+
                   <Route
                     path="/patientdetails"
                     element={<FetchPatientDetails />}
                   />
-                  
+
                   <Route
                     path="/fetchAllAppointments"
                     element={<FetchAllAppointments />}
                   />
-                  
+
                   <Route
                     path="/UpdatePatientDetails"
                     element={<UpdatePatientDetails />}
                   />
-                  
+
                   <Route path="/AddAppointments" element={<AddAppointment />} />
-                  
+
                   <Route
                     path="/UpdateAppointmentDetails"
                     element={<UpdateAppointmentDetails />}
                   />
-                  
+
                   <Route
                     path="/DeleteAppointment"
                     element={<DeleteAppointments />}
                   />
-                  
+
                   <Route path="/DeletePatient" element={<DeletePatient />} />
-                  
                 </Routes>
               </Col>
             </Row>

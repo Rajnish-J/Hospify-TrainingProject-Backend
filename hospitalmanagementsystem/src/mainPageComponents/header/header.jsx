@@ -1,11 +1,18 @@
 import React, { Component } from "react";
 import "./header.css";
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown, Button } from "react-bootstrap";
 import logoGif from "../../assets/header/logo.gif";
 import { Col, Row } from "react-bootstrap";
 import "../header/header.css";
 
 export default class header extends Component {
+  handleLogout = () => {
+    // Clear user session or any stored user data (localStorage, sessionStorage, etc.)
+    localStorage.removeItem("patient");
+
+    // After logout, redirect to LoginSelector page or Login page
+    window.location.href = "/login"; // Or navigate to the login route
+  };
   render() {
     return (
       <div>
@@ -46,6 +53,14 @@ export default class header extends Component {
                           Emergency
                         </NavDropdown.Item>
                       </NavDropdown>
+                      {/* logout button */}
+                      <Button
+                        variant="danger"
+                        className="w-100 mt-3 logoutbtn"
+                        onClick={this.handleLogout}
+                      >
+                        Logout
+                      </Button>
                     </Nav>
                   </Navbar.Collapse>
                 </Container>
