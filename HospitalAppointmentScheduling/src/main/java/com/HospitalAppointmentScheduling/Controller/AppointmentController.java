@@ -238,11 +238,15 @@ public class AppointmentController {
 
 	// update method:
 	@PutMapping("/updateAppointments/{id}")
-	public ResponseEntity<?> updateAppointmentDetails(@PathVariable long id) {
+	public ResponseEntity<?> updateAppointmentDetails(@RequestBody AppointmentDTO dto, @PathVariable long id) {
 		log.info("Appointment details update method triggerred");
+		AppointmentsVO vo = new AppointmentsVO();
+
+		vo.setAppointmentDate(dto.getAppointmentDate());
+		vo.setReason(dto.getReason());
 
 		try {
-			apptRes = aser.update(id);
+			apptRes = aser.update(vo, id);
 			String pass = "Appointment ID: \" + apptRes.getAppoVo().getAppointmentID() + \" updated successfully.";
 			log.info(pass);
 			return ResponseEntity.ok("Appointment ID: " + apptRes.getAppoVo().getAppointmentID() + " updated");
@@ -267,19 +271,21 @@ public class AppointmentController {
 
 	@GetMapping("/fetchAppointmentsForPatientID/{id}")
 	public ResponseEntity<?> findAllApptByPatientId(@PathVariable long id) {
-		log.info("find All Apptointments By Patient Id method triggered in the controller layer");
+		log.info("Find All Appointments By Patient ID method triggered in the controller layer");
 		try {
 			apptRes = aser.findAllApptByPatientId(id);
 			List<AppointmentsVO> list = apptRes.getList();
+			if (list == null || list.isEmpty()) {
+				return ResponseEntity.ok(new ArrayList<>());
+			}
 			List<AppointmentDTO> listd = new ArrayList<>();
-			for (int i = 0; i < list.size(); i++) {
-				AppointmentsVO vo = list.get(i);
+			for (AppointmentsVO vo : list) {
 				AppointmentDTO getDto = mapToDTO(vo);
 				listd.add(getDto);
 			}
 			return ResponseEntity.ok(listd);
 		} catch (IdException e) {
-			log.error("Patient does not exists in the database", e);
+			log.error("Patient does not exist in the database", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
@@ -300,7 +306,7 @@ public class AppointmentController {
 				listd.add(getDto);
 				log.info("Fetched appointment details between two dates successfully.");
 			}
-			return ResponseEntity.ok(listd);
+			return ResponseEntity.ok(list);
 		} catch (DateException e) {
 			log.error("Id Exception", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

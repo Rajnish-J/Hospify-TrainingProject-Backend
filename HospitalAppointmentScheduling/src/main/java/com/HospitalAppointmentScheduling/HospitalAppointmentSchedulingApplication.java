@@ -929,14 +929,18 @@ public class HospitalAppointmentSchedulingApplication {
 
 	// update method:
 	public void updateAppointment(long id) {
-		try {
-			resAppt = aService.update(id);
-			if (resAppt.getSucessMessage() != null) {
-				System.out.println(resAppt.getSucessMessage() + resAppt.getAppoVo().getAppointmentID());
-			}
-		} catch (IdException e) {
-			System.err.println(e.getMessage());
-		}
+//		AppointmentsVO vo = new AppointmentsVO();
+//
+//		vo.setAppointmentDate(2025-05-14);
+//		vo.setReason(dto.getReason());
+//		try {
+//			resAppt = aService.update(id);
+//			if (resAppt.getSucessMessage() != null) {
+//				System.out.println(resAppt.getSucessMessage() + resAppt.getAppoVo().getAppointmentID());
+//			}
+//		} catch (IdException e) {
+//			System.err.println(e.getMessage());
+//		}
 	}
 
 	// ------------------------------------------------------------------------------------------------------------------------------//

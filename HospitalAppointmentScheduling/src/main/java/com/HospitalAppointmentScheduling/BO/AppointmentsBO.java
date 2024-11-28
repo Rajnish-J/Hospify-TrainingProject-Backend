@@ -1,6 +1,7 @@
 package com.HospitalAppointmentScheduling.BO;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,12 +74,14 @@ public class AppointmentsBO {
 		return appointmentsRepo.findAll();
 	}
 
-	public AppointmentsVO updateAppointmentDetails(Long id) throws IdException {
+	public AppointmentsVO updateAppointmentDetails(AppointmentsVO vo, Long id) throws IdException {
 		if (validateApptID(id)) {
-			AppointmentsVO vo = appointmentsRepo.findById(id).get();
-			vo.setReason("Cured");
-			vo = appointmentsRepo.save(vo);
-			return vo;
+			AppointmentsVO existingData = appointmentsRepo.findById(id).get();
+			existingData.setAppointmentDate(vo.getAppointmentDate());
+			existingData.setReason(vo.getReason());
+
+			appointmentsRepo.save(existingData);
+			return existingData;
 		}
 		return null;
 
@@ -100,6 +103,9 @@ public class AppointmentsBO {
 	public List<AppointmentsVO> findAllAppointmentsByPatientID(long id) throws IdException {
 		if (validatePatID(id)) {
 			List<AppointmentsVO> apptList = appointmentsRepo.findAllApptByPatientId(id);
+			if (apptList.isEmpty() || apptList == null) {
+				return (new ArrayList<>());
+			}
 			return apptList;
 		}
 		return null;

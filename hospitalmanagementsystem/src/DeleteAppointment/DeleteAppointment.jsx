@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Container, Row, Col, Table, Button, Alert } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Table,
+  Button,
+  Alert,
+  Card,
+} from "react-bootstrap";
 import { UserContext } from "../Login/login.jsx";
 import { useNavigate } from "react-router-dom";
 
@@ -18,10 +26,13 @@ class FetchAll extends Component {
   handleFetchAll = () => {
     const patId = this.context?.patientId;
 
-    fetch(`http://localhost:8080/appointment/fetchAppointmentsForPatientID/${patId}`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    })
+    fetch(
+      `http://localhost:8080/appointment/fetchAppointmentsForPatientID/${patId}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
@@ -55,7 +66,9 @@ class FetchAll extends Component {
         // Update the React Context
         const context = this.context;
         context.setAppointments?.((prevAppointments) =>
-          prevAppointments.filter((appt) => appt.appointmentID !== appointmentID)
+          prevAppointments.filter(
+            (appt) => appt.appointmentID !== appointmentID
+          )
         );
       })
       .catch((error) => {
@@ -71,9 +84,20 @@ class FetchAll extends Component {
         <Row>
           <Col xs={12}>
             <h2 className="mb-4">Patient Appointments</h2>
-            <Button variant="primary" onClick={this.handleFetchAll}>
-              Fetch Appointments
-            </Button>
+
+            {appointments.length === 0 && (
+              <Card className="mt-4 text-center">
+                <Card.Body>
+                  <Card.Title>No Appointments Found</Card.Title>
+                </Card.Body>
+              </Card>
+            )}
+
+            {appointments.length > 0 && (
+              <Button variant="primary" onClick={this.handleFetchAll}>
+                Fetch Appointments
+              </Button>
+            )}
 
             {error && (
               <Alert variant="danger" className="mt-4">
@@ -104,7 +128,9 @@ class FetchAll extends Component {
                           variant="danger"
                           size="sm"
                           onClick={() =>
-                            this.handleDeleteAppointment(appointment.appointmentID)
+                            this.handleDeleteAppointment(
+                              appointment.appointmentID
+                            )
                           }
                         >
                           Delete

@@ -102,9 +102,9 @@ public class AppointmentsService {
 
 	// update method:
 	@Transactional
-	public ResponseHandleAppointments update(Long id) throws IdException {
+	public ResponseHandleAppointments update(AppointmentsVO passedData, Long id) throws IdException {
 		log.info("Appointments update method triggered");
-		AppointmentsVO vo = apptBO.updateAppointmentDetails(id);
+		AppointmentsVO vo = apptBO.updateAppointmentDetails(passedData, id);
 		log.info("update method - Updating appointment details executed");
 		if (vo != null) {
 			log.info("Appointment update successful");
@@ -134,17 +134,21 @@ public class AppointmentsService {
 
 	// fetches all appointments to the respective patient id:
 	public ResponseHandleAppointments findAllApptByPatientId(long id) throws IdException {
-		log.info(
-				"fetching all the appointments with respective to the patient id method triggered in the service layer");
+		log.info("Fetching all the appointments with respect to the patient ID method triggered in the service layer");
+
+		// Create a new instance to avoid stale data
+		ResponseHandleAppointments apptsRes = new ResponseHandleAppointments();
+
 		List<AppointmentsVO> list = apptBO.findAllAppointmentsByPatientID(id);
-		if (list.size() > 0) {
-			String pass = "successfully fetched the appointment details for the patient ID: " + id;
+		if (list != null && !list.isEmpty()) {
+			String pass = "Successfully fetched the appointment details for the patient ID: " + id;
 			log.info(pass);
 			apptsRes.setList(list);
-			apptsRes.setSucessMessage("all the appointments fetched");
+			apptsRes.setSucessMessage("All the appointments fetched");
 		} else {
-			apptsRes.setFailureMessage("Error in fetching");
+			apptsRes.setFailureMessage("No appointments found for the given patient ID");
 		}
+
 		return apptsRes;
 	}
 

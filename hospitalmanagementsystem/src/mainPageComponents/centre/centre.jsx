@@ -12,7 +12,7 @@ import UpdatePatientDetails from "../../updatePatientDetails/updatePatientDetail
 import AddAppointment from "../../AddAppointment/AddAppointment.jsx";
 import UpdateAppointmentDetails from "../../UpdateAppointmentDetails/UpdateAppointmentDetails.jsx";
 import DeleteAppointments from "../../DeleteAppointment/DeleteAppointment.jsx";
-import DeletePatient from "../../DeleteAppointment/DeleteAppointment.jsx";
+import DeletePatient from "../../DeletePatient/DeletePatient.jsx";
 
 export default class centre extends Component {
   static contextType = UserContext;
@@ -189,27 +189,34 @@ export default class centre extends Component {
                 <Routes>
                   {/* <Route path="/" element={<Admin />} /> */}
                   <Route path="/InsertPatient" element={<InsertPatient />} />
+                  
                   <Route
                     path="/patientdetails"
                     element={<FetchPatientDetails />}
                   />
+                  
                   <Route
                     path="/fetchAllAppointments"
                     element={<FetchAllAppointments />}
                   />
+                  
                   <Route
                     path="/UpdatePatientDetails"
                     element={<UpdatePatientDetails />}
                   />
+                  
                   <Route path="/AddAppointments" element={<AddAppointment />} />
+                  
                   <Route
                     path="/UpdateAppointmentDetails"
                     element={<UpdateAppointmentDetails />}
                   />
+                  
                   <Route
                     path="/DeleteAppointment"
                     element={<DeleteAppointments />}
                   />
+                  
                   <Route path="/DeletePatient" element={<DeletePatient />} />
                   
                 </Routes>
