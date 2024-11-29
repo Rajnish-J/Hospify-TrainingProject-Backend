@@ -290,6 +290,13 @@ public class AppointmentController {
 		}
 	}
 
+	@GetMapping("/countOfAppointmentsByDate/{date}")
+	public ResponseEntity<?> countOfAppointmentsByDate(@PathVariable LocalDate date) {
+		log.info("Count of Appointments By particular method triggered in the controller layer");
+		apptRes = aser.countOfAppointmentsByDate(date);
+		return ResponseEntity.ok(apptRes.getApptsCount());
+	}
+
 	// Appointment by between two days:
 	@GetMapping("/AppointmentDetailsAmongTwoDate/{sd}/{ld}")
 	public ResponseEntity<?> betweenTwoDOBpat(@PathVariable("sd") LocalDate sd, @PathVariable("ld") LocalDate ld) {

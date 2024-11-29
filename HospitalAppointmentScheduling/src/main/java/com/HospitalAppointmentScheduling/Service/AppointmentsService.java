@@ -152,6 +152,22 @@ public class AppointmentsService {
 		return apptsRes;
 	}
 
+	// returns the number that the particular date having count
+	public ResponseHandleAppointments countOfAppointmentsByDate(LocalDate date) {
+		log.info("Appointments on the given date count method triggered");
+		long ret = apptBO.countOfAppointmentsByDate(date);
+		if (ret > 5) {
+			String pass = "Successfully fetched count of the appointments on the date: " + ret;
+			log.info(pass);
+			apptsRes.setApptsCount(ret);
+			apptsRes.setSucessMessage("fetched successfully");
+		} else {
+			apptsRes.setApptsCount(ret);
+			apptsRes.setFailureMessage("lesser count");
+		}
+		return apptsRes;
+	}
+
 	// fetching appt details between two dates
 	@Transactional
 	public ResponseHandleAppointments fetchApptBetweenTwoDates(LocalDate sd, LocalDate ld) throws DateException {

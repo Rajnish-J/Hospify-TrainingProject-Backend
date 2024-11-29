@@ -932,18 +932,121 @@ export default class PatLogin extends Component {
   };
 
   // Handle SignUp submission
+  // handleSignUpSubmit = (e) => {
+  //   e.preventDefault();
+  //   const { patientData } = this.state;
+  //   const newErrors = {};
+
+  //   // Validate required fields
+  //   Object.keys(patientData).forEach((key) => {
+  //     if (!patientData[key]) {
+  //       newErrors[key] = "This field is required";
+  //     }
+  //   });
+
+  //   if (Object.keys(newErrors).length > 0) {
+  //     this.setState({ signUpErrors: newErrors });
+  //   } else {
+  //     fetch("http://localhost:8080/patient/insert", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(patientData),
+  //     })
+  //       .then((response) => {
+  //         if (!response.ok) {
+  //           throw new Error(`Error: ${response.status}`);
+  //         }
+  //         return response.text();
+  //       })
+  //       .then((data) => {
+  //         this.setState({
+  //           signUpResponse: data,
+  //           patientData: {
+  //             firstName: "",
+  //             lastName: "",
+  //             patientEmail: "",
+  //             patientPassword: "",
+  //             patientPhone: "",
+  //             dob: "",
+  //             gender: "",
+  //           },
+  //           showSignUp: false,
+  //         });
+  //       })
+  //       .catch((error) => {
+  //         this.setState({ signUpResponse: `Sign Up Failed: ${error.message}` });
+  //       });
+  //   }
+  // };
+
   handleSignUpSubmit = (e) => {
     e.preventDefault();
     const { patientData } = this.state;
     const newErrors = {};
 
-    // Validate required fields
+    // Validate required fields (First Name, Last Name, Email, etc.)
     Object.keys(patientData).forEach((key) => {
-      if (!patientData[key]) {
+      if (!patientData[key] && key !== "gender" && key !== "dob") {
         newErrors[key] = "This field is required";
       }
     });
 
+    // Validate First Name (alphabetic characters only)
+    if (patientData.firstName && !/^[A-Za-z]+$/.test(patientData.firstName)) {
+      newErrors.firstName = "First name can only contain letters.";
+    }
+
+    // Validate Last Name (alphabetic characters only)
+    if (patientData.lastName && !/^[A-Za-z]+$/.test(patientData.lastName)) {
+      newErrors.lastName = "Last name can only contain letters.";
+    }
+
+    // Validate Email (basic email format)
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (
+      patientData.patientEmail &&
+      !emailPattern.test(patientData.patientEmail)
+    ) {
+      newErrors.patientEmail = "Please enter a valid email address.";
+    }
+
+    // Validate Phone Number (basic phone number format, adjust regex as needed)
+    const phonePattern = /^[0-9]{10}$/;
+    if (
+      patientData.patientPhone &&
+      !phonePattern.test(patientData.patientPhone)
+    ) {
+      newErrors.patientPhone = "Please enter a valid phone number (10 digits).";
+    }
+
+    // Validate Date of Birth (at least 18 years old)
+    if (patientData.dob) {
+      const today = new Date();
+      const dob = new Date(patientData.dob);
+      const age = today.getFullYear() - dob.getFullYear();
+      const month = today.getMonth() - dob.getMonth();
+      if (age < 18 || (age === 18 && month < 0)) {
+        newErrors.dob = "You must be at least 18 years old.";
+      }
+    }
+
+    // Validate Password (At least 1 small letter, 1 capital letter, 1 number, and 1 special character)
+    const passwordPattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+    if (
+      patientData.patientPassword &&
+      !passwordPattern.test(patientData.patientPassword)
+    ) {
+      newErrors.patientPassword =
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
+    }
+
+    // Validate Gender (must be selected)
+    if (!patientData.gender) {
+      newErrors.gender = "Please select a gender.";
+    }
+
+    // If there are any validation errors, display them
     if (Object.keys(newErrors).length > 0) {
       this.setState({ signUpErrors: newErrors });
     } else {
@@ -1013,7 +1116,7 @@ export default class PatLogin extends Component {
             setAppointments: (appointments) =>
               this.setState((prevState) => ({
                 patient: { ...prevState.patient, appointments },
-              })), 
+              })),
           }}
         >
           <Main />
@@ -1148,7 +1251,10 @@ export default class PatLogin extends Component {
                   {signUpResponse}
                 </div>
               )}
+              
+
               <Form onSubmit={this.handleSignUpSubmit}>
+                {/* First Name */}
                 <Row className="mb-3">
                   <Col md={6}>
                     <Form.Group>
@@ -1167,6 +1273,10 @@ export default class PatLogin extends Component {
                       )}
                     </Form.Group>
                   </Col>
+                </Row>
+
+                {/* Last Name */}
+                <Row className="mb-3">
                   <Col md={6}>
                     <Form.Group>
                       <Form.Label>Last Name</Form.Label>
@@ -1185,6 +1295,8 @@ export default class PatLogin extends Component {
                     </Form.Group>
                   </Col>
                 </Row>
+
+                {/* Email */}
                 <Form.Group className="mb-3">
                   <Form.Label>Email</Form.Label>
                   <Form.Control
@@ -1200,6 +1312,8 @@ export default class PatLogin extends Component {
                     </Form.Text>
                   )}
                 </Form.Group>
+
+                {/* Password */}
                 <Form.Group className="mb-3">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
@@ -1215,6 +1329,8 @@ export default class PatLogin extends Component {
                     </Form.Text>
                   )}
                 </Form.Group>
+
+                {/* Phone Number */}
                 <Form.Group className="mb-3">
                   <Form.Label>Phone Number</Form.Label>
                   <Form.Control
@@ -1230,6 +1346,8 @@ export default class PatLogin extends Component {
                     </Form.Text>
                   )}
                 </Form.Group>
+
+                {/* Date of Birth */}
                 <Form.Group className="mb-3">
                   <Form.Label>Date of Birth</Form.Label>
                   <Form.Control
@@ -1244,6 +1362,8 @@ export default class PatLogin extends Component {
                     </Form.Text>
                   )}
                 </Form.Group>
+
+                {/* Gender */}
                 <Form.Group className="mb-3">
                   <Form.Label>Gender</Form.Label>
                   <Form.Select
@@ -1262,6 +1382,8 @@ export default class PatLogin extends Component {
                     </Form.Text>
                   )}
                 </Form.Group>
+
+                {/* Submit Button */}
                 <Button type="submit" variant="primary" className="w-100">
                   Sign Up
                 </Button>

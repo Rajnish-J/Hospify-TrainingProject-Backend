@@ -15,6 +15,15 @@ public class ResponseHandleAppointments {
 	private AppointmentsVO appoVo;
 	private List<AppointmentsVO> list;
 	private List<DoctorDetailsProjection> listSpecialiaztion;
+	private long apptsCount;
+
+	public long getApptsCount() {
+		return apptsCount;
+	}
+
+	public void setApptsCount(long apptsCount) {
+		this.apptsCount = apptsCount;
+	}
 
 	public String getSucessMessage() {
 		return sucessMessage;

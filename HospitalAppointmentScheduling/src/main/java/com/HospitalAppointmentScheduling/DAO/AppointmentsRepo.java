@@ -41,4 +41,8 @@ public interface AppointmentsRepo extends JpaRepository<AppointmentsVO, Long> {
 	@Query("DELETE FROM AppointmentsVO a WHERE a.appointmentID = :appointmentId")
 	void deleteByAppointmentId(@Param("appointmentId") long appointmentId);
 
+	// returns the long (number of appointments for the particular date)
+	@Query("SELECT COUNT(a) FROM AppointmentsVO a WHERE a.appointmentDate = :appointmentDate")
+	long countAppointmentsByDate(@Param("appointmentDate") LocalDate appointmentDate);
+
 }

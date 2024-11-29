@@ -111,6 +111,12 @@ public class AppointmentsBO {
 		return null;
 	}
 
+	// returns the number that the particular date having count
+	public long countOfAppointmentsByDate(LocalDate date) {
+		long ret = appointmentsRepo.countAppointmentsByDate(date);
+		return ret;
+	}
+
 	// Appointment by between two days:
 	public List<AppointmentsVO> fetchApptBetweenTwoDates(LocalDate sd, LocalDate ld) throws DateException {
 		List<AppointmentsVO> list = appointmentsRepo.findAllByAppointmentDateRange(sd, ld);
