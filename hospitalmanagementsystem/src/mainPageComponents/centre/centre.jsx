@@ -44,18 +44,6 @@ export default class centre extends Component {
               <Col sm={2} xs={2} md={2} lg={2} className="menuCol">
                 {/* div: menu */}
                 <div className="menuDiv">
-                  {/* Insert new patient */}
-                  <Link to="/InsertPatient">
-                    <Button
-                      variant={
-                        activeRoute === "/InsertPatient" ? "primary" : "light"
-                      }
-                      className="w-100 mb-2 Button"
-                      onClick={() => this.handleButtonClick("/InsertPatient")}
-                    >
-                      Add Patient
-                    </Button>
-                  </Link>
 
                   {/* fetch patient details by id */}
                   <Link to="/patientdetails">
@@ -66,7 +54,7 @@ export default class centre extends Component {
                       className="w-100 mb-2 Button"
                       onClick={() => this.handleButtonClick("/patientdetails")}
                     >
-                      Fetch Patient Details
+                      Your Details
                     </Button>
                   </Link>
 
@@ -83,7 +71,7 @@ export default class centre extends Component {
                         this.handleButtonClick("/fetchAllAppointments")
                       }
                     >
-                      Fetch all Appointment Details
+                      All Appointment Details
                     </Button>
                   </Link>
 
@@ -100,7 +88,7 @@ export default class centre extends Component {
                         this.handleButtonClick("/UpdatePatientDetails")
                       }
                     >
-                      update patient Details
+                      update Details
                     </Button>
                   </Link>
 
@@ -160,7 +148,7 @@ export default class centre extends Component {
                       className="w-100 mb-2 Button"
                       onClick={() => this.handleButtonClick("/DeletePatient")}
                     >
-                      Delete Patient Account
+                      Delete Account
                     </Button>
                   </Link>
                 </div>
@@ -171,7 +159,6 @@ export default class centre extends Component {
                 {/* Routes to the respective pages or components or API's */}
                 <Routes>
                   {/* <Route path="/" element={<Admin />} /> */}
-                  <Route path="/InsertPatient" element={<InsertPatient />} />
 
                   <Route
                     path="/patientdetails"
