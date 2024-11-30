@@ -387,14 +387,15 @@ export default class UpdatePatientDetails extends Component {
     const { updatedFields } = this.state;
     const errors = {};
 
-    const { firstName, lastName, dob, patientPhone, patientEmail } = updatedFields;
+    const { firstName, lastName, dob, patientPhone, patientEmail } =
+      updatedFields;
 
-    if (firstName && (firstName.trim() === "" || firstName.length > 50)) {
-      errors.firstName = "First name must be between 1 and 50 characters.";
+    if (firstName && (firstName.trim().length < 2 || firstName.length > 50)) {
+      errors.firstName = "First name must be between 2 and 50 characters.";
     }
 
-    if (lastName && (lastName.trim() === "" || lastName.length > 50)) {
-      errors.lastName = "Last name must be between 1 and 50 characters.";
+    if (lastName && (lastName.trim().length < 2 || lastName.length > 50)) {
+      errors.lastName = "Last name must be between 2 and 50 characters.";
     }
 
     if (dob) {
@@ -406,12 +407,12 @@ export default class UpdatePatientDetails extends Component {
         (today.getMonth() === dobDate.getMonth() &&
           today.getDate() >= dobDate.getDate());
       if (age < 18 || (age === 18 && !isBirthdayPassed)) {
-        errors.dob = "Date of birth must indicate the patient is at least 18 years old.";
+        errors.dob = "Patient must be at least 18 years old.";
       }
     }
 
-    if (patientPhone && (!/^\d{10}$/.test(patientPhone))) {
-      errors.patientPhone = "Phone number must be 10 digits.";
+    if (patientPhone && !/^\d{10}$/.test(patientPhone)) {
+      errors.patientPhone = "Phone number must be exactly 10 digits.";
     }
 
     if (patientEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(patientEmail)) {
@@ -474,7 +475,8 @@ export default class UpdatePatientDetails extends Component {
   };
 
   render() {
-    const { updatedFields, validationErrors, errorMessage, successMessage } = this.state;
+    const { updatedFields, validationErrors, errorMessage, successMessage } =
+      this.state;
     const patientContext = this.context;
 
     if (!patientContext) {
@@ -505,12 +507,12 @@ export default class UpdatePatientDetails extends Component {
                     {successMessage}
                   </div>
                 )}
-                <Form onSubmit={this.handleSubmit}>
+                <Form onSubmit={this.handleSubmit} noValidate>
                   <Form.Group controlId="firstName" className="mb-3">
                     <Form.Label>First Name</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder={firstName}
+                      placeholder={firstName || "Enter first name"}
                       name="firstName"
                       value={updatedFields.firstName || ""}
                       onChange={this.handleChange}
@@ -520,11 +522,12 @@ export default class UpdatePatientDetails extends Component {
                       {validationErrors.firstName}
                     </Form.Control.Feedback>
                   </Form.Group>
+
                   <Form.Group controlId="lastName" className="mb-3">
                     <Form.Label>Last Name</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder={lastName}
+                      placeholder={lastName || "Enter last name"}
                       name="lastName"
                       value={updatedFields.lastName || ""}
                       onChange={this.handleChange}
@@ -534,6 +537,7 @@ export default class UpdatePatientDetails extends Component {
                       {validationErrors.lastName}
                     </Form.Control.Feedback>
                   </Form.Group>
+
                   <Form.Group controlId="dob" className="mb-3">
                     <Form.Label>Date of Birth</Form.Label>
                     <Form.Control
@@ -548,11 +552,12 @@ export default class UpdatePatientDetails extends Component {
                       {validationErrors.dob}
                     </Form.Control.Feedback>
                   </Form.Group>
+
                   <Form.Group controlId="patientPhone" className="mb-3">
                     <Form.Label>Phone</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder={patientPhone}
+                      placeholder={patientPhone || "Enter phone number"}
                       name="patientPhone"
                       value={updatedFields.patientPhone || ""}
                       onChange={this.handleChange}
@@ -562,11 +567,12 @@ export default class UpdatePatientDetails extends Component {
                       {validationErrors.patientPhone}
                     </Form.Control.Feedback>
                   </Form.Group>
+
                   <Form.Group controlId="patientEmail" className="mb-3">
                     <Form.Label>Email</Form.Label>
                     <Form.Control
                       type="email"
-                      placeholder={patientEmail}
+                      placeholder={patientEmail || "Enter email"}
                       name="patientEmail"
                       value={updatedFields.patientEmail || ""}
                       onChange={this.handleChange}
@@ -576,6 +582,7 @@ export default class UpdatePatientDetails extends Component {
                       {validationErrors.patientEmail}
                     </Form.Control.Feedback>
                   </Form.Group>
+
                   <Form.Group controlId="gender" className="mb-3">
                     <Form.Label>Gender</Form.Label>
                     <Form.Select
@@ -588,6 +595,7 @@ export default class UpdatePatientDetails extends Component {
                       <option value="Other">Other</option>
                     </Form.Select>
                   </Form.Group>
+
                   <Button variant="primary" type="submit" className="w-100">
                     Update
                   </Button>

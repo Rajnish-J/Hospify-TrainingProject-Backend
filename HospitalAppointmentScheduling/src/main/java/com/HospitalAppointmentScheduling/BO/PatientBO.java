@@ -31,7 +31,10 @@ public class PatientBO {
 	// patient authentication method:
 	public PatientVO patientAuthentication(String email, String password) {
 		PatientVO vo = patientRepo.patientAuthentication(email, password);
-		return vo;
+		if (vo.getPatientEmail().equals(email) && vo.getPatientPassword().equals(password)) {
+			return vo;
+		}
+		return null;
 	}
 
 	// Insert method:

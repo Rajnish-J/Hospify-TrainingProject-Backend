@@ -631,7 +631,8 @@ export default class AppointmentList extends Component {
       });
       return false;
     }
-
+    // Reset error message if validation passes
+    this.setState({ errorMessage: "" });
     return true;
   };
 
@@ -784,9 +785,17 @@ export default class AppointmentList extends Component {
                         name="appointmentDate"
                         value={appointmentDate}
                         onChange={this.handleChange}
+                        isInvalid={
+                          errorMessage ===
+                          "Appointment date cannot be in the past."
+                        }
                         required
                       />
+                      <Form.Control.Feedback type="invalid">
+                        Appointment date cannot be in the past.
+                      </Form.Control.Feedback>
                     </Form.Group>
+
                     <Form.Group controlId="reason" className="mb-3">
                       <Form.Label>Reason</Form.Label>
                       <Form.Control
@@ -794,10 +803,18 @@ export default class AppointmentList extends Component {
                         name="reason"
                         value={reason}
                         onChange={this.handleChange}
+                        isInvalid={
+                          errorMessage ===
+                          "Reason must be less than 50 characters."
+                        }
                         required
                         placeholder="Enter reason"
                       />
+                      <Form.Control.Feedback type="invalid">
+                        Reason must be less than 50 characters.
+                      </Form.Control.Feedback>
                     </Form.Group>
+
                     <Button variant="success" type="submit" className="w-100">
                       Save Changes
                     </Button>

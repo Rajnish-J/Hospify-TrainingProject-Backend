@@ -931,54 +931,6 @@ export default class PatLogin extends Component {
     }));
   };
 
-  // Handle SignUp submission
-  // handleSignUpSubmit = (e) => {
-  //   e.preventDefault();
-  //   const { patientData } = this.state;
-  //   const newErrors = {};
-
-  //   // Validate required fields
-  //   Object.keys(patientData).forEach((key) => {
-  //     if (!patientData[key]) {
-  //       newErrors[key] = "This field is required";
-  //     }
-  //   });
-
-  //   if (Object.keys(newErrors).length > 0) {
-  //     this.setState({ signUpErrors: newErrors });
-  //   } else {
-  //     fetch("http://localhost:8080/patient/insert", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(patientData),
-  //     })
-  //       .then((response) => {
-  //         if (!response.ok) {
-  //           throw new Error(`Error: ${response.status}`);
-  //         }
-  //         return response.text();
-  //       })
-  //       .then((data) => {
-  //         this.setState({
-  //           signUpResponse: data,
-  //           patientData: {
-  //             firstName: "",
-  //             lastName: "",
-  //             patientEmail: "",
-  //             patientPassword: "",
-  //             patientPhone: "",
-  //             dob: "",
-  //             gender: "",
-  //           },
-  //           showSignUp: false,
-  //         });
-  //       })
-  //       .catch((error) => {
-  //         this.setState({ signUpResponse: `Sign Up Failed: ${error.message}` });
-  //       });
-  //   }
-  // };
-
   handleSignUpSubmit = (e) => {
     e.preventDefault();
     const { patientData } = this.state;
@@ -991,14 +943,24 @@ export default class PatLogin extends Component {
       }
     });
 
-    // Validate First Name (alphabetic characters only)
-    if (patientData.firstName && !/^[A-Za-z]+$/.test(patientData.firstName)) {
-      newErrors.firstName = "First name can only contain letters.";
+    // Validate First Name (alphabetic characters only, minimum 2 characters)
+    if (
+      patientData.firstName &&
+      (!/^[A-Za-z]+$/.test(patientData.firstName) ||
+        patientData.firstName.length < 2)
+    ) {
+      newErrors.firstName =
+        "First name must be at least 2 characters and contain only letters.";
     }
 
-    // Validate Last Name (alphabetic characters only)
-    if (patientData.lastName && !/^[A-Za-z]+$/.test(patientData.lastName)) {
-      newErrors.lastName = "Last name can only contain letters.";
+    // Validate Last Name (alphabetic characters only, minimum 2 characters)
+    if (
+      patientData.lastName &&
+      (!/^[A-Za-z]+$/.test(patientData.lastName) ||
+        patientData.lastName.length < 2)
+    ) {
+      newErrors.lastName =
+        "Last name must be at least 2 characters and contain only letters.";
     }
 
     // Validate Email (basic email format)
@@ -1251,7 +1213,6 @@ export default class PatLogin extends Component {
                   {signUpResponse}
                 </div>
               )}
-              
 
               <Form onSubmit={this.handleSignUpSubmit}>
                 {/* First Name */}
@@ -1265,12 +1226,11 @@ export default class PatLogin extends Component {
                         value={patientData.firstName}
                         onChange={this.handleSignUpChange}
                         placeholder="Enter first name"
+                        isInvalid={!!signUpErrors.firstName}
                       />
-                      {signUpErrors.firstName && (
-                        <Form.Text className="text-danger">
-                          {signUpErrors.firstName}
-                        </Form.Text>
-                      )}
+                      <Form.Control.Feedback type="invalid">
+                        {signUpErrors.firstName}
+                      </Form.Control.Feedback>
                     </Form.Group>
                   </Col>
                 </Row>
@@ -1286,12 +1246,11 @@ export default class PatLogin extends Component {
                         value={patientData.lastName}
                         onChange={this.handleSignUpChange}
                         placeholder="Enter last name"
+                        isInvalid={!!signUpErrors.lastName}
                       />
-                      {signUpErrors.lastName && (
-                        <Form.Text className="text-danger">
-                          {signUpErrors.lastName}
-                        </Form.Text>
-                      )}
+                      <Form.Control.Feedback type="invalid">
+                        {signUpErrors.lastName}
+                      </Form.Control.Feedback>
                     </Form.Group>
                   </Col>
                 </Row>
@@ -1305,12 +1264,11 @@ export default class PatLogin extends Component {
                     value={patientData.patientEmail}
                     onChange={this.handleSignUpChange}
                     placeholder="Enter email"
+                    isInvalid={!!signUpErrors.patientEmail}
                   />
-                  {signUpErrors.patientEmail && (
-                    <Form.Text className="text-danger">
-                      {signUpErrors.patientEmail}
-                    </Form.Text>
-                  )}
+                  <Form.Control.Feedback type="invalid">
+                    {signUpErrors.patientEmail}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 {/* Password */}
@@ -1322,12 +1280,11 @@ export default class PatLogin extends Component {
                     value={patientData.patientPassword}
                     onChange={this.handleSignUpChange}
                     placeholder="Enter password"
+                    isInvalid={!!signUpErrors.patientPassword}
                   />
-                  {signUpErrors.patientPassword && (
-                    <Form.Text className="text-danger">
-                      {signUpErrors.patientPassword}
-                    </Form.Text>
-                  )}
+                  <Form.Control.Feedback type="invalid">
+                    {signUpErrors.patientPassword}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 {/* Phone Number */}
@@ -1339,12 +1296,11 @@ export default class PatLogin extends Component {
                     value={patientData.patientPhone}
                     onChange={this.handleSignUpChange}
                     placeholder="Enter phone number"
+                    isInvalid={!!signUpErrors.patientPhone}
                   />
-                  {signUpErrors.patientPhone && (
-                    <Form.Text className="text-danger">
-                      {signUpErrors.patientPhone}
-                    </Form.Text>
-                  )}
+                  <Form.Control.Feedback type="invalid">
+                    {signUpErrors.patientPhone}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 {/* Date of Birth */}
@@ -1355,12 +1311,11 @@ export default class PatLogin extends Component {
                     name="dob"
                     value={patientData.dob}
                     onChange={this.handleSignUpChange}
+                    isInvalid={!!signUpErrors.dob}
                   />
-                  {signUpErrors.dob && (
-                    <Form.Text className="text-danger">
-                      {signUpErrors.dob}
-                    </Form.Text>
-                  )}
+                  <Form.Control.Feedback type="invalid">
+                    {signUpErrors.dob}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 {/* Gender */}
@@ -1370,17 +1325,16 @@ export default class PatLogin extends Component {
                     name="gender"
                     value={patientData.gender}
                     onChange={this.handleSignUpChange}
+                    isInvalid={!!signUpErrors.gender}
                   >
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
                   </Form.Select>
-                  {signUpErrors.gender && (
-                    <Form.Text className="text-danger">
-                      {signUpErrors.gender}
-                    </Form.Text>
-                  )}
+                  <Form.Control.Feedback type="invalid">
+                    {signUpErrors.gender}
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 {/* Submit Button */}

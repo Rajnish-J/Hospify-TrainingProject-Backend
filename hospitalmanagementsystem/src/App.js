@@ -1,5 +1,5 @@
 import Main from "../src/mainPageComponents/main.jsx";
-import LandingPage from "../src/LandingPage/landingPage.jsx";
+import LandingPage from "../src/landingPage/landingPage.jsx";
 import Login from "./Login/login.jsx";
 
 function App() {
