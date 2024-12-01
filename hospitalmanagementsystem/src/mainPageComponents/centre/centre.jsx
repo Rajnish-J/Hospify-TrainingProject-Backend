@@ -4,8 +4,6 @@ import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import "../centre/centre.css";
 import { UserContext } from "../../Login/login.jsx";
 
-import Admin from "../Admin/admin.jsx";
-import InsertPatient from "../../InsertPatients/insertpatient.jsx";
 import FetchPatientDetails from "../../fetchPatientDetails/fetchPatientDetails.jsx";
 import FetchAllAppointments from "../../fetchallAppointments/fetchallAppointments.jsx";
 import UpdatePatientDetails from "../../updatePatientDetails/updatePatientDetails.jsx";

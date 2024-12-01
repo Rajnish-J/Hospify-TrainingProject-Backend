@@ -49,7 +49,6 @@ export default class FindByPatientId extends Component {
 
   render() {
     const { patientDetails, errorMessage, noResults } = this.state;
-    console.log(patientDetails);
 
     return (
       <Container>
