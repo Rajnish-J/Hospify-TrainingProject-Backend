@@ -6,7 +6,6 @@ import {
   Col,
   Form,
   Button,
-  Card,
   Navbar,
   Nav,
 } from "react-bootstrap";
@@ -250,261 +249,333 @@ export default class PatLogin extends Component {
     }
 
     return (
-      <div className={`login-page ${showLogin || showSignUp ? "blurred" : ""}`}>
-        {/* Navbar */}
-        <Navbar bg="dark" variant="dark" expand="lg">
-          <Container>
-            <Navbar.Brand>Hospital Management</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-auto">
-                <Button variant="outline-light" onClick={this.toggleLogin}>
-                  Login
-                </Button>
-                <Button
-                  variant="outline-light"
-                  onClick={this.toggleSignUp}
-                  className="ms-2"
-                >
-                  Sign Up
-                </Button>
+      <div>
+        <div
+          className={`login-page ${showLogin || showSignUp ? "blurred" : ""}`}
+        >
+          <div className="landing-background"></div>
+
+          {/* navbar */}
+          <Navbar variant="dark" expand="lg" className="nav">
+            <Container>
+              <div className="d-flex justify-content-between align-items-center">
+                <Navbar.Brand style={{ fontSize: "2rem" }}>
+                  Hospital Management
+                </Navbar.Brand>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              </div>
+
+              <Nav className="mx-auto">
+                <button className="nav-button">Home</button>
+
+                <button className="nav-button">Products</button>
+
+                <button className="nav-button">Pricing</button>
               </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
 
-        {/* Landing Page Content */}
-        <Container fluid className="landing-page-content text-center py-5">
-          <h1>Welcome to the Hospital Management System</h1>
-          <p>Manage patients, appointments, and more with ease.</p>
-          <Row>
-            <Col md={4}>
-              <Card className="mb-3">
-                <Card.Body>
-                  <Card.Title>Efficient Management</Card.Title>
-                  <Card.Text>
-                    Streamline patient and staff operations.
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4}>
-              <Card className="mb-3">
-                <Card.Body>
-                  <Card.Title>Secure Data</Card.Title>
-                  <Card.Text>Maintain privacy with robust security.</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col md={4}>
-              <Card className="mb-3">
-                <Card.Body>
-                  <Card.Title>Appointment Scheduling</Card.Title>
-                  <Card.Text>Organize appointments effectively.</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-
-        {/* Login Form */}
-        {showLogin && (
-          <div className="login-overlay">
-            <div className="login-card">
-              <Button
-                variant="secondary"
-                className="close-btn"
-                onClick={this.toggleLogin}
-              >
-                <FaTimes />
-              </Button>
-              <h3 className="text-center">Patient Login</h3>
-              {errorMessage && (
-                <div className="text-danger text-center">{errorMessage}</div>
-              )}
-              <Form onSubmit={this.handleLoginSubmit}>
-                <Form.Group className="mb-3">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    placeholder="Enter email"
-                    name="patient_email"
-                    value={patient_email}
-                    onChange={this.handleLoginChange}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group className="mb-3">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Enter password"
-                    name="patient_password"
-                    value={patient_password}
-                    onChange={this.handleLoginChange}
-                    required
-                  />
-                </Form.Group>
-                <Button type="submit" variant="primary" className="w-100">
-                  Login
-                </Button>
-              </Form>
-            </div>
-          </div>
-        )}
-
-        {/* Sign Up Form */}
-        {showSignUp && (
-          <div className="login-overlay">
-            <div className="login-card">
-              <Button
-                variant="secondary"
-                className="close-btn"
-                onClick={this.toggleSignUp}
-              >
-                <FaTimes />
-              </Button>
-              <h3 className="text-center">Sign Up</h3>
-              {signUpResponse && (
-                <div
-                  className={
-                    signUpResponse.includes("Failed")
-                      ? "text-danger"
-                      : "text-success"
-                  }
-                >
-                  {signUpResponse}
-                </div>
-              )}
-
-              <Form onSubmit={this.handleSignUpSubmit}>
-                {/* First Name */}
-                <Row className="mb-3">
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label>First Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="firstName"
-                        value={patientData.firstName}
-                        onChange={this.handleSignUpChange}
-                        placeholder="Enter first name"
-                        isInvalid={!!signUpErrors.firstName}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {signUpErrors.firstName}
-                      </Form.Control.Feedback>
-                    </Form.Group>
-                  </Col>
-
-                  <Col md={6}>
-                    <Form.Group>
-                      <Form.Label>Last Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="lastName"
-                        value={patientData.lastName}
-                        onChange={this.handleSignUpChange}
-                        placeholder="Enter last name"
-                        isInvalid={!!signUpErrors.lastName}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {signUpErrors.lastName}
-                      </Form.Control.Feedback>
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                {/* Email */}
-                <Form.Group className="mb-3">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email"
-                    name="patientEmail"
-                    value={patientData.patientEmail}
-                    onChange={this.handleSignUpChange}
-                    placeholder="Enter email"
-                    isInvalid={!!signUpErrors.patientEmail}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {signUpErrors.patientEmail}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                {/* Password */}
-                <Form.Group className="mb-3">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    name="patientPassword"
-                    value={patientData.patientPassword}
-                    onChange={this.handleSignUpChange}
-                    placeholder="Enter password"
-                    isInvalid={!!signUpErrors.patientPassword}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {signUpErrors.patientPassword}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                {/* Phone Number */}
-                <Form.Group className="mb-3">
-                  <Form.Label>Phone Number</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="patientPhone"
-                    value={patientData.patientPhone}
-                    onChange={this.handleSignUpChange}
-                    placeholder="Enter phone number"
-                    isInvalid={!!signUpErrors.patientPhone}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {signUpErrors.patientPhone}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                {/* Date of Birth */}
-                <Form.Group className="mb-3">
-                  <Form.Label>Date of Birth</Form.Label>
-                  <Form.Control
-                    type="date"
-                    name="dob"
-                    value={patientData.dob}
-                    onChange={this.handleSignUpChange}
-                    isInvalid={!!signUpErrors.dob}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {signUpErrors.dob}
-                  </Form.Control.Feedback>
-                </Form.Group>
-
-                {/* Gender */}
-                <Form.Group className="mb-3">
-                  <Form.Label>Gender</Form.Label>
-                  <Form.Select
-                    name="gender"
-                    value={patientData.gender}
-                    onChange={this.handleSignUpChange}
-                    isInvalid={!!signUpErrors.gender}
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="ms-auto">
+                  <Button
+                    variant="outline-danger"
+                    style={{
+                      marginRight: "15px",
+                      border: "none",
+                      fontSize: "1.3rem",
+                      padding: "10px 30px",
+                    }}
+                    onClick={this.toggleSignUp}
+                    className="ms-2"
                   >
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                  </Form.Select>
-                  <Form.Control.Feedback type="invalid">
-                    {signUpErrors.gender}
-                  </Form.Control.Feedback>
-                </Form.Group>
+                    Sign Up
+                  </Button>
 
-                {/* Submit Button */}
-                <Button type="submit" variant="primary" className="w-100">
-                  Sign Up
+                  <Button
+                    style={{ fontSize: "1.3rem", padding: "10px 30px" }}
+                    variant="danger"
+                    onClick={this.toggleLogin}
+                  >
+                    Login
+                  </Button>
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+
+          {/* home page content */}
+          <Container className="landing-main-content">
+            <h3 className="welcome-text">Welcome</h3>
+            <h1 className="landing-header">
+              A Great Place To <br /> Receive Care
+            </h1>
+            <p className="landing-paragraph">
+              Overcome any hurdle or any other person
+            </p>
+            <Button
+              variant="danger"
+              style={{ fontSize: "1.5rem", padding: "10px 30px" }}
+              onClick={this.toggleLogin}
+            >
+              Login
+            </Button>
+          </Container>
+
+          {/* Navbar - old*/}
+          {/* <Navbar bg="dark" variant="dark" expand="lg" className="nav">
+            <Container>
+              <Navbar.Brand>Hospital Management</Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="ms-auto">
+                  <Button variant="outline-light" onClick={this.toggleLogin}>
+                    Login
+                  </Button>
+                  <Button
+                    variant="outline-light"
+                    onClick={this.toggleSignUp}
+                    className="ms-2"
+                  >
+                    Sign Up
+                  </Button>
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar> */}
+
+          {/* Landing Page Content - old */}
+          {/* <Container fluid className="landing-page-content text-center py-5">
+            <h1>Welcome to the Hospital Management System</h1>
+            <p>Manage patients, appointments, and more with ease.</p>
+            <Row>
+              <Col md={4}>
+                <Card className="mb-3">
+                  <Card.Body>
+                    <Card.Title>Efficient Management</Card.Title>
+                    <Card.Text>
+                      Streamline patient and staff operations.
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col md={4}>
+                <Card className="mb-3">
+                  <Card.Body>
+                    <Card.Title>Secure Data</Card.Title>
+                    <Card.Text>
+                      Maintain privacy with robust security.
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col md={4}>
+                <Card className="mb-3">
+                  <Card.Body>
+                    <Card.Title>Appointment Scheduling</Card.Title>
+                    <Card.Text>Organize appointments effectively.</Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </Container> */}
+
+          {/* Login Form */}
+          {showLogin && (
+            <div className="login-overlay">
+              <div className="login-card">
+                <Button
+                  variant="secondary"
+                  className="close-btn"
+                  onClick={this.toggleLogin}
+                >
+                  <FaTimes />
                 </Button>
-              </Form>
+                <h3 className="text-center">Patient Login</h3>
+                {errorMessage && (
+                  <div className="text-danger text-center">{errorMessage}</div>
+                )}
+                <Form onSubmit={this.handleLoginSubmit}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="email"
+                      placeholder="Enter email"
+                      name="patient_email"
+                      value={patient_email}
+                      onChange={this.handleLoginChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Enter password"
+                      name="patient_password"
+                      value={patient_password}
+                      onChange={this.handleLoginChange}
+                      required
+                    />
+                  </Form.Group>
+                  <Button type="submit" variant="primary" className="w-100">
+                    Login
+                  </Button>
+                </Form>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+
+          {/* Sign Up Form */}
+          {showSignUp && (
+            <div className="login-overlay">
+              <div className="login-card">
+                <Button
+                  variant="secondary"
+                  className="close-btn"
+                  onClick={this.toggleSignUp}
+                >
+                  <FaTimes />
+                </Button>
+                <h3 className="text-center">Sign Up</h3>
+                {signUpResponse && (
+                  <div
+                    className={
+                      signUpResponse.includes("Failed")
+                        ? "text-danger"
+                        : "text-success"
+                    }
+                  >
+                    {signUpResponse}
+                  </div>
+                )}
+
+                <Form onSubmit={this.handleSignUpSubmit}>
+                  {/* First Name */}
+                  <Row className="mb-3">
+                    <Col md={6}>
+                      <Form.Group>
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="firstName"
+                          value={patientData.firstName}
+                          onChange={this.handleSignUpChange}
+                          placeholder="Enter first name"
+                          isInvalid={!!signUpErrors.firstName}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {signUpErrors.firstName}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+
+                    <Col md={6}>
+                      <Form.Group>
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="lastName"
+                          value={patientData.lastName}
+                          onChange={this.handleSignUpChange}
+                          placeholder="Enter last name"
+                          isInvalid={!!signUpErrors.lastName}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                          {signUpErrors.lastName}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                    </Col>
+                  </Row>
+
+                  {/* Email */}
+                  <Form.Group className="mb-3">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="email"
+                      name="patientEmail"
+                      value={patientData.patientEmail}
+                      onChange={this.handleSignUpChange}
+                      placeholder="Enter email"
+                      isInvalid={!!signUpErrors.patientEmail}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {signUpErrors.patientEmail}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+
+                  {/* Password */}
+                  <Form.Group className="mb-3">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      name="patientPassword"
+                      value={patientData.patientPassword}
+                      onChange={this.handleSignUpChange}
+                      placeholder="Enter password"
+                      isInvalid={!!signUpErrors.patientPassword}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {signUpErrors.patientPassword}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+
+                  {/* Phone Number */}
+                  <Form.Group className="mb-3">
+                    <Form.Label>Phone Number</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="patientPhone"
+                      value={patientData.patientPhone}
+                      onChange={this.handleSignUpChange}
+                      placeholder="Enter phone number"
+                      isInvalid={!!signUpErrors.patientPhone}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {signUpErrors.patientPhone}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+
+                  {/* Date of Birth */}
+                  <Form.Group className="mb-3">
+                    <Form.Label>Date of Birth</Form.Label>
+                    <Form.Control
+                      type="date"
+                      name="dob"
+                      value={patientData.dob}
+                      onChange={this.handleSignUpChange}
+                      isInvalid={!!signUpErrors.dob}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {signUpErrors.dob}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+
+                  {/* Gender */}
+                  <Form.Group className="mb-3">
+                    <Form.Label>Gender</Form.Label>
+                    <Form.Select
+                      name="gender"
+                      value={patientData.gender}
+                      onChange={this.handleSignUpChange}
+                      isInvalid={!!signUpErrors.gender}
+                    >
+                      <option value="">Select Gender</option>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other</option>
+                    </Form.Select>
+                    <Form.Control.Feedback type="invalid">
+                      {signUpErrors.gender}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+
+                  {/* Submit Button */}
+                  <Button type="submit" variant="primary" className="w-100">
+                    Sign Up
+                  </Button>
+                </Form>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     );
   }
