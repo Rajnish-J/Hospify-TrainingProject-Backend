@@ -182,7 +182,7 @@ export default class AddAppointment extends Component {
       <Container
         fluid
         className="d-flex justify-content-center align-items-center"
-        style={{ minHeight: "100vh", backgroundColor: "#f8f9fa" }}
+        style={{ minHeight: "90vh" }}
       >
         <Row className="w-100 justify-content-center">
           <Col xs={12} md={6} lg={4}>

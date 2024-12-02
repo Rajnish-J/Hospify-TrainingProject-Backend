@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Container, Card, Alert, Table } from "react-bootstrap";
 import { UserContext } from "../Login/login.jsx";
 
+import "../AddAppointment/AddAppointment.css"
+
 export default class FindByPatientId extends Component {
   static contextType = UserContext;
 
@@ -52,14 +54,14 @@ export default class FindByPatientId extends Component {
 
     return (
       <Container>
-        <h1 className="text-center my-4">Patient Details</h1>
+        <h1 className="text-center my-4 title">Patient Details</h1>
 
         <div className="mt-5">
           {patientDetails ? (
             <>
               <Card className="mb-4">
                 <Card.Body>
-                  <Card.Title>Patient Details</Card.Title>
+                  <Card.Title ><h2>Patient Details</h2></Card.Title>
                   <Card.Text>
                     <strong>Patient ID:</strong> {patientDetails.patientId}{" "}
                     <br />

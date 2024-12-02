@@ -28,8 +28,6 @@ export default class centre extends Component {
 
   render() {
     const { activeRoute } = this.state;
-    const patient = this.context;
-    // const patientID = patientID?.patientID;
     return (
       <div>
         {/* Router for the menu part and content part */}
@@ -42,7 +40,6 @@ export default class centre extends Component {
               <Col sm={2} xs={2} md={2} lg={2} className="menuCol">
                 {/* div: menu */}
                 <div className="menuDiv">
-
                   {/* fetch patient details by id */}
                   <Link to="/patientdetails">
                     <Button
@@ -154,6 +151,7 @@ export default class centre extends Component {
 
               {/* second column: content showing column */}
               <Col sm={10} xs={10} md={10} lg={10} className="contentCol">
+                <div className="content-col-2-background"></div>
                 {/* Routes to the respective pages or components or API's */}
                 <Routes>
                   {/* <Route path="/" element={<Admin />} /> */}

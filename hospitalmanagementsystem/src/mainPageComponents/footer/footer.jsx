@@ -7,9 +7,7 @@ export default class footer extends Component {
     return (
       <div>
         <Container fluid className="text-light">
-          {/* Footer row */}
-          <Row className="FooterRow d-flex justify-content-center">
-            {/* Footer column */}
+          <Row className="FooterRow d-flex justify-content-center align-items-center">
             <Col xs={12} md={6} lg={4} className="text-center">
               <h5 className="FooterCol mb-0">
                 Copyright © 2024 Hospital Management. All rights reserved.

@@ -20,7 +20,9 @@ class PatientDelete extends Component {
     const patId = this.context?.patientId; // Get patientId from context
 
     if (patId) {
-      fetch(`http://localhost:8080/appointment/fetchAppointmentsForPatientID/${patId}`)
+      fetch(
+        `http://localhost:8080/appointment/fetchAppointmentsForPatientID/${patId}`
+      )
         .then((response) => response.json())
         .then((data) => {
           this.setState({ appointments: data });
@@ -78,7 +80,9 @@ class PatientDelete extends Component {
       .then((response) => response.text()) // Get the raw response text (it could be "Deleted successfully" or an error message)
       .then((data) => {
         if (data === "Deleted successfully") {
-          this.setState({ successMessage: "Your account has been successfully deleted" });
+          this.setState({
+            successMessage: "Your account has been successfully deleted",
+          });
           this.handleLogout(); // Trigger logout after successful deletion
         } else if (data.includes("ERROR:")) {
           throw new Error(data); // Handle errors like "ERROR: patient ID not exist"
@@ -117,9 +121,21 @@ class PatientDelete extends Component {
     const { appointments, error, successMessage, isDeleting } = this.state;
 
     return (
-      <div className="patient-delete-card">
-        <h3>Delete Patient Account</h3>
-        <p>If you delete your account, all your appointments will also be deleted.</p>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh",
+          color : "white"
+        }}
+      >
+        <h1>Delete Patient Account</h1>
+        <p style={{fontSize : '22px', color : 'white'} }>
+          If you delete your account, all your <br />appointments will also be
+          deleted.
+        </p>
 
         {error && <Alert variant="danger">{error}</Alert>}
         {successMessage && <Alert variant="success">{successMessage}</Alert>}

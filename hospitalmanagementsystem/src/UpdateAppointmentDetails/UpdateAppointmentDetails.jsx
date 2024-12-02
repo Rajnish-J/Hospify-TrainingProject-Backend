@@ -157,7 +157,7 @@ export default class AppointmentList extends Component {
 
     return (
       <Container className="mt-5">
-        <h3 className="text-center mb-4">Appointments</h3>
+        <h3 className="text-center mb-4" style={{color : 'white'}}>Appointments</h3>
 
         {/* Display success or error messages */}
         {errorMessage && (

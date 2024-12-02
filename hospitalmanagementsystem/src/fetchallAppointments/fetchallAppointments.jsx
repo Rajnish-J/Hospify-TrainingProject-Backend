@@ -11,6 +11,8 @@ import {
 import { UserContext } from "../Login/login.jsx";
 import { useNavigate } from "react-router-dom";
 
+import "../fetchallAppointments/fetchAllPoointments.css"
+
 class FetchAll extends Component {
   static contextType = UserContext;
 
@@ -60,7 +62,7 @@ class FetchAll extends Component {
       <Container className="mt-5">
         <Row>
           <Col xs={12}>
-            <h2 className="mb-4">Patient Appointments</h2>
+            <h2 className="mb-4 title">Patient Appointments</h2>
 
             {/* Show error message if there's an error */}
             {error && (

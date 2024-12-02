@@ -1,11 +1,13 @@
 .FooterRow {
-  background-color: rgb(96, 139, 193, 0.75);
+  background-color: black;
   height: 10vh;
 }
 
 .FooterCol {
+  color: white;
   font-size: medium;
-  display: flex;
-  justify-content: center;
-  color: black;
+}
+
+.text-center{
+  margin-bottom: 10px;
 }

@@ -89,7 +89,7 @@ class FetchAll extends Component {
       <Container className="mt-5">
         <Row>
           <Col xs={12}>
-            <h2 className="mb-4">Patient Appointments</h2>
+            <h2 className="mb-4" style={{color : 'white'}}>Patient Appointments</h2>
 
             <Button
               variant="primary"

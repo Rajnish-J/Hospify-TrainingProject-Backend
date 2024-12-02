@@ -129,12 +129,8 @@ export default class UpdatePatientDetails extends Component {
       patientContext;
 
     return (
-      <Container
-        fluid
-        className="d-flex justify-content-center align-items-center"
-        style={{ minHeight: "100vh", backgroundColor: "#f8f9fa" }}
-      >
-        <Row className="w-100 justify-content-center">
+      <Container fluid className="d-flex" style={{ minHeight: "90vh" }}>
+        <Row className="w-100 justify-content-center align-items-start" style={{marginTop:'8rem'}}>
           <Col xs={12} md={6} lg={4}>
             <Card className="shadow-lg p-4">
               <Card.Body>
@@ -150,92 +146,90 @@ export default class UpdatePatientDetails extends Component {
                   </div>
                 )}
                 <Form onSubmit={this.handleSubmit} noValidate>
-                  <Form.Group controlId="firstName" className="mb-3">
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder={firstName || "Enter first name"}
-                      name="firstName"
-                      value={updatedFields.firstName || ""}
-                      onChange={this.handleChange}
-                      isInvalid={!!validationErrors.firstName}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {validationErrors.firstName}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-
-                  <Form.Group controlId="lastName" className="mb-3">
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder={lastName || "Enter last name"}
-                      name="lastName"
-                      value={updatedFields.lastName || ""}
-                      onChange={this.handleChange}
-                      isInvalid={!!validationErrors.lastName}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {validationErrors.lastName}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-
-                  <Form.Group controlId="dob" className="mb-3">
-                    <Form.Label>Date of Birth</Form.Label>
-                    <Form.Control
-                      type="date"
-                      placeholder={dob}
-                      name="dob"
-                      value={updatedFields.dob || ""}
-                      onChange={this.handleChange}
-                      isInvalid={!!validationErrors.dob}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {validationErrors.dob}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-
-                  <Form.Group controlId="patientPhone" className="mb-3">
-                    <Form.Label>Phone</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder={patientPhone || "Enter phone number"}
-                      name="patientPhone"
-                      value={updatedFields.patientPhone || ""}
-                      onChange={this.handleChange}
-                      isInvalid={!!validationErrors.patientPhone}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {validationErrors.patientPhone}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-
-                  <Form.Group controlId="patientEmail" className="mb-3">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder={patientEmail || "Enter email"}
-                      name="patientEmail"
-                      value={updatedFields.patientEmail || ""}
-                      onChange={this.handleChange}
-                      isInvalid={!!validationErrors.patientEmail}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {validationErrors.patientEmail}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-
-                  <Form.Group controlId="gender" className="mb-3">
-                    <Form.Label>Gender</Form.Label>
-                    <Form.Select
-                      name="gender"
-                      value={updatedFields.gender || gender}
-                      onChange={this.handleChange}
+                  {[
+                    {
+                      label: "First Name",
+                      name: "firstName",
+                      type: "text",
+                      placeholder: firstName || "Enter first name",
+                    },
+                    {
+                      label: "Last Name",
+                      name: "lastName",
+                      type: "text",
+                      placeholder: lastName || "Enter last name",
+                    },
+                    {
+                      label: "Date of Birth",
+                      name: "dob",
+                      type: "date",
+                      placeholder: dob,
+                    },
+                    {
+                      label: "Phone",
+                      name: "patientPhone",
+                      type: "text",
+                      placeholder: patientPhone || "Enter phone number",
+                    },
+                    {
+                      label: "Email",
+                      name: "patientEmail",
+                      type: "email",
+                      placeholder: patientEmail || "Enter email",
+                    },
+                  ].map((field, index) => (
+                    <Form.Group
+                      key={index}
+                      controlId={field.name}
+                      className="mb-3 "
                     >
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Other">Other</option>
-                    </Form.Select>
+                      <div className="d-flex justify-content-start align-items-center">
+                        <Form.Label
+                          className="me-3 mb-0"
+                          style={{ minWidth: "100px"}}
+                        >
+                          {field.label}:
+                        </Form.Label>
+                        <Form.Control
+                          type={field.type}
+                          placeholder={field.placeholder}
+                          name={field.name}
+                          value={updatedFields[field.name] || ""}
+                          onChange={this.handleChange}
+                          isInvalid={!!validationErrors[field.name]}
+                        />
+                        {/* <Form.Control.Feedback type="invalid" className="">
+                        {validationErrors[field.name]}
+                      </Form.Control.Feedback> */}
+                      </div>
+                      <p style={{color:'red'}}>
+
+                      {validationErrors[field.name]}
+                      </p>
+                    </Form.Group>
+                  ))}
+
+                  <Form.Group
+                    controlId="gender"
+                    className="mb-3"
+                  >
+                    <div className="d-flex align-items-center">
+                      <Form.Label
+                        className="me-3 mb-0"
+                        style={{ minWidth: "100px"}}
+                      >
+                        Gender:
+                      </Form.Label>
+                      <Form.Select
+                        name="gender"
+                        value={updatedFields.gender || gender}
+                        onChange={this.handleChange}
+                      >
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                      </Form.Select>
+                    </div>
                   </Form.Group>
 
                   <Button variant="primary" type="submit" className="w-100">

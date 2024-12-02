@@ -1,114 +1,19 @@
 .ContentRow {
-  /* background-color: lightgray; */
-  background: hsla(186, 33%, 94%, 1);
-
-  background: linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  background: -moz-linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  background: -webkit-linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EBF4F5", endColorstr="#B5C6E0", GradientType=1 );
-  height: 10vh;
-  height: 80vh;
+  height: 90vh;
 }
 
-.ContentRow {
-  /* background-color: lightgrey; */
-  background: hsla(186, 33%, 94%, 1);
-
-  background: linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  background: -moz-linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  background: -webkit-linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EBF4F5", endColorstr="#B5C6E0", GradientType=1 );
-  height: 10vh;
-  height: 80vh;
+.ContentRow > * {
+  padding-left: 0px;
 }
 
 .menuCol {
-  /* background-color: rgb(201, 230, 240); */
-  background: hsla(186, 33%, 94%, 1);
-
-  background: linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  background: -moz-linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  background: -webkit-linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EBF4F5", endColorstr="#B5C6E0", GradientType=1 );
-  height: 10vh;
+  background-color: #97dffc;
+  height: "80vh";
 }
 
-/* .Routerstyles{
-  background-color: rgb(212, 246, 255);
-  float: left;
-  height: 80vh;
-  padding: 5px 5px 5px 5px;
-} */
-
 .Button {
-  /* border: 2px solid rgb(34, 23, 122); */
-  background: hsla(186, 33%, 94%, 1);
-
-  background: linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  background: -moz-linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  background: -webkit-linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EBF4F5", endColorstr="#B5C6E0", GradientType=1 );
-  height: 10vh;
+  border: 2px solid rgb(34, 23, 122);
+  height: 60px;
 }
 
 .menuDiv {
@@ -116,27 +21,19 @@
 }
 
 .contentCol {
-  /* background-color: rgb(223, 242, 235); */
-  background: hsla(186, 33%, 94%, 1);
+  position: relative;
+}
 
+.content-col-2-background {
+  height: 90vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
   background: linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  background: -moz-linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  background: -webkit-linear-gradient(
-    90deg,
-    hsla(186, 33%, 94%, 1) 0%,
-    hsla(216, 41%, 79%, 1) 100%
-  );
-
-  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EBF4F5", endColorstr="#B5C6E0", GradientType=1 );
-  height: 10vh;
+      rgba(0, 0, 0, 0.5),
+      /* 50% black overlay */ rgba(0, 0, 0, 0.5)
+    ),
+    url("../../assets/contentpage/2.jpg") no-repeat top;
+  background-size: cover;
+  z-index: -1;
 }

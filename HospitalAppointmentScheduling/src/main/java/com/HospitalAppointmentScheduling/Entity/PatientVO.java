@@ -51,7 +51,7 @@ public class PatientVO {
 	@Column(name = "patient_email", nullable = false, unique = true)
 	private String patientEmail;
 
-	@Column(name = "patient_password", nullable = false, unique = true)
+	@Column(name = "patient_password", nullable = false)
 	private String patientPassword;
 
 	@Column(name = "gender", nullable = false)
