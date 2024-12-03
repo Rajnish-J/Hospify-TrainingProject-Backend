@@ -131,7 +131,7 @@ class PatientDelete extends Component {
           color : "white"
         }}
       >
-        <h1>Delete Patient Account</h1>
+        <h1>Delete Your Account</h1>
         <p style={{fontSize : '22px', color : 'white'} }>
           If you delete your account, all your <br />appointments will also be
           deleted.

@@ -17,6 +17,12 @@ public interface PatientRepo extends JpaRepository<PatientVO, Long> {
 	@Query("SELECT p FROM PatientVO p WHERE p.patientEmail = :email AND p.patientPassword = :password")
 	PatientVO patientAuthentication(@Param("email") String email, @Param("password") String password);
 
+	@Query("SELECT COUNT(p) > 0 FROM PatientVO p WHERE p.patientEmail = :email")
+	boolean existsByEmail(@Param("email") String email);
+
+	@Query("SELECT COUNT(p) > 0 FROM PatientVO p WHERE p.patientPhone = :phone")
+	boolean existsByPhone(@Param("phone") String phone);
+
 	// fetch by phone number
 	@Query("SELECT p FROM PatientVO p WHERE p.patientPhone = :phone")
 	PatientVO findByPhoneNumber(@Param("phone") String phone);

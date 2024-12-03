@@ -40,12 +40,28 @@ public class PatientBO {
 	// Insert method:
 	public PatientVO insertPatientDetails(PatientVO vo) throws PatientException, PhoneNumberException, EmailException,
 			PasswordException, DateOfBirthException, genderException {
-		if (validatePatient(vo) && validateDOB(vo.getDob())) {
-			patientRepo.save(vo);
-			return vo;
-		} else {
-			throw new PatientException("Error in creating patient account..");
+
+		// Validate input first
+		if (!validatePatient(vo)) {
+			throw new PatientException("Invalid patient details provided.");
 		}
+		if (!validateDOB(vo.getDob())) {
+			throw new DateOfBirthException("Invalid date of birth.");
+		}
+
+		// Check for existing email and phone
+		boolean emailExists = patientRepo.existsByEmail(vo.getPatientEmail());
+		boolean phoneExists = patientRepo.existsByPhone(vo.getPatientPhone());
+
+		if (emailExists) {
+			throw new EmailException("Email is already registered. Please try logging in.");
+		}
+		if (phoneExists) {
+			throw new PhoneNumberException("Phone number is already registered. Please try logging in.");
+		}
+
+		patientRepo.save(vo);
+		return vo;
 	}
 
 	// FindByID method:

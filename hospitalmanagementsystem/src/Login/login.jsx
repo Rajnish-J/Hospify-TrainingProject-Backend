@@ -179,29 +179,46 @@ export default class PatLogin extends Component {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(patientData),
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`Error: ${response.status}`);
-          }
-          return response.text();
-        })
+        .then((response) => response.text())
         .then((data) => {
-          this.setState({
-            signUpResponse: data,
-            patientData: {
-              firstName: "",
-              lastName: "",
-              patientEmail: "",
-              patientPassword: "",
-              patientPhone: "",
-              dob: "",
-              gender: "",
-            },
-            showSignUp: false,
-          });
+          if (data.includes("Patient created successfully")) {
+            this.setState({
+              signUpResponse: data,
+              signUpErrors: {},
+              patientData: {
+                firstName: "",
+                lastName: "",
+                patientEmail: "",
+                patientPassword: "",
+                patientPhone: "",
+                dob: "",
+                gender: "",
+              },
+              // showSignUp: false,
+            });
+          } else {
+            this.setState({
+              signUpResponse: data,
+              signUpErrors: {},
+              patientData: {
+                firstName: "",
+                lastName: "",
+                patientEmail: "",
+                patientPassword: "",
+                patientPhone: "",
+                dob: "",
+                gender: "",
+              },
+              // showSignUp: false,
+            });
+          }
         })
         .catch((error) => {
-          this.setState({ signUpResponse: `Sign Up Failed: ${error.message}` });
+          // If an error occurs outside of the response (e.g., network error)
+          this.setState({
+            signUpResponse: `Sign Up Failed: ${error.message}`,
+            signUpErrors: {}, // Clear errors on failure
+          });
         });
     }
   };
@@ -319,64 +336,6 @@ export default class PatLogin extends Component {
             </Button>
           </Container>
 
-          {/* Navbar - old*/}
-          {/* <Navbar bg="dark" variant="dark" expand="lg" className="nav">
-            <Container>
-              <Navbar.Brand>Hospital Management</Navbar.Brand>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="ms-auto">
-                  <Button variant="outline-light" onClick={this.toggleLogin}>
-                    Login
-                  </Button>
-                  <Button
-                    variant="outline-light"
-                    onClick={this.toggleSignUp}
-                    className="ms-2"
-                  >
-                    Sign Up
-                  </Button>
-                </Nav>
-              </Navbar.Collapse>
-            </Container>
-          </Navbar> */}
-
-          {/* Landing Page Content - old */}
-          {/* <Container fluid className="landing-page-content text-center py-5">
-            <h1>Welcome to the Hospital Management System</h1>
-            <p>Manage patients, appointments, and more with ease.</p>
-            <Row>
-              <Col md={4}>
-                <Card className="mb-3">
-                  <Card.Body>
-                    <Card.Title>Efficient Management</Card.Title>
-                    <Card.Text>
-                      Streamline patient and staff operations.
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={4}>
-                <Card className="mb-3">
-                  <Card.Body>
-                    <Card.Title>Secure Data</Card.Title>
-                    <Card.Text>
-                      Maintain privacy with robust security.
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col md={4}>
-                <Card className="mb-3">
-                  <Card.Body>
-                    <Card.Title>Appointment Scheduling</Card.Title>
-                    <Card.Text>Organize appointments effectively.</Card.Text>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </Row>
-          </Container> */}
-
           {/* Login Form */}
           {showLogin && (
             <div className="login-overlay">
@@ -438,7 +397,8 @@ export default class PatLogin extends Component {
                 {signUpResponse && (
                   <div
                     className={
-                      signUpResponse.includes("Failed")
+                      signUpResponse.includes("already registered") ||
+                      signUpResponse.includes("Error")
                         ? "text-danger"
                         : "text-success"
                     }

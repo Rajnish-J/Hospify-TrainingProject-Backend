@@ -2,8 +2,17 @@
 .navItem {
   font-weight: bold;
   font-size: 1.5rem;
-  color: white;
   font-size: 30px;
+}
+
+.hover{
+  color: black;
+  transition: color 0.3s ease;
+}
+
+.hover:hover{
+  color: #007BFF;
+  text-decoration: underline;
 }
 
 .subHeading{
@@ -17,7 +26,11 @@
 }
 
 .userName{
-  
   margin-right: 50px;
+  transition: color 0.3s ease;
   color: white;
+}
+
+.userName:hover{
+  color: black;
 }

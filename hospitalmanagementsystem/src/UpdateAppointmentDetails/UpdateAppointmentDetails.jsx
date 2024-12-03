@@ -219,7 +219,7 @@ export default class AppointmentList extends Component {
             {selectedAppointment && (
               <Card className="mt-4">
                 <Card.Body>
-                  <h5 className="text-center">Update Appointment</h5>
+                  <h5 className="text-center">Update Your Appointment</h5>
                   <Form onSubmit={this.handleSubmit}>
                     <Form.Group controlId="appointmentDate" className="mb-3">
                       <Form.Label>Appointment Date</Form.Label>

@@ -19,28 +19,29 @@ export default class Header extends Component {
 
     return (
       <>
-        <Container fluid style={{backgroundColor:'#3e5c76'}}>
+        <Container fluid style={{ backgroundColor: "#3e5c76" }}>
           <Navbar expand="lg">
             <Container fluid className="d-flex align-items-center">
-              
               {/* Hospital Management Brand Name */}
-              <Navbar.Brand href="#home" className="navItem">
-                Hospital Management
+              <Navbar.Brand href="#home" className="navItem hover">
+                Hospify
               </Navbar.Brand>
 
               {/* Home and about contents */}
               <Nav className="me-auto">
-                <Nav.Link href="#home" className="subHeading">Home</Nav.Link>
-                <Nav.Link href="#about" className="subHeading">About</Nav.Link>
+                <Nav.Link href="#home" className="subHeading">
+                  Home
+                </Nav.Link>
+                <Nav.Link href="#about" className="subHeading">
+                  About
+                </Nav.Link>
               </Nav>
 
               {/* Username and logout button on the right and used display flex */}
               <div className="d-flex align-items-center">
                 {/* Display user's first name */}
                 {firstName && (
-                  <h4 className="userName">
-                    {`Hi, ${firstName}`}
-                  </h4>
+                  <h4 className="userName">{`Hi, ${firstName}`}</h4>
                 )}
 
                 {/* Logout Button */}

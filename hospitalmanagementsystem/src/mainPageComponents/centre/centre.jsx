@@ -66,7 +66,7 @@ export default class centre extends Component {
                         this.handleButtonClick("/fetchAllAppointments")
                       }
                     >
-                      All Appointment Details
+                      Appointment Details
                     </Button>
                   </Link>
 
@@ -83,7 +83,7 @@ export default class centre extends Component {
                         this.handleButtonClick("/UpdatePatientDetails")
                       }
                     >
-                      update Details
+                      Update Details
                     </Button>
                   </Link>
 
@@ -113,7 +113,7 @@ export default class centre extends Component {
                         this.handleButtonClick("/UpdateAppointmentDetails")
                       }
                     >
-                      update Appointment Details
+                      Update Appointment Details
                     </Button>
                   </Link>
 
@@ -130,7 +130,7 @@ export default class centre extends Component {
                         this.handleButtonClick("/DeleteAppointment")
                       }
                     >
-                      Delete Appointment
+                      Cancel Appointment
                     </Button>
                   </Link>
 

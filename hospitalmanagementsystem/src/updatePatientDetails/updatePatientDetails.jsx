@@ -134,7 +134,7 @@ export default class UpdatePatientDetails extends Component {
           <Col xs={12} md={6} lg={4}>
             <Card className="shadow-lg p-4">
               <Card.Body>
-                <h3 className="text-center mb-4">Update Details</h3>
+                <h3 className="text-center mb-4">Update Your Details</h3>
                 {errorMessage && (
                   <div className="text-danger mb-3 text-center">
                     {errorMessage}
