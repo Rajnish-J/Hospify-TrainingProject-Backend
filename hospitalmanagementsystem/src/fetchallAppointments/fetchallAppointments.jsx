@@ -11,7 +11,7 @@ import {
 import { UserContext } from "../Login/login.jsx";
 import { useNavigate } from "react-router-dom";
 
-import "../fetchallAppointments/fetchAllPoointments.css"
+import "../fetchallAppointments/fetchAllAppointments.css";
 
 class FetchAll extends Component {
   static contextType = UserContext;
@@ -62,7 +62,7 @@ class FetchAll extends Component {
       <Container className="mt-5">
         <Row>
           <Col xs={12}>
-            <h2 className="mb-4 title">Your Appointments</h2>
+            <h2 className="mb-4 title font">Your Appointments</h2>
 
             {/* Show error message if there's an error */}
             {error && (
@@ -75,8 +75,11 @@ class FetchAll extends Component {
             {appointments.length === 0 && !error && (
               <Card className="mt-4 text-center">
                 <Card.Body>
-                  <Card.Title>No Appointments Found</Card.Title>
+                  <Card.Title className="font">
+                    No Appointments Found
+                  </Card.Title>
                   <Button
+                    className="font"
                     variant="primary"
                     onClick={() => navigate("/AddAppointments")}
                   >
@@ -88,7 +91,7 @@ class FetchAll extends Component {
 
             {appointments.length > 0 && (
               <Table striped bordered hover responsive className="mt-4">
-                <thead>
+                <thead className="font">
                   <tr>
                     <th>Appointment ID</th>
                     <th>Appointment Date</th>
@@ -96,7 +99,7 @@ class FetchAll extends Component {
                     <th>Doctor ID</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="font">
                   {appointments.map((appointment) => (
                     <tr key={appointment.appointmentID}>
                       <td>{appointment.appointmentID}</td>

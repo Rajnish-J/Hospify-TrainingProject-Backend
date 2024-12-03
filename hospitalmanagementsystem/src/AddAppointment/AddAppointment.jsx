@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { Container, Form, Button, Card, Row, Col } from "react-bootstrap";
 import { UserContext } from "../Login/login.jsx";
+import "./AddAppointment.css";
 
 export default class AddAppointment extends Component {
   static contextType = UserContext;
@@ -188,7 +189,7 @@ export default class AddAppointment extends Component {
           <Col xs={12} md={6} lg={4}>
             <Card className="shadow-lg p-4">
               <Card.Body>
-                <h3 className="text-center mb-4">Book Appointment</h3>
+                <h3 className="text-center mb-4 font">Book Appointment</h3>
                 {errorMessage && (
                   <div className="text-danger mb-3 text-center">
                     {errorMessage}
@@ -201,7 +202,7 @@ export default class AddAppointment extends Component {
                 )}
                 <Form onSubmit={this.handleSubmit}>
                   <Form.Group controlId="appointmentDate" className="mb-3">
-                    <Form.Label>Appointment Date</Form.Label>
+                    <Form.Label className="font">Appointment Date</Form.Label>
                     <Form.Control
                       type="date"
                       name="appointmentDate"
@@ -214,7 +215,7 @@ export default class AddAppointment extends Component {
                     </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group controlId="reason" className="mb-3">
-                    <Form.Label>Reason</Form.Label>
+                    <Form.Label className="font">Reason</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Enter reason"
@@ -228,7 +229,7 @@ export default class AddAppointment extends Component {
                     </Form.Control.Feedback>
                   </Form.Group>
                   <Form.Group controlId="doctor" className="mb-3">
-                    <Form.Label>Select Doctor</Form.Label>
+                    <Form.Label className="font">Select Doctor</Form.Label>
                     <Form.Control
                       as="select"
                       name="selectedDoctor"
@@ -247,7 +248,7 @@ export default class AddAppointment extends Component {
                       {formErrors.selectedDoctor}
                     </Form.Control.Feedback>
                   </Form.Group>
-                  <Button variant="primary" type="submit" className="w-100">
+                  <Button variant="primary" type="submit" className="w-100 font">
                     Book Appointment
                   </Button>
                 </Form>

@@ -86,7 +86,7 @@ class FetchAll extends Component {
     const { appointments, error } = this.state;
 
     return (
-      <Container className="mt-5">
+      <Container className="mt-5 font">
         <Row>
           <Col xs={12}>
             <h2 className="mb-4" style={{color : 'white'}}>Your Appointments</h2>
@@ -115,7 +115,7 @@ class FetchAll extends Component {
 
             {appointments.length > 0 && (
               <Table striped bordered hover responsive className="mt-4">
-                <thead>
+                <thead className="table-head">
                   <tr>
                     <th>Appointment ID</th>
                     <th>Appointment Date</th>

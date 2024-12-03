@@ -276,8 +276,11 @@ export default class PatLogin extends Component {
           <Navbar variant="dark" expand="lg" className="nav">
             <Container>
               <div className="d-flex justify-content-between align-items-center">
-                <Navbar.Brand style={{ fontSize: "2rem" }}>
-                  Hospital Management
+                <Navbar.Brand
+                  className="hospify"
+                  style={{ fontSize: "2.5rem" }}
+                >
+                  Hospify
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
               </div>
@@ -298,6 +301,7 @@ export default class PatLogin extends Component {
                       marginRight: "15px",
                       border: "none",
                       fontSize: "1.3rem",
+                      fontFamily: "Josefinasans",
                       padding: "10px 30px",
                     }}
                     onClick={this.toggleSignUp}
@@ -307,7 +311,11 @@ export default class PatLogin extends Component {
                   </Button>
 
                   <Button
-                    style={{ fontSize: "1.3rem", padding: "10px 30px" }}
+                    style={{
+                      fontSize: "1.3rem",
+                      padding: "10px 30px",
+                      fontFamily: "Josefinasans",
+                    }}
                     variant="danger"
                     onClick={this.toggleLogin}
                   >
@@ -329,7 +337,11 @@ export default class PatLogin extends Component {
             </p>
             <Button
               variant="danger"
-              style={{ fontSize: "1.5rem", padding: "10px 30px" }}
+              style={{
+                fontSize: "1.5rem",
+                padding: "10px 30px",
+                fontFamily: "Josefinasans",
+              }}
               onClick={this.toggleLogin}
             >
               Login
@@ -347,13 +359,13 @@ export default class PatLogin extends Component {
                 >
                   <FaTimes />
                 </Button>
-                <h3 className="text-center">Patient Login</h3>
+                <h3 className="text-center font">Patient Login</h3>
                 {errorMessage && (
                   <div className="text-danger text-center">{errorMessage}</div>
                 )}
                 <Form onSubmit={this.handleLoginSubmit}>
                   <Form.Group className="mb-3">
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label className="font">Email</Form.Label>
                     <Form.Control
                       type="email"
                       placeholder="Enter email"
@@ -364,7 +376,7 @@ export default class PatLogin extends Component {
                     />
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label className="font">Password</Form.Label>
                     <Form.Control
                       type="password"
                       placeholder="Enter password"
@@ -374,7 +386,11 @@ export default class PatLogin extends Component {
                       required
                     />
                   </Form.Group>
-                  <Button type="submit" variant="primary" className="w-100">
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    className="w-100 font"
+                  >
                     Login
                   </Button>
                 </Form>
@@ -393,7 +409,7 @@ export default class PatLogin extends Component {
                 >
                   <FaTimes />
                 </Button>
-                <h3 className="text-center">Sign Up</h3>
+                <h3 className="text-center font">Sign Up</h3>
                 {signUpResponse && (
                   <div
                     className={
@@ -412,7 +428,7 @@ export default class PatLogin extends Component {
                   <Row className="mb-3">
                     <Col md={6}>
                       <Form.Group>
-                        <Form.Label>First Name</Form.Label>
+                        <Form.Label className="font">First Name</Form.Label>
                         <Form.Control
                           type="text"
                           name="firstName"
@@ -429,7 +445,7 @@ export default class PatLogin extends Component {
 
                     <Col md={6}>
                       <Form.Group>
-                        <Form.Label>Last Name</Form.Label>
+                        <Form.Label className="font">Last Name</Form.Label>
                         <Form.Control
                           type="text"
                           name="lastName"
@@ -447,7 +463,7 @@ export default class PatLogin extends Component {
 
                   {/* Email */}
                   <Form.Group className="mb-3">
-                    <Form.Label>Email</Form.Label>
+                    <Form.Label className="font">Email</Form.Label>
                     <Form.Control
                       type="email"
                       name="patientEmail"
@@ -463,7 +479,7 @@ export default class PatLogin extends Component {
 
                   {/* Password */}
                   <Form.Group className="mb-3">
-                    <Form.Label>Password</Form.Label>
+                    <Form.Label className="font">Password</Form.Label>
                     <Form.Control
                       type="password"
                       name="patientPassword"
@@ -479,7 +495,7 @@ export default class PatLogin extends Component {
 
                   {/* Phone Number */}
                   <Form.Group className="mb-3">
-                    <Form.Label>Phone Number</Form.Label>
+                    <Form.Label className="font">Phone Number</Form.Label>
                     <Form.Control
                       type="text"
                       name="patientPhone"
@@ -495,8 +511,9 @@ export default class PatLogin extends Component {
 
                   {/* Date of Birth */}
                   <Form.Group className="mb-3">
-                    <Form.Label>Date of Birth</Form.Label>
+                    <Form.Label className="font">Date of Birth</Form.Label>
                     <Form.Control
+                      className="font"
                       type="date"
                       name="dob"
                       value={patientData.dob}
@@ -510,8 +527,9 @@ export default class PatLogin extends Component {
 
                   {/* Gender */}
                   <Form.Group className="mb-3">
-                    <Form.Label>Gender</Form.Label>
+                    <Form.Label className="font">Gender</Form.Label>
                     <Form.Select
+                      className="font"
                       name="gender"
                       value={patientData.gender}
                       onChange={this.handleSignUpChange}
@@ -528,7 +546,11 @@ export default class PatLogin extends Component {
                   </Form.Group>
 
                   {/* Submit Button */}
-                  <Button type="submit" variant="primary" className="w-100">
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    className="w-100 font"
+                  >
                     Sign Up
                   </Button>
                 </Form>

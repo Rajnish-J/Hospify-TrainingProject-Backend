@@ -1,7 +1,8 @@
 //  ! after validation
 import React, { Component } from "react";
 import { Container, Table, Button, Form, Card } from "react-bootstrap";
-import { UserContext } from "../Login/login.jsx"; // Import UserContext for accessing context data
+import { UserContext } from "../Login/login.jsx"; 
+import "./updateAppointmentDetails.css"
 
 export default class AppointmentList extends Component {
   constructor(props) {
@@ -156,7 +157,7 @@ export default class AppointmentList extends Component {
     } = this.state;
 
     return (
-      <Container className="mt-5">
+      <Container className="mt-5 font">
         <h3 className="text-center mb-4" style={{color : 'white'}}>Appointments</h3>
 
         {/* Display success or error messages */}

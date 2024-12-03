@@ -3,6 +3,7 @@
 import React, { Component } from "react";
 import { Container, Form, Button, Card, Row, Col } from "react-bootstrap";
 import { UserContext } from "../../src/Login/login.jsx";
+import "./updatePatientDetails.css";
 
 export default class UpdatePatientDetails extends Component {
   static contextType = UserContext;
@@ -130,18 +131,21 @@ export default class UpdatePatientDetails extends Component {
 
     return (
       <Container fluid className="d-flex" style={{ minHeight: "90vh" }}>
-        <Row className="w-100 justify-content-center align-items-start" style={{marginTop:'8rem'}}>
+        <Row
+          className="w-100 justify-content-center align-items-start"
+          style={{ marginTop: "8rem" }}
+        >
           <Col xs={12} md={6} lg={4}>
-            <Card className="shadow-lg p-4">
+            <Card className="font shadow-lg p-4">
               <Card.Body>
                 <h3 className="text-center mb-4">Update Your Details</h3>
                 {errorMessage && (
-                  <div className="text-danger mb-3 text-center">
+                  <div className="text-danger mb-3 text-center font">
                     {errorMessage}
                   </div>
                 )}
                 {successMessage && (
-                  <div className="text-success mb-3 text-center">
+                  <div className="text-success mb-3 text-center font">
                     {successMessage}
                   </div>
                 )}
@@ -186,7 +190,7 @@ export default class UpdatePatientDetails extends Component {
                       <div className="d-flex justify-content-start align-items-center">
                         <Form.Label
                           className="me-3 mb-0"
-                          style={{ minWidth: "100px"}}
+                          style={{ minWidth: "100px" }}
                         >
                           {field.label}:
                         </Form.Label>
@@ -202,21 +206,17 @@ export default class UpdatePatientDetails extends Component {
                         {validationErrors[field.name]}
                       </Form.Control.Feedback> */}
                       </div>
-                      <p style={{color:'red'}}>
-
-                      {validationErrors[field.name]}
+                      <p style={{ color: "red" }}>
+                        {validationErrors[field.name]}
                       </p>
                     </Form.Group>
                   ))}
 
-                  <Form.Group
-                    controlId="gender"
-                    className="mb-3"
-                  >
+                  <Form.Group controlId="gender" className="mb-3">
                     <div className="d-flex align-items-center">
                       <Form.Label
                         className="me-3 mb-0"
-                        style={{ minWidth: "100px"}}
+                        style={{ minWidth: "100px" }}
                       >
                         Gender:
                       </Form.Label>

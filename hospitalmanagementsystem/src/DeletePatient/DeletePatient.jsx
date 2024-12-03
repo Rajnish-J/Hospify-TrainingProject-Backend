@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { UserContext } from "../Login/login.jsx"; // Assuming this is the context where logged-in user info is stored
 import { Button, Alert } from "react-bootstrap";
+import "./DeletePatient.css"
 
 class PatientDelete extends Component {
   static contextType = UserContext;
@@ -122,6 +123,7 @@ class PatientDelete extends Component {
 
     return (
       <div
+      className="font"
         style={{
           display: "flex",
           flexDirection: "column",

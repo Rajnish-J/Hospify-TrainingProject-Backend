@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Container, Card, Alert, Table } from "react-bootstrap";
 import { UserContext } from "../Login/login.jsx";
 
-import "../AddAppointment/AddAppointment.css"
+import "./fetchPatientDetails.css";
 
 export default class FindByPatientId extends Component {
   static contextType = UserContext;
@@ -50,27 +50,45 @@ export default class FindByPatientId extends Component {
   };
 
   render() {
-    const { patientDetails, errorMessage, noResults } = this.state;
+    const { patientDetails, noResults } = this.state;
 
     return (
       <Container>
-        <h1 className="text-center my-4 title">Patient Details</h1>
+        <h1 className="text-center my-4 title font">Patient Details</h1>
 
         <div className="mt-5">
           {patientDetails ? (
             <>
               <Card className="mb-4">
                 <Card.Body>
-                  <Card.Title ><h2>Patient Details</h2></Card.Title>
+                  <Card.Title>
+                    <h2 className="font">Patient Details</h2>
+                  </Card.Title>
                   <Card.Text>
-                    <strong>Patient ID:</strong> {patientDetails.patientId}{" "}
+                    <strong className="font">Patient ID: </strong>{" "}
+                    <span className="font">{patientDetails.patientId}</span>{" "}
                     <br />
-                    <strong>Name:</strong> {patientDetails.firstName}{" "}
-                    {patientDetails.lastName} <br />
-                    <strong>Date of Birth:</strong> {patientDetails.dob} <br />
-                    <strong>Phone:</strong> {patientDetails.patientPhone} <br />
-                    <strong>Email:</strong> {patientDetails.patientEmail} <br />
-                    <strong>Gender:</strong> {patientDetails.gender} <br />
+                    <strong className="font">Name: </strong>{" "}
+                    <span className="font">
+                      {patientDetails.firstName} {patientDetails.lastName}
+                    </span>{" "}
+                    <br />
+                    <strong className="font">Date of Birth:</strong>{" "}
+                    <span className="font">{patientDetails.dob}</span>{" "}
+                    <br />
+                    <strong className="font">Phone:</strong>{" "}
+                    <span className="font">
+                      {patientDetails.patientPhone}
+                    </span>{" "}
+                    <br />
+                    <strong className="font">Email:</strong>{" "}
+                    <span className="font">
+                      {patientDetails.patientEmail}
+                    </span>{" "}
+                    <br />
+                    <strong className="font">Gender:</strong>{" "}
+                    <span className="font">{patientDetails.gender}</span>{" "}
+                    <br />
                   </Card.Text>
                   {patientDetails.appointments &&
                     patientDetails.appointments.length === 0 && (
@@ -86,19 +104,19 @@ export default class FindByPatientId extends Component {
                   <Table striped bordered hover>
                     <thead>
                       <tr>
-                        <th>Appointment ID</th>
-                        <th>Appointment Date</th>
-                        <th>Reason</th>
-                        <th>Doctor ID</th>
+                        <th className="font">Appointment ID</th>
+                        <th className="font">Appointment Date</th>
+                        <th className="font">Reason</th>
+                        <th className="font">Doctor ID</th>
                       </tr>
                     </thead>
                     <tbody>
                       {patientDetails.appointments.map((appointment) => (
                         <tr key={appointment.appointmentID}>
-                          <td>{appointment.appointmentID}</td>
-                          <td>{appointment.appointmentDate}</td>
-                          <td>{appointment.reason}</td>
-                          <td>{appointment.doctorID || "Not Assigned"}</td>
+                          <td className="font">{appointment.appointmentID}</td>
+                          <td className="font">{appointment.appointmentDate}</td>
+                          <td className="font">{appointment.reason}</td>
+                          <td className="font">{appointment.doctorID || "Not Assigned"}</td>
                         </tr>
                       ))}
                     </tbody>

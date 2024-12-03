@@ -1,21 +1,30 @@
+@font-face {
+  font-family: Josefinasans;
+  src: url("../../assets/fonts/JosefinSans-VariableFont_wght.ttf");
+}
+
+.font {
+  font-family: Josefinasans;
+}
 
 .navItem {
+  font-family: Josefinasans;
   font-weight: bold;
   font-size: 1.5rem;
   font-size: 30px;
 }
 
-.hover{
+.hover {
   color: black;
   transition: color 0.3s ease;
 }
 
-.hover:hover{
-  color: #007BFF;
+.hover:hover {
+  color: #007bff;
   text-decoration: underline;
 }
 
-.subHeading{
+.subHeading {
   color: white;
   font-size: large;
 }
@@ -25,12 +34,13 @@
   font-size: 1rem;
 }
 
-.userName{
+.userName {
+  padding-top: 10px;
   margin-right: 50px;
   transition: color 0.3s ease;
   color: white;
 }
 
-.userName:hover{
+.userName:hover {
   color: black;
 }

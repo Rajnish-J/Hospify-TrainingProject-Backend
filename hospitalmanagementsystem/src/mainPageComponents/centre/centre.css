@@ -1,3 +1,8 @@
+@font-face {
+  font-family: Josefinasans;
+  src: url("../../assets/fonts/JosefinSans-VariableFont_wght.ttf");
+}
+
 .ContentRow {
   height: 90vh;
 }
@@ -12,11 +17,13 @@
 }
 
 .Button {
-  border: 2px solid #457b9d;
+  font-family: Josefinasans;
+  border: 4px solid #457b9d;
   height: 60px;
 }
 
 .menuDiv {
+  padding-left: 10px;
   padding-top: 30px;
 }
 
@@ -30,8 +37,9 @@
   position: absolute;
   top: 0;
   background: linear-gradient(
-      rgba(0, 0, 0, 0.6),  /* Adjusted overlay opacity */
-      rgba(0, 0, 0, 0.6)   /* Adjusted overlay opacity */
+      rgba(0, 0, 0, 0.6),
+      /* Adjusted overlay opacity */ rgba(0, 0, 0, 0.6)
+        /* Adjusted overlay opacity */
     ),
     url("../../assets/contentpage/2.jpg") no-repeat top;
   background-size: cover;

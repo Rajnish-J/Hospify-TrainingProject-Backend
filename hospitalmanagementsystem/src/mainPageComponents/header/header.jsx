@@ -29,10 +29,10 @@ export default class Header extends Component {
 
               {/* Home and about contents */}
               <Nav className="me-auto">
-                <Nav.Link href="#home" className="subHeading">
+                <Nav.Link href="#home" className="subHeading font">
                   Home
                 </Nav.Link>
-                <Nav.Link href="#about" className="subHeading">
+                <Nav.Link href="#about" className="subHeading font">
                   About
                 </Nav.Link>
               </Nav>
@@ -41,13 +41,13 @@ export default class Header extends Component {
               <div className="d-flex align-items-center">
                 {/* Display user's first name */}
                 {firstName && (
-                  <h4 className="userName">{`Hi, ${firstName}`}</h4>
+                  <h4 className="userName font">{`Hi, ${firstName}`}</h4>
                 )}
 
                 {/* Logout Button */}
                 <Button
                   variant="danger"
-                  className="logoutbtn"
+                  className="logoutbtn font"
                   onClick={this.handleLogout}
                 >
                   Logout

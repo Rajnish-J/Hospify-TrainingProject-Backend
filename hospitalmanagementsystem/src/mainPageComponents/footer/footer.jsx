@@ -9,7 +9,7 @@ export default class footer extends Component {
         <Container fluid className="text-light">
           <Row className="FooterRow d-flex justify-content-center align-items-center">
             <Col xs={12} md={6} lg={4} className="text-center">
-              <h5 className="FooterCol mb-0">
+              <h5 className="FooterCol mb-0 font">
                 Copyright © 2024 Hospital Management. All rights reserved.
               </h5>
             </Col>
