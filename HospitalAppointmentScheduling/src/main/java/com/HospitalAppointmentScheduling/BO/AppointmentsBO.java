@@ -225,46 +225,35 @@ public class AppointmentsBO {
 	public boolean validatePatID(Long id) throws IdException {
 		List<Long> pID = pRepo.fetchPatientId();
 
-		boolean contains = false;
-		for (Long obj : pID) {
-			if (obj == id) {
-				contains = true;
-				break;
-			}
-		}
+		boolean contains = pID.contains(id);
 		if (!contains) {
-			throw new IdException("ERROR: Patient ID not exist in the database");
+			throw new IdException("ERROR: patient ID not exist in the database");
 		}
 		if (id == null) {
-			throw new IdException("ERROR: Patient Id field could not be null");
+			throw new IdException("ERROR: patient Id field could not be null");
 		} else if (id <= 0) {
-			throw new IdException("ERROR: Patient ID could not be negative or zero");
+			throw new IdException("ERROR: patient ID could not be negative or zero");
 		}
 
-		return id != null && id > 0;
+		return true;
 	}
 
 	// checks the Patient ID Checking
 	public boolean validateApptID(Long id) throws IdException {
-		List<Long> aID = appointmentsRepo.fetchAppointmentIds();
-
-		boolean contains = false;
-		for (Long obj : aID) {
-			if (obj == id) {
-				contains = true;
-				break;
-			}
-		}
-		if (!contains) {
-			throw new IdException("ERROR: appointment ID not exist in the database");
-		}
 		if (id == null) {
-			throw new IdException("ERROR: appointment Id field could not be null");
-		} else if (id <= 0) {
-			throw new IdException("ERROR: appointment ID could not be negative or zero");
+			throw new IdException("ERROR: patient ID field could not be null");
+		}
+		if (id <= 0) {
+			throw new IdException("ERROR: patient ID could not be negative or zero");
+		}
+		List<Long> aID = appointmentsRepo.fetchAppointmentIds();
+		boolean contains = aID.contains(id);
+
+		if (!contains) {
+			throw new IdException("ERROR: patient ID does not exist in the database");
 		}
 
-		return id != null && id > 0;
+		return true;
 	}
 
 	// checks if the list of appointments could be greater than zero

@@ -22,6 +22,7 @@ public interface PatientRepo extends JpaRepository<PatientVO, Long> {
 
 	@Query("SELECT COUNT(p) > 0 FROM PatientVO p WHERE p.patientPhone = :phone")
 	boolean existsByPhone(@Param("phone") String phone);
+//	================================================================================ //
 
 	// fetch by phone number
 	@Query("SELECT p FROM PatientVO p WHERE p.patientPhone = :phone")

@@ -74,21 +74,15 @@ export default class FindByPatientId extends Component {
                     </span>{" "}
                     <br />
                     <strong className="font">Date of Birth:</strong>{" "}
-                    <span className="font">{patientDetails.dob}</span>{" "}
-                    <br />
+                    <span className="font">{patientDetails.dob}</span> <br />
                     <strong className="font">Phone:</strong>{" "}
-                    <span className="font">
-                      {patientDetails.patientPhone}
-                    </span>{" "}
+                    <span className="font">{patientDetails.patientPhone}</span>{" "}
                     <br />
                     <strong className="font">Email:</strong>{" "}
-                    <span className="font">
-                      {patientDetails.patientEmail}
-                    </span>{" "}
+                    <span className="font">{patientDetails.patientEmail}</span>{" "}
                     <br />
                     <strong className="font">Gender:</strong>{" "}
-                    <span className="font">{patientDetails.gender}</span>{" "}
-                    <br />
+                    <span className="font">{patientDetails.gender}</span> <br />
                   </Card.Text>
                   {patientDetails.appointments &&
                     patientDetails.appointments.length === 0 && (
@@ -114,9 +108,13 @@ export default class FindByPatientId extends Component {
                       {patientDetails.appointments.map((appointment) => (
                         <tr key={appointment.appointmentID}>
                           <td className="font">{appointment.appointmentID}</td>
-                          <td className="font">{appointment.appointmentDate}</td>
+                          <td className="font">
+                            {appointment.appointmentDate}
+                          </td>
                           <td className="font">{appointment.reason}</td>
-                          <td className="font">{appointment.doctorID || "Not Assigned"}</td>
+                          <td className="font">
+                            {appointment.doctorID || "Not Assigned"}
+                          </td>
                         </tr>
                       ))}
                     </tbody>

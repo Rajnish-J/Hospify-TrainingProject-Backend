@@ -350,13 +350,7 @@ public class PatientBO {
 	public boolean validateID(Long id) throws IdException {
 		List<Long> pID = patientRepo.fetchPatientId();
 
-		boolean contains = false;
-		for (Long obj : pID) {
-			if (obj == id) {
-				contains = true;
-				break;
-			}
-		}
+		boolean contains = pID.contains(id);
 		if (!contains) {
 			throw new IdException("ERROR: patient ID not exist in the database");
 		}
@@ -366,7 +360,7 @@ public class PatientBO {
 			throw new IdException("ERROR: patient ID could not be negative or zero");
 		}
 
-		return id != null && id > 0;
+		return true;
 	}
 
 	// checks if the list of appointments could be greater than zero
