@@ -50,7 +50,6 @@ class FetchAll extends Component {
   };
 
   componentDidMount() {
-    // Automatically fetch appointments when the component is mounted
     this.handleFetchAll();
   }
 
@@ -96,7 +95,7 @@ class FetchAll extends Component {
                     <th>Appointment ID</th>
                     <th>Appointment Date</th>
                     <th>Reason</th>
-                    <th>Doctor ID</th>
+                    <th>Doctor Name</th>
                   </tr>
                 </thead>
                 <tbody className="font">
@@ -105,7 +104,11 @@ class FetchAll extends Component {
                       <td>{appointment.appointmentID}</td>
                       <td>{appointment.appointmentDate}</td>
                       <td>{appointment.reason}</td>
-                      <td>{appointment.doctorID}</td>
+                      <td>
+                        {appointment.doctor
+                          ? `${appointment.doctor.firstName} ${appointment.doctor.lastName}`
+                          : "Not Assigned"}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

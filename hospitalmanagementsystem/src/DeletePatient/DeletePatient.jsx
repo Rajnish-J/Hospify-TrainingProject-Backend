@@ -1,7 +1,8 @@
+// ! after validation
 import React, { Component } from "react";
-import { UserContext } from "../Login/login.jsx"; // Assuming this is the context where logged-in user info is stored
-import { Button, Alert } from "react-bootstrap";
-import "./DeletePatient.css"
+import { UserContext } from "../Login/login.jsx";
+import { Button, Alert, Modal } from "react-bootstrap";
+import "./DeletePatient.css";
 
 class PatientDelete extends Component {
   static contextType = UserContext;
@@ -12,7 +13,10 @@ class PatientDelete extends Component {
       appointments: [],
       error: null,
       successMessage: null,
-      isDeleting: false, // Track if the deletion is in progress
+      // track the deleting process
+      isDeleting: false,
+      // track for modal confirmation
+      showModal: false,
     };
   }
 
@@ -37,30 +41,34 @@ class PatientDelete extends Component {
   // Delete appointments for the logged-in patient
   deleteAppointments = () => {
     const { appointments } = this.state;
-
     if (!appointments || appointments.length === 0) {
-      // No appointments, delete the patient directly
+      // No appointments, delete the patient directly in the database
       this.deletePatient();
     } else {
-      // Loop through each appointment and delete it
+      let errorCount = 0;
+
+      // creates a Loop for each appointment and delete it
       appointments.forEach((appointment) => {
         fetch(`http://localhost:8080/appointment/delete/${appointment.id}`, {
           method: "DELETE",
         })
-          .then((response) => response.text()) // Get the raw response text (because it could be empty)
-          .then((data) => {
-            if (data !== "") {
-              throw new Error(`Failed to delete appointment: ${data}`);
+          .then((response) => {
+            if (!response.ok) {
+              errorCount++;
+              throw new Error(
+                `Failed to delete appointment with ID: ${appointment.id}`
+              );
             }
           })
           .catch((error) => {
             console.error("Error deleting appointment:", error);
-            this.setState({ error: error.message });
           });
       });
 
       // After deleting all appointments, delete the patient account
-      this.deletePatient();
+      if (errorCount === 0) {
+        this.deletePatient();
+      }
     }
   };
 
@@ -73,40 +81,40 @@ class PatientDelete extends Component {
       return;
     }
 
-    this.setState({ isDeleting: true }); // Start deleting process
+    // Start deleting process
+    this.setState({ isDeleting: true });
 
     fetch(`http://localhost:8080/patient/delete/${patientId}`, {
       method: "DELETE",
     })
-      .then((response) => response.text()) // Get the raw response text (it could be "Deleted successfully" or an error message)
-      .then((data) => {
-        if (data === "Deleted successfully") {
-          this.setState({
-            successMessage: "Your account has been successfully deleted",
-          });
-          this.handleLogout(); // Trigger logout after successful deletion
-        } else if (data.includes("ERROR:")) {
-          throw new Error(data); // Handle errors like "ERROR: patient ID not exist"
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to delete patient account.");
         }
+        return response.text();
+      })
+      .then((data) => {
+        this.setState({
+          successMessage: "Your account has been successfully deleted",
+          // Clear any error if deletion is successful
+          error: null,
+        });
+        // Trigger logout after successful deletion
+        this.handleLogout();
       })
       .catch((error) => {
         console.error("Error deleting patient:", error);
-        this.setState({ error: error.message });
       })
       .finally(() => {
-        this.setState({ isDeleting: false }); // Stop deleting process
+        // If the deletion completes, Trigger logout after successful deletion
+        this.setState({ isDeleting: false });
       });
   };
 
   // Handle delete button click
   handleDeleteClick = () => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete your account? All your appointments will also be deleted."
-    );
-
-    if (confirmDelete) {
-      this.deleteAppointments();
-    }
+    // Show the confirmation modal
+    this.setState({ showModal: true });
   };
 
   // Handle logout after successful deletion
@@ -118,25 +126,38 @@ class PatientDelete extends Component {
     window.location.href = "/login"; // Or navigate to the login route
   };
 
+  // Close the confirmation modal
+  handleCloseModal = () => {
+    this.setState({ showModal: false });
+  };
+
+  // Confirm deletion in modal
+  handleConfirmDelete = () => {
+    // close the modal
+    this.setState({ showModal: false });
+    // else proceeds
+    this.deleteAppointments();
+  };
+
   render() {
-    const { appointments, error, successMessage, isDeleting } = this.state;
+    const { error, successMessage, isDeleting, showModal } = this.state;
 
     return (
       <div
-      className="font"
+        className="font"
         style={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           height: "80vh",
-          color : "white"
+          color: "white",
         }}
       >
         <h1>Delete Your Account</h1>
-        <p style={{fontSize : '22px', color : 'white'} }>
-          If you delete your account, all your <br />appointments will also be
-          deleted.
+        <p style={{ fontSize: "22px", color: "white" }}>
+          If you delete your account, all your <br />
+          appointments will also be deleted.
         </p>
 
         {error && <Alert variant="danger">{error}</Alert>}
@@ -146,10 +167,34 @@ class PatientDelete extends Component {
           onClick={this.handleDeleteClick}
           className="delete-button"
           variant="danger"
-          disabled={isDeleting} // Disable button during the deletion process
+          // Disable button during the deletion process
+          disabled={isDeleting}
         >
           {isDeleting ? "Deleting..." : "Delete Account"}
         </Button>
+
+        {/* Confirmation Modal */}
+        <Modal show={showModal} onHide={this.handleCloseModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Account Deletion</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Are you sure you want to delete your account? All your appointments
+            will also be deleted.
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleCloseModal}>
+              Cancel
+            </Button>
+            <Button
+              variant="danger"
+              onClick={this.handleConfirmDelete}
+              disabled={isDeleting}
+            >
+              {isDeleting ? "Deleting..." : "Delete"}
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     );
   }

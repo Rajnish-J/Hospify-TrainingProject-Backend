@@ -83,7 +83,7 @@ export default class centre extends Component {
                         this.handleButtonClick("/UpdatePatientDetails")
                       }
                     >
-                      Update Details
+                      Update Personal Details
                     </Button>
                   </Link>
 

@@ -89,7 +89,9 @@ class FetchAll extends Component {
       <Container className="mt-5 font">
         <Row>
           <Col xs={12}>
-            <h2 className="mb-4" style={{color : 'white'}}>Your Appointments</h2>
+            <h2 className="mb-4" style={{ color: "white" }}>
+              Your Appointments
+            </h2>
 
             <Button
               variant="primary"
@@ -120,7 +122,7 @@ class FetchAll extends Component {
                     <th>Appointment ID</th>
                     <th>Appointment Date</th>
                     <th>Reason</th>
-                    <th>Doctor ID</th>
+                    <th>Doctor Name</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -130,7 +132,11 @@ class FetchAll extends Component {
                       <td>{appointment.appointmentID}</td>
                       <td>{appointment.appointmentDate}</td>
                       <td>{appointment.reason}</td>
-                      <td>{appointment.doctorID}</td>
+                      <td>
+                        {appointment.doctor
+                          ? `${appointment.doctor.firstName} ${appointment.doctor.lastName}`
+                          : "Not Assigned"}
+                      </td>
                       <td>
                         <Button
                           variant="danger"

@@ -28,6 +28,7 @@ import com.HospitalAppointmentScheduling.CustomExceptions.genderException;
 import com.HospitalAppointmentScheduling.DTO.AppointmentDTO;
 import com.HospitalAppointmentScheduling.DTO.PatientDTO;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
+import com.HospitalAppointmentScheduling.Entity.DoctorVO;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandle;
 import com.HospitalAppointmentScheduling.Service.PatientService;
@@ -419,7 +420,7 @@ public class PatientController {
 		dto.setUpdatedAt(patientVO.getUpdatedAt());
 
 		// Map Appointments
-		List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
+		List<AppointmentDTO> ListappointmentDTOs = new ArrayList<>();
 		if (patientVO.getAppointments() != null) {
 			for (AppointmentsVO appointment : patientVO.getAppointments()) {
 				AppointmentDTO appointmentDTO = new AppointmentDTO();
@@ -430,10 +431,17 @@ public class PatientController {
 				appointmentDTO.setUpdatedAt(appointment.getUpdatedAt());
 				appointmentDTO.setDoctorID(appointment.getDoctor().getDoctorId());
 
-				appointmentDTOs.add(appointmentDTO);
+				DoctorVO docVO = new DoctorVO();
+				docVO.setDoctorId(appointment.getDoctor().getDoctorId());
+				docVO.setFirstName(appointment.getDoctor().getFirstName());
+				docVO.setLastName(appointment.getDoctor().getLastName());
+
+				appointmentDTO.setDoctor(docVO);
+
+				ListappointmentDTOs.add(appointmentDTO);
 			}
 		}
-		dto.setAppointments(appointmentDTOs);
+		dto.setAppointments(ListappointmentDTOs);
 
 		return dto;
 	}

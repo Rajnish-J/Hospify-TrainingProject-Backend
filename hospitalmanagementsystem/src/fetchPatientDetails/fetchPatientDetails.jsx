@@ -101,7 +101,7 @@ export default class FindByPatientId extends Component {
                         <th className="font">Appointment ID</th>
                         <th className="font">Appointment Date</th>
                         <th className="font">Reason</th>
-                        <th className="font">Doctor ID</th>
+                        <th className="font">Doctor Name</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -113,7 +113,11 @@ export default class FindByPatientId extends Component {
                           </td>
                           <td className="font">{appointment.reason}</td>
                           <td className="font">
-                            {appointment.doctorID || "Not Assigned"}
+                            {appointment.doctor &&
+                            appointment.doctor.firstName &&
+                            appointment.doctor.lastName
+                              ? `${appointment.doctor.firstName.trim()} ${appointment.doctor.lastName.trim()}`
+                              : "Not Assigned"}
                           </td>
                         </tr>
                       ))}
