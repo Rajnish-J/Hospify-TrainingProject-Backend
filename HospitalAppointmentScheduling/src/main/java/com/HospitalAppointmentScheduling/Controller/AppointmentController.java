@@ -221,18 +221,24 @@ public class AppointmentController {
 
 	// fetch all:
 	@GetMapping("/fetchallAppointments")
-	public List<AppointmentDTO> fetchall() {
+	public ResponseEntity<?> fetchall() {
 		log.info("appointment chooses fetch all the details option...");
 		apptRes = aser.fetchAll();
-		List<AppointmentsVO> list = apptRes.getList();
-		List<AppointmentDTO> listd = new ArrayList<>();
-		for (int i = 0; i < list.size(); i++) {
-			AppointmentsVO vo = list.get(i);
-			AppointmentDTO getDto = mapToDTO(vo);
-			listd.add(getDto);
+		if (apptRes.getList().size() > 0) {
+			List<AppointmentsVO> list = apptRes.getList();
+			List<AppointmentDTO> listd = new ArrayList<>();
+			for (int i = 0; i < list.size(); i++) {
+				AppointmentsVO vo = list.get(i);
+				AppointmentDTO getDto = mapToDTO(vo);
+				listd.add(getDto);
+			}
+			log.info("All appointment details fetched successfully.");
+			return ResponseEntity.ok(listd);
+		} else {
+			String pass = "Error in fetching";
+			log.error(pass);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pass);
 		}
-		log.info("All appointment details fetched successfully.");
-		return listd;
 
 	}
 
@@ -313,7 +319,7 @@ public class AppointmentController {
 				listd.add(getDto);
 				log.info("Fetched appointment details between two dates successfully.");
 			}
-			return ResponseEntity.ok(list);
+			return ResponseEntity.ok(listd);
 		} catch (DateException e) {
 			log.error("Id Exception", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
