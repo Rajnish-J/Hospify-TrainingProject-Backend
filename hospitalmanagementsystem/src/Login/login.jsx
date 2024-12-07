@@ -124,20 +124,29 @@ export default class PatLogin extends Component {
 
     // Validate Email (basic email format)
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const gmailPattern = /@gmail\.com$/;
+
     if (
       patientData.patientEmail &&
       !emailPattern.test(patientData.patientEmail)
     ) {
       newErrors.patientEmail = "Please enter a valid email address.";
+    } else if (
+      patientData.patientEmail &&
+      !gmailPattern.test(patientData.patientEmail)
+    ) {
+      newErrors.patientEmail = "Email must contain @gmail.com.";
     }
 
     // Validate Phone Number (basic phone number format, adjust regex as needed)
-    const phonePattern = /^[0-9]{10}$/;
+    const phonePattern = /^[6-9][0-9]{9}$/;
+
     if (
       patientData.patientPhone &&
       !phonePattern.test(patientData.patientPhone)
     ) {
-      newErrors.patientPhone = "Please enter a valid phone number (10 digits).";
+      newErrors.patientPhone =
+        "Please enter a valid phone number (10 digits) starting with 6, 7, 8, or 9.";
     }
 
     // Validate Date of Birth (at least 18 years old)
@@ -151,6 +160,9 @@ export default class PatLogin extends Component {
 
       if (age < 18 || (age === 18 && month < 0)) {
         newErrors.dob = "You must be at least 18 years old.";
+      }
+      if (age > 120) {
+        newErrors.dob = "Age should not greater than 120 years old";
       }
     }
 

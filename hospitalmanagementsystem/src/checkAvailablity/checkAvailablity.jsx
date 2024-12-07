@@ -21,6 +21,23 @@ class AppointmentChecker extends Component {
     const { date } = this.state;
     const { navigate } = this.props;
 
+    // Validate if the selected date is a past date
+    const selectedDate = new Date(date);
+    const currentDate = new Date();
+
+    // Set time to 00:00:00 for comparison
+    selectedDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0);
+
+    if (selectedDate < currentDate) {
+      this.setState({
+        message:
+          "Appointments cannot be booked for past dates. Please select a future date.",
+        messageType: "danger",
+      });
+      return; // Exit the function to prevent further execution
+    }
+
     // Fetch API to get appointment count
     fetch(`http://localhost:8080/appointment/countOfAppointmentsByDate/${date}`)
       .then((response) => {
