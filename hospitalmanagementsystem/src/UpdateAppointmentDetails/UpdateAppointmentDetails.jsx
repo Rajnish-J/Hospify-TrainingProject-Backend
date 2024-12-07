@@ -75,80 +75,90 @@ export default class AppointmentList extends Component {
 
     const { selectedAppointment, appointmentDate, reason } = this.state;
 
-    // First, check if the selected new appointment date has less than 5 appointments
-    const apiUrl = `http://localhost:8080/appointment/countOfAppointmentsByDate/${appointmentDate}`;
-    fetch(apiUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch appointment count.");
-        }
-        return response.json();
-      })
-      .then((count) => {
-        if (count >= 5) {
-          // If the count exceeds or is equal to 5, show error message
+    if (appointmentDate !== selectedAppointment.appointmentDate) {
+      const apiUrl = `http://localhost:8080/appointment/countOfAppointmentsByDate/${appointmentDate}`;
+      fetch(apiUrl)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch appointment count.");
+          }
+          return response.json();
+        })
+        .then((count) => {
+          if (count >= 5) {
+            this.setState({
+              errorMessage:
+                "All appointments are booked for this day already. Please select another convenient day for consulting doctors.",
+              successMessage: "",
+            });
+          } else {
+            this.updateAppointment(
+              selectedAppointment.appointmentID,
+              appointmentDate,
+              reason
+            );
+          }
+        })
+        .catch(() => {
           this.setState({
-            errorMessage:
-              "All appointments are booked for this day already. Please select another convenient day for consulting doctors.",
+            errorMessage: "Error checking appointment availability.",
             successMessage: "",
           });
-        } else {
-          // If the count is less than 5, proceed with updating the appointment
-          const updatedAppointment = { appointmentDate, reason };
+        });
+    } else {
+      this.updateAppointment(
+        selectedAppointment.appointmentID,
+        appointmentDate,
+        reason
+      );
+    }
+  };
 
-          fetch(
-            `http://localhost:8080/appointment/updateAppointments/${selectedAppointment.appointmentID}`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(updatedAppointment),
-            }
-          )
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error("Failed to update appointment");
-              }
-              return response.text();
-            })
-            .then((message) => {
-              this.setState({
-                successMessage: message,
-                errorMessage: "",
-              });
+  updateAppointment = (appointmentID, appointmentDate, reason) => {
+    const updatedAppointment = { appointmentDate, reason };
 
-              // Update context with new appointment data
-              const updatedAppointments = this.context.appointments.map(
-                (appointment) =>
-                  appointment.appointmentID ===
-                  selectedAppointment.appointmentID
-                    ? { ...appointment, appointmentDate, reason }
-                    : appointment
-              );
-              this.context.setAppointments(updatedAppointments); // Update context
-
-              // Reset selected appointment after success
-              this.setState({ selectedAppointment: null });
-            })
-            .catch((error) => {
-              this.setState({
-                errorMessage: error.message || "An error occurred",
-                successMessage: "",
-              });
-            });
+    fetch(
+      `http://localhost:8080/appointment/updateAppointments/${appointmentID}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedAppointment),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to update appointment");
         }
+        return response.text();
       })
-      .catch(() => {
+      .then((message) => {
         this.setState({
-          errorMessage: "Error checking appointment availability.",
+          successMessage: message,
+          errorMessage: "",
+        });
+
+        const updatedAppointments = this.context.appointments.map(
+          (appointment) =>
+            appointment.appointmentID === appointmentID
+              ? { ...appointment, appointmentDate, reason }
+              : appointment
+        );
+        this.context.setAppointments(updatedAppointments); // Update context
+
+        this.setState({ selectedAppointment: null });
+      })
+      .catch((error) => {
+        this.setState({
+          errorMessage: error.message || "An error occurred",
           successMessage: "",
         });
       });
   };
 
   render() {
-    const { appointments } = this.context; // Fetch appointments from context
+    const { appointments } = this.context;
     const {
       selectedAppointment,
       appointmentDate,
