@@ -10,6 +10,9 @@ import UpdatePatientDetails from "../../updatePatientDetails/updatePatientDetail
 import AddAppointment from "../../AddAppointment/AddAppointment.jsx";
 import UpdateAppointmentDetails from "../../UpdateAppointmentDetails/UpdateAppointmentDetails.jsx";
 import DeleteAppointments from "../../DeleteAppointment/DeleteAppointment.jsx";
+import Availablity from "../../checkAvailablity/checkAvailablity.jsx";
+import AppointmentsOnDate from "../../findapptsbydate/findapptsbydate.jsx";
+import AppointmentsBetweenTwoDate from "../../findApptsBetTwoDate/findApptsBetTwoDate.jsx";
 import DeletePatient from "../../DeletePatient/DeletePatient.jsx";
 
 export default class centre extends Component {
@@ -87,6 +90,19 @@ export default class centre extends Component {
                     </Button>
                   </Link>
 
+                  {/* Check Availablity */}
+                  <Link to="/checkAvailblity">
+                    <Button
+                      variant={
+                        activeRoute === "/checkAvailblity" ? "primary" : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() => this.handleButtonClick("/checkAvailblity")}
+                    >
+                      Check Availablity
+                    </Button>
+                  </Link>
+
                   {/* Adding the appointments for the patients */}
                   <Link to="/AddAppointments">
                     <Button
@@ -97,6 +113,40 @@ export default class centre extends Component {
                       onClick={() => this.handleButtonClick("/AddAppointments")}
                     >
                       Add Appointment
+                    </Button>
+                  </Link>
+
+                  {/* serach there is an appointment on the given date */}
+                  <Link to="/AppointmentOnDate">
+                    <Button
+                      variant={
+                        activeRoute === "/AppointmentOnDate"
+                          ? "primary"
+                          : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() =>
+                        this.handleButtonClick("/AppointmentOnDate")
+                      }
+                    >
+                      Find Appointments on Date
+                    </Button>
+                  </Link>
+
+                  {/* fetches all the appointments on the two dates */}
+                  <Link to="/AppointmentsBetweenTwoDates">
+                    <Button
+                      variant={
+                        activeRoute === "/AppointmentsBetweenTwoDates"
+                          ? "primary"
+                          : "light"
+                      }
+                      className="w-100 mb-2 Button"
+                      onClick={() =>
+                        this.handleButtonClick("/AppointmentsBetweenTwoDates")
+                      }
+                    >
+                      Find Appointments between dates
                     </Button>
                   </Link>
 
@@ -181,6 +231,18 @@ export default class centre extends Component {
                   <Route
                     path="/DeleteAppointment"
                     element={<DeleteAppointments />}
+                  />
+
+                  <Route path="/checkAvailblity" element={<Availablity />} />
+
+                  <Route
+                    path="/AppointmentOnDate"
+                    element={<AppointmentsOnDate />}
+                  />
+
+                  <Route
+                    path="/AppointmentsBetweenTwoDates"
+                    element={<AppointmentsBetweenTwoDate />}
                   />
 
                   <Route path="/DeletePatient" element={<DeletePatient />} />

@@ -170,9 +170,10 @@ public class AppointmentsService {
 
 	// fetching appt details between two dates
 	@Transactional
-	public ResponseHandleAppointments fetchApptBetweenTwoDates(LocalDate sd, LocalDate ld) throws DateException {
+	public ResponseHandleAppointments findAppointmentsByPatientIdAndDateRange(LocalDate sd, LocalDate ld, long id)
+			throws DateException, IdException, AppointmentException {
 		log.info("Appointments details by between two dates method triggered");
-		List<AppointmentsVO> list = apptBO.fetchApptBetweenTwoDates(sd, ld);
+		List<AppointmentsVO> list = apptBO.findAppointmentsByPatientIdAndDateRange(sd, ld, id);
 		log.info("fetchApptBetweenTwoDates method - Fetching appointments between dates executed");
 		if (list.size() > 0) {
 			log.info("Fetching appointments between dates successful");
@@ -182,6 +183,23 @@ public class AppointmentsService {
 			apptsRes.setFailureMessage("Error in fetching");
 		}
 		log.info("fetchApptBetweenTwoDates method - END");
+		return apptsRes;
+	}
+
+	// fetches all the appointments with respect to logged in patient id and given
+	// date:
+	public ResponseHandleAppointments findAppointmentsByPatientIdAndDate(LocalDate ld, long id)
+			throws IdException, AppointmentException {
+		log.info("find appointments by patient id and given date method triggered");
+		List<AppointmentsVO> list = apptBO.findAppointmentsByPatientIdAndDate(ld, id);
+		if (list.size() > 0) {
+			log.info("fetched successfully");
+			apptsRes.setSucessMessage("fetched successfully");
+			apptsRes.setList(list);
+		} else {
+			log.info("fetching failed");
+			apptsRes.setFailureMessage("Error in fetching");
+		}
 		return apptsRes;
 	}
 

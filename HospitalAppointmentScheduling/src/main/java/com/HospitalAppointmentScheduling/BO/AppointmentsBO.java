@@ -118,10 +118,27 @@ public class AppointmentsBO {
 	}
 
 	// Appointment by between two days:
-	public List<AppointmentsVO> fetchApptBetweenTwoDates(LocalDate sd, LocalDate ld) throws DateException {
-		List<AppointmentsVO> list = appointmentsRepo.findAllByAppointmentDateRange(sd, ld);
+	public List<AppointmentsVO> findAppointmentsByPatientIdAndDateRange(LocalDate sd, LocalDate ld, long id)
+			throws DateException, IdException, AppointmentException {
+		validatePatID(id);
 		if (sd.isAfter(ld)) {
 			throw new DateException("start date could be before the end date");
+		}
+		List<AppointmentsVO> list = appointmentsRepo.findAppointmentsByPatientIdAndDateRange(sd, ld, id);
+		if (list.size() <= 0) {
+			throw new AppointmentException("No records available");
+		}
+		return list;
+	}
+
+	// fetches all the appointments with respect to logged in patient id and given
+	// date:
+	public List<AppointmentsVO> findAppointmentsByPatientIdAndDate(LocalDate ld, long id)
+			throws IdException, AppointmentException {
+		validatePatID(id);
+		List<AppointmentsVO> list = appointmentsRepo.findAppointmentsByPatientIdAndDate(ld, id);
+		if (list.size() <= 0) {
+			throw new AppointmentException("No records available");
 		}
 		return list;
 	}

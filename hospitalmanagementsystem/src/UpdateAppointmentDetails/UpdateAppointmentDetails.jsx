@@ -165,11 +165,21 @@ export default class AppointmentList extends Component {
 
         {/* Display success or error messages */}
         {errorMessage && (
-          <div className="text-danger text-center mb-3">{errorMessage}</div>
+          <Card className="mt-3 text-center">
+            <Card.Body>
+              <div className="text-danger">{errorMessage}</div>
+            </Card.Body>
+          </Card>
         )}
         {successMessage && (
-          <div className="text-success text-center mb-3">{successMessage}</div>
+          <Card className="mt-3 text-center">
+            <Card.Body>
+              <div className="text-success">{successMessage}</div>
+            </Card.Body>
+          </Card>
         )}
+
+        <div className="mt-4"></div>
 
         {/* Conditional rendering for appointments */}
         {appointments.length === 0 ? (

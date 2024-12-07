@@ -245,6 +245,8 @@ public class HospitalAppointmentSchedulingApplication {
 								break;
 							}
 							case 6: {
+								System.out.print("Enter the patient id");
+								long id = sc.nextLong();
 								System.out.print("Enter the Start Date in the format (YYYY-MM-DD): ");
 								String startDate = sc.next();
 								System.out.print("Enter the End Date in the format (YYYY-MM-DD): ");
@@ -253,7 +255,7 @@ public class HospitalAppointmentSchedulingApplication {
 								LocalDate startedDate = LocalDate.parse(startDate, formatAppt);
 								LocalDate endedDate = LocalDate.parse(endDate, formatAppt);
 
-								ref.fetchApptBetweenTwoDates(startedDate, endedDate);
+								ref.fetchApptBetweenTwoDates(startedDate, endedDate, id);
 								break;
 							}
 							case 7: {
@@ -945,16 +947,20 @@ public class HospitalAppointmentSchedulingApplication {
 
 	// ------------------------------------------------------------------------------------------------------------------------------//
 
-	public void fetchApptBetweenTwoDates(LocalDate sd, LocalDate ld) {
+	public void fetchApptBetweenTwoDates(LocalDate sd, LocalDate ld, long id) {
 
 		try {
-			resAppt = aService.fetchApptBetweenTwoDates(sd, ld);
+			resAppt = aService.findAppointmentsByPatientIdAndDateRange(sd, ld, id);
 			if (resAppt.getSucessMessage() != null) {
 				for (AppointmentsVO obj : resAppt.getList()) {
 					System.out.println(obj);
 				}
 			}
 		} catch (DateException e) {
+			System.err.println(e.getMessage());
+		} catch (IdException e) {
+			System.err.println(e.getMessage());
+		} catch (AppointmentException e) {
 			System.err.println(e.getMessage());
 		}
 	}
