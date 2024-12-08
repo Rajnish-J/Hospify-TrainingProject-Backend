@@ -1,4 +1,4 @@
-//  ! after validation
+// ! minor bug solved
 import React, { Component } from "react";
 import { Container, Table, Button, Form, Card } from "react-bootstrap";
 import { UserContext } from "../Login/login.jsx";
@@ -13,10 +13,40 @@ export default class AppointmentList extends Component {
       reason: "",
       errorMessage: "",
       successMessage: "",
+      appointments: [], // State for storing fetched appointments
     };
   }
 
   static contextType = UserContext;
+
+  componentDidMount() {
+    this.handleFetchAll();
+  }
+
+  handleFetchAll = () => {
+    const patId = this.context?.patientId;
+
+    fetch(
+      `http://localhost:8080/appointment/fetchAppointmentsForPatientID/${patId}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        this.setState({ appointments: data, error: null });
+        this.context.setAppointments(data);
+      })
+      .catch((error) => {
+        this.setState({ appointments: [], error: error.message });
+      });
+  };
 
   // Handles input changes in the form
   handleChange = (e) => {
@@ -64,8 +94,7 @@ export default class AppointmentList extends Component {
     });
   };
 
-  // Handles the form submission to update the appointment\
-
+  // Handles the form submission to update the appointment
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -139,13 +168,13 @@ export default class AppointmentList extends Component {
           errorMessage: "",
         });
 
-        const updatedAppointments = this.context.appointments.map(
-          (appointment) =>
-            appointment.appointmentID === appointmentID
-              ? { ...appointment, appointmentDate, reason }
-              : appointment
+        // Update the appointments in state after successful update
+        const updatedAppointments = this.state.appointments.map((appointment) =>
+          appointment.appointmentID === appointmentID
+            ? { ...appointment, appointmentDate, reason }
+            : appointment
         );
-        this.context.setAppointments(updatedAppointments); // Update context
+        this.setState({ appointments: updatedAppointments });
 
         this.setState({ selectedAppointment: null });
       })
@@ -158,13 +187,13 @@ export default class AppointmentList extends Component {
   };
 
   render() {
-    const { appointments } = this.context;
     const {
       selectedAppointment,
       appointmentDate,
       reason,
       errorMessage,
       successMessage,
+      appointments,
     } = this.state;
 
     return (

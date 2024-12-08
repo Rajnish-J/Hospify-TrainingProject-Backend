@@ -33,26 +33,28 @@ export default class UpdatePatientDetails extends Component {
     const { firstName, lastName, dob, patientPhone, patientEmail } =
       updatedFields;
 
-    const nameRegex = /^[A-Za-z\s]+$/;
+    const nameRegex = /^[A-Za-z]+$/; // Updated regex to disallow spaces
 
     if (
       firstName &&
       (firstName.trim().length < 2 ||
         firstName.length > 50 ||
-        !nameRegex.test(firstName))
+        !nameRegex.test(firstName) ||
+        /\s/.test(firstName)) // Check for spaces in between
     ) {
       errors.firstName =
-        "First name must be between 2 and 50 characters and contain no numbers or special characters.";
+        "First name must be between 2 and 50 characters, contain no numbers, special characters, or spaces.";
     }
 
     if (
       lastName &&
       (lastName.trim().length < 2 ||
         lastName.length > 50 ||
-        !nameRegex.test(lastName))
+        !nameRegex.test(lastName) ||
+        /\s/.test(lastName)) // Check for spaces in between
     ) {
       errors.lastName =
-        "Last name must be between 2 and 50 characters and contain no numbers or special characters.";
+        "Last name must be between 2 and 50 characters, contain no numbers, special characters, or spaces.";
     }
 
     if (dob) {
