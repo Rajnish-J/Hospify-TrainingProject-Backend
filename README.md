@@ -8,5 +8,5 @@ To set up the database for this project, follow these steps:
 ### Steps to Restore the Database
 1. Clone this repository:
    ```bash
-  git clone https://github.com/Rajnish-J/Hospital-Appointment-Scheduling.git
-  cd Hospital-Appointment-Scheduling
+   git clone https://github.com/Rajnish-J/Hospital-Appointment-Scheduling.git
+   cd Hospital-Appointment-Scheduling
