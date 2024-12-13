@@ -1,41 +1,48 @@
-Hospital Appointment Management System
+Here is a detailed and fully-fledged `README.md` for your project, incorporating all your dependencies, prerequisites, and setup instructions:
+
+---
+
+# Hospital Appointment Management System
 
 A web application for managing hospital appointments, built using **Spring Boot (REST APIs)**, **React**, and **MySQL**.
 
-Table of Contents:
+## Table of Contents
+- [Prerequisites](#prerequisites)
+- [Dependencies](#dependencies)
+  - [Backend](#backend)
+  - [Frontend](#frontend)
+- [Setup Instructions](#setup-instructions)
+  - [Clone the Repository](#1-clone-the-repository)
+  - [Backend Setup](#2-backend-setup)
+  - [Frontend Setup](#3-frontend-setup)
+  - [Database Setup](#4-database-setup)
+- [Running the Application](#running-the-application)
 
-- [Prerequisites]
-- [Dependencies]
-  - [Backend]
-  - [Frontend]
-- [Setup Instructions]
-  - [Clone the Repository]
-  - [Backend Setup]
-  - [Frontend Setup]
-  - [Database Setup]
-- [Running the Application]
+---
 
-Prerequisites:
+## Prerequisites
 
 Ensure the following software is installed on your system:
 
-1. Java Development Kit (JDK 17 or higher)
+1. **Java Development Kit (JDK 17 or higher)**  
    - [Download JDK](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 
-2. Spring Tool Suite (STS) (optional for IDE users)  
+2. **Spring Tool Suite (STS)** (optional for IDE users)  
    - [Download STS](https://spring.io/tools)
 
-3. Node.js and npm (for the frontend)  
+3. **Node.js and npm** (for the frontend)  
    - [Download Node.js](https://nodejs.org/)
 
-4. MySQL (for the database)  
+4. **MySQL** (for the database)  
    - [Download MySQL](https://dev.mysql.com/downloads/installer/)
 
-Dependencies:
+---
 
-Backend:
+## Dependencies
 
-The backend is built using Spring Boot. Below are the key dependencies included in `pom.xml`:
+### Backend
+
+The backend is built using **Spring Boot**. Below are the key dependencies included in `pom.xml`:
 
 - **Spring Boot Starter Data JPA**: For database interactions.
 - **Spring Boot Starter Web**: For building REST APIs.
