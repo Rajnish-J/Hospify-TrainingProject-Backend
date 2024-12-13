@@ -1,7 +1,3 @@
-Here is a detailed and fully-fledged `README.md` for your project, incorporating all your dependencies, prerequisites, and setup instructions:
-
----
-
 # Hospital Appointment Management System
 
 A web application for managing hospital appointments, built using **Spring Boot (REST APIs)**, **React**, and **MySQL**.
@@ -27,7 +23,7 @@ Ensure the following software is installed on your system:
 1. **Java Development Kit (JDK 17 or higher)**  
    - [Download JDK](https://www.oracle.com/java/technologies/javase-jdk17-downloads.html)
 
-2. **Spring Tool Suite (STS)** (optional for IDE users)  
+2. **Spring Tool Suite (STS)** (optional for backend development)  
    - [Download STS](https://spring.io/tools)
 
 3. **Node.js and npm** (for the frontend)  
@@ -35,6 +31,9 @@ Ensure the following software is installed on your system:
 
 4. **MySQL** (for the database)  
    - [Download MySQL](https://dev.mysql.com/downloads/installer/)
+
+5. **Visual Studio Code (VS Code)** (optional for frontend development)  
+   - [Download VS Code](https://code.visualstudio.com/)
 
 ---
 
@@ -74,6 +73,8 @@ git clone https://github.com/yourusername/HospitalAppointmentManagement.git
 cd HospitalAppointmentManagement
 ```
 
+---
+
 ### 2. Backend Setup
 
 1. Open the `backend` folder in your IDE (e.g., STS or IntelliJ).
@@ -93,20 +94,32 @@ cd HospitalAppointmentManagement
    mvn spring-boot:run
    ```
 
+---
+
 ### 3. Frontend Setup
 
-1. Navigate to the `frontend` folder:
+#### Using Visual Studio Code:
+1. Open the `frontend` folder in **VS Code**.
+2. Install the required extensions:
+   - **ES7+ React/Redux/React-Native snippets**
+   - **Prettier - Code formatter** (optional)
+3. Open a terminal in VS Code and navigate to the `frontend` folder:
    ```bash
    cd frontend
    ```
-2. Install the required dependencies:
+4. Install the required dependencies:
    ```bash
    npm install
    ```
-3. Start the development server:
+5. Start the development server:
    ```bash
    npm start
    ```
+
+#### Alternate Method:
+If you are familiar with other IDEs or tools, continue using your preferred environment to set up and run the frontend application.
+
+---
 
 ### 4. Database Setup
 
@@ -125,11 +138,11 @@ cd HospitalAppointmentManagement
 
 ## Running the Application
 
-1. Ensure the backend server is running:
+1. **Start the Backend Server**:
    ```bash
    mvn spring-boot:run
    ```
-2. Ensure the frontend development server is running:
+2. **Start the Frontend Development Server**:
    ```bash
    npm start
    ```
@@ -140,4 +153,7 @@ cd HospitalAppointmentManagement
 
 ---
 
-Feel free to customize the `README.md` to suit your project! Let me know if you need further refinements.
+## Notes
+
+- If you are already familiar with setting up and running Java Spring Boot or React projects in your preferred IDE, feel free to proceed with your usual workflow.
+- Make sure to verify your database connection and credentials before running the application.
