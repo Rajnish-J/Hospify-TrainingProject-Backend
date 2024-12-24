@@ -1,4 +1,4 @@
-//  ! after validation
+// ! minor bug solved
 import React, { Component } from "react";
 import { Container, Table, Button, Form, Card } from "react-bootstrap";
 import { UserContext } from "../Login/login.jsx";
@@ -13,10 +13,40 @@ export default class AppointmentList extends Component {
       reason: "",
       errorMessage: "",
       successMessage: "",
+      appointments: [], // State for storing fetched appointments
     };
   }
 
   static contextType = UserContext;
+
+  componentDidMount() {
+    this.handleFetchAll();
+  }
+
+  handleFetchAll = () => {
+    const patId = this.context?.patientId;
+
+    fetch(
+      `http://localhost:8080/appointment/fetchAppointmentsForPatientID/${patId}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        this.setState({ appointments: data, error: null });
+        this.context.setAppointments(data);
+      })
+      .catch((error) => {
+        this.setState({ appointments: [], error: error.message });
+      });
+  };
 
   // Handles input changes in the form
   handleChange = (e) => {
@@ -64,8 +94,7 @@ export default class AppointmentList extends Component {
     });
   };
 
-  // Handles the form submission to update the appointment\
-
+  // Handles the form submission to update the appointment
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -75,86 +104,96 @@ export default class AppointmentList extends Component {
 
     const { selectedAppointment, appointmentDate, reason } = this.state;
 
-    // First, check if the selected new appointment date has less than 5 appointments
-    const apiUrl = `http://localhost:8080/appointment/countOfAppointmentsByDate/${appointmentDate}`;
-    fetch(apiUrl)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch appointment count.");
-        }
-        return response.json();
-      })
-      .then((count) => {
-        if (count >= 5) {
-          // If the count exceeds or is equal to 5, show error message
+    if (appointmentDate !== selectedAppointment.appointmentDate) {
+      const apiUrl = `http://localhost:8080/appointment/countOfAppointmentsByDate/${appointmentDate}`;
+      fetch(apiUrl)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch appointment count.");
+          }
+          return response.json();
+        })
+        .then((count) => {
+          if (count >= 5) {
+            this.setState({
+              errorMessage:
+                "All appointments are booked for this day already. Please select another convenient day for consulting doctors.",
+              successMessage: "",
+            });
+          } else {
+            this.updateAppointment(
+              selectedAppointment.appointmentID,
+              appointmentDate,
+              reason
+            );
+          }
+        })
+        .catch(() => {
           this.setState({
-            errorMessage:
-              "All appointments are booked for this day already. Please select another convenient day for consulting doctors.",
+            errorMessage: "Error checking appointment availability.",
             successMessage: "",
           });
-        } else {
-          // If the count is less than 5, proceed with updating the appointment
-          const updatedAppointment = { appointmentDate, reason };
+        });
+    } else {
+      this.updateAppointment(
+        selectedAppointment.appointmentID,
+        appointmentDate,
+        reason
+      );
+    }
+  };
 
-          fetch(
-            `http://localhost:8080/appointment/updateAppointments/${selectedAppointment.appointmentID}`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(updatedAppointment),
-            }
-          )
-            .then((response) => {
-              if (!response.ok) {
-                throw new Error("Failed to update appointment");
-              }
-              return response.text();
-            })
-            .then((message) => {
-              this.setState({
-                successMessage: message,
-                errorMessage: "",
-              });
+  updateAppointment = (appointmentID, appointmentDate, reason) => {
+    const updatedAppointment = { appointmentDate, reason };
 
-              // Update context with new appointment data
-              const updatedAppointments = this.context.appointments.map(
-                (appointment) =>
-                  appointment.appointmentID ===
-                  selectedAppointment.appointmentID
-                    ? { ...appointment, appointmentDate, reason }
-                    : appointment
-              );
-              this.context.setAppointments(updatedAppointments); // Update context
-
-              // Reset selected appointment after success
-              this.setState({ selectedAppointment: null });
-            })
-            .catch((error) => {
-              this.setState({
-                errorMessage: error.message || "An error occurred",
-                successMessage: "",
-              });
-            });
+    fetch(
+      `http://localhost:8080/appointment/updateAppointments/${appointmentID}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedAppointment),
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to update appointment");
         }
+        return response.text();
       })
-      .catch(() => {
+      .then((message) => {
         this.setState({
-          errorMessage: "Error checking appointment availability.",
+          successMessage: message,
+          errorMessage: "",
+        });
+
+        // Update the appointments in state after successful update
+        const updatedAppointments = this.state.appointments.map((appointment) =>
+          appointment.appointmentID === appointmentID
+            ? { ...appointment, appointmentDate, reason }
+            : appointment
+        );
+        this.setState({ appointments: updatedAppointments });
+
+        this.setState({ selectedAppointment: null });
+      })
+      .catch((error) => {
+        this.setState({
+          errorMessage: error.message || "An error occurred",
           successMessage: "",
         });
       });
   };
 
   render() {
-    const { appointments } = this.context; // Fetch appointments from context
     const {
       selectedAppointment,
       appointmentDate,
       reason,
       errorMessage,
       successMessage,
+      appointments,
     } = this.state;
 
     return (
@@ -165,11 +204,21 @@ export default class AppointmentList extends Component {
 
         {/* Display success or error messages */}
         {errorMessage && (
-          <div className="text-danger text-center mb-3">{errorMessage}</div>
+          <Card className="mt-3 text-center">
+            <Card.Body>
+              <div className="text-danger">{errorMessage}</div>
+            </Card.Body>
+          </Card>
         )}
         {successMessage && (
-          <div className="text-success text-center mb-3">{successMessage}</div>
+          <Card className="mt-3 text-center">
+            <Card.Body>
+              <div className="text-success">{successMessage}</div>
+            </Card.Body>
+          </Card>
         )}
+
+        <div className="mt-4"></div>
 
         {/* Conditional rendering for appointments */}
         {appointments.length === 0 ? (

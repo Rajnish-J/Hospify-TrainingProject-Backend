@@ -18,11 +18,6 @@ public interface AppointmentsRepo extends JpaRepository<AppointmentsVO, Long> {
 	@Query("SELECT a.appointmentID AS appointmentID FROM AppointmentsVO a ")
 	List<Long> fetchAppointmentIds();
 
-	// Find Appoinment in the Given Date Range
-	@Query("SELECT a FROM AppointmentsVO a WHERE a.appointmentDate BETWEEN :startDate AND :endDate")
-	List<AppointmentsVO> findAllByAppointmentDateRange(@Param("startDate") LocalDate startDate,
-			@Param("endDate") LocalDate endDate);
-
 	// Appointments by order date
 	@Query(name = "AppointmentsVO.findAllByPatientIdOrderByDate")
 	List<AppointmentsVO> fetchApptsAscendingDate();
@@ -44,5 +39,16 @@ public interface AppointmentsRepo extends JpaRepository<AppointmentsVO, Long> {
 	// returns the long (number of appointments for the particular date)
 	@Query("SELECT COUNT(a) FROM AppointmentsVO a WHERE a.appointmentDate = :appointmentDate")
 	long countAppointmentsByDate(@Param("appointmentDate") LocalDate appointmentDate);
+
+	// fetches all the appointments with respect to logged in patient id and given
+	// date:
+	@Query("SELECT a FROM AppointmentsVO a JOIN a.patient p WHERE a.appointmentDate = :date AND p.patientId = :patientId")
+	List<AppointmentsVO> findAppointmentsByPatientIdAndDate(@Param("date") LocalDate date,
+			@Param("patientId") Long patientId);
+
+	@Query("SELECT a FROM AppointmentsVO a " + "WHERE a.patient.patientId = :patientId "
+			+ "AND a.appointmentDate BETWEEN :startDate AND :endDate")
+	List<AppointmentsVO> findAppointmentsByPatientIdAndDateRange(@Param("startDate") LocalDate startDate,
+			@Param("endDate") LocalDate endDate, @Param("patientId") Long patientId);
 
 }

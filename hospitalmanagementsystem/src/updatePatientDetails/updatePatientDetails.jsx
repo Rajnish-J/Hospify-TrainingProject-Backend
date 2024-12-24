@@ -12,7 +12,7 @@ export default class UpdatePatientDetails extends Component {
     super(props);
     this.state = {
       updatedFields: {},
-      validationErrors: {}, // Object to store validation errors
+      validationErrors: {},
       errorMessage: "",
       successMessage: "",
     };
@@ -22,7 +22,7 @@ export default class UpdatePatientDetails extends Component {
     const { name, value } = e.target;
     this.setState((prevState) => ({
       updatedFields: { ...prevState.updatedFields, [name]: value },
-      validationErrors: { ...prevState.validationErrors, [name]: "" }, // Reset field-specific error
+      validationErrors: { ...prevState.validationErrors, [name]: "" },
     }));
   };
 
@@ -33,12 +33,28 @@ export default class UpdatePatientDetails extends Component {
     const { firstName, lastName, dob, patientPhone, patientEmail } =
       updatedFields;
 
-    if (firstName && (firstName.trim().length < 2 || firstName.length > 50)) {
-      errors.firstName = "First name must be between 2 and 50 characters.";
+    const nameRegex = /^[A-Za-z]+$/; // Updated regex to disallow spaces
+
+    if (
+      firstName &&
+      (firstName.trim().length < 2 ||
+        firstName.length > 50 ||
+        !nameRegex.test(firstName) ||
+        /\s/.test(firstName)) // Check for spaces in between
+    ) {
+      errors.firstName =
+        "First name must be between 2 and 50 characters, contain no numbers, special characters, or spaces.";
     }
 
-    if (lastName && (lastName.trim().length < 2 || lastName.length > 50)) {
-      errors.lastName = "Last name must be between 2 and 50 characters.";
+    if (
+      lastName &&
+      (lastName.trim().length < 2 ||
+        lastName.length > 50 ||
+        !nameRegex.test(lastName) ||
+        /\s/.test(lastName)) // Check for spaces in between
+    ) {
+      errors.lastName =
+        "Last name must be between 2 and 50 characters, contain no numbers, special characters, or spaces.";
     }
 
     if (dob) {
@@ -54,8 +70,12 @@ export default class UpdatePatientDetails extends Component {
       }
     }
 
-    if (patientPhone && !/^\d{10}$/.test(patientPhone)) {
-      errors.patientPhone = "Phone number must be exactly 10 digits.";
+    if (patientPhone) {
+      if (!/^\d{10}$/.test(patientPhone)) {
+        errors.patientPhone = "Phone number must be exactly 10 digits.";
+      } else if (!/^[6-9]/.test(patientPhone)) {
+        errors.patientPhone = "Phone number must start with 6, 7, 8, or 9.";
+      }
     }
 
     if (patientEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(patientEmail)) {
@@ -63,7 +83,7 @@ export default class UpdatePatientDetails extends Component {
     }
 
     this.setState({ validationErrors: errors });
-    return Object.keys(errors).length === 0; // Return true if no errors
+    return Object.keys(errors).length === 0;
   };
 
   handleSubmit = (e) => {
@@ -71,7 +91,7 @@ export default class UpdatePatientDetails extends Component {
 
     // Validate inputs
     if (!this.validateInputs()) {
-      return; // Stop submission if validation fails
+      return;
     }
 
     const { updatedFields } = this.state;
@@ -107,7 +127,7 @@ export default class UpdatePatientDetails extends Component {
           successMessage: "Details updated successfully!",
           errorMessage: "",
         });
-        updatePatientContext(data); // Update context with the new patient details
+        updatePatientContext(data);
       })
       .catch((error) => {
         this.setState({
@@ -202,9 +222,6 @@ export default class UpdatePatientDetails extends Component {
                           onChange={this.handleChange}
                           isInvalid={!!validationErrors[field.name]}
                         />
-                        {/* <Form.Control.Feedback type="invalid" className="">
-                        {validationErrors[field.name]}
-                      </Form.Control.Feedback> */}
                       </div>
                       <p style={{ color: "red" }}>
                         {validationErrors[field.name]}

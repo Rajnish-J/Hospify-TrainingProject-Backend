@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Card, Alert, Table } from "react-bootstrap";
+import { Container, Card, Alert } from "react-bootstrap";
 import { UserContext } from "../Login/login.jsx";
 
 import "./fetchPatientDetails.css";
@@ -84,46 +84,8 @@ export default class FindByPatientId extends Component {
                     <strong className="font">Gender:</strong>{" "}
                     <span className="font">{patientDetails.gender}</span> <br />
                   </Card.Text>
-                  {patientDetails.appointments &&
-                    patientDetails.appointments.length === 0 && (
-                      <Alert variant="info" className="mt-3">
-                        No appointments available.
-                      </Alert>
-                    )}
                 </Card.Body>
               </Card>
-
-              {patientDetails.appointments &&
-                patientDetails.appointments.length > 0 && (
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th className="font">Appointment ID</th>
-                        <th className="font">Appointment Date</th>
-                        <th className="font">Reason</th>
-                        <th className="font">Doctor Name</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {patientDetails.appointments.map((appointment) => (
-                        <tr key={appointment.appointmentID}>
-                          <td className="font">{appointment.appointmentID}</td>
-                          <td className="font">
-                            {appointment.appointmentDate}
-                          </td>
-                          <td className="font">{appointment.reason}</td>
-                          <td className="font">
-                            {appointment.doctor &&
-                            appointment.doctor.firstName &&
-                            appointment.doctor.lastName
-                              ? `${appointment.doctor.firstName.trim()} ${appointment.doctor.lastName.trim()}`
-                              : "Not Assigned"}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                )}
             </>
           ) : noResults ? (
             <Alert variant="danger" className="mt-3">
