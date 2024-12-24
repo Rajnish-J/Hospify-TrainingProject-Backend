@@ -13,7 +13,7 @@ import { FaTimes } from "react-icons/fa";
 import Main from "../mainPageComponents/main.jsx";
 import "../Login/login.css";
 
-// Define the UserContext
+// usercontext object
 export const UserContext = createContext();
 
 export default class PatLogin extends Component {
@@ -194,7 +194,6 @@ export default class PatLogin extends Component {
                 dob: "",
                 gender: "",
               },
-              // showSignUp: false,
             });
           } else {
             this.setState({
@@ -209,15 +208,14 @@ export default class PatLogin extends Component {
                 dob: "",
                 gender: "",
               },
-              // showSignUp: false,
             });
           }
         })
         .catch((error) => {
-          // If an error occurs outside of the response (e.g., network error)
+          // If an error occurs outside of the response
           this.setState({
             signUpResponse: `Sign Up Failed: ${error.message}`,
-            signUpErrors: {}, // Clear errors on failure
+            signUpErrors: {},
           });
         });
     }

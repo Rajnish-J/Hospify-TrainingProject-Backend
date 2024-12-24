@@ -1,14 +1,14 @@
 //  ! after validation
 import React, { Component } from "react";
 import { Container, Table, Button, Form, Card } from "react-bootstrap";
-import { UserContext } from "../Login/login.jsx"; 
-import "./updateAppointmentDetails.css"
+import { UserContext } from "../Login/login.jsx";
+import "./updateAppointmentDetails.css";
 
 export default class AppointmentList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedAppointment: null, // Stores the appointment being updated
+      selectedAppointment: null,
       appointmentDate: "",
       reason: "",
       errorMessage: "",
@@ -31,7 +31,8 @@ export default class AppointmentList extends Component {
     if (appointmentDate) {
       const selectedDate = new Date(appointmentDate);
       const currentDate = new Date();
-      currentDate.setHours(0, 0, 0, 0); // Normalize time for comparison
+      // get current date for the validation
+      currentDate.setHours(0, 0, 0, 0);
       if (selectedDate < currentDate) {
         this.setState({
           errorMessage: "Appointment date cannot be in the past.",
@@ -109,11 +110,11 @@ export default class AppointmentList extends Component {
               if (!response.ok) {
                 throw new Error("Failed to update appointment");
               }
-              return response.text(); // Expect plain text response
+              return response.text();
             })
             .then((message) => {
               this.setState({
-                successMessage: message, // Display the plain text success message
+                successMessage: message,
                 errorMessage: "",
               });
 
@@ -158,7 +159,9 @@ export default class AppointmentList extends Component {
 
     return (
       <Container className="mt-5 font">
-        <h3 className="text-center mb-4" style={{color : 'white'}}>Appointments</h3>
+        <h3 className="text-center mb-4" style={{ color: "white" }}>
+          Appointments
+        </h3>
 
         {/* Display success or error messages */}
         {errorMessage && (
@@ -184,6 +187,7 @@ export default class AppointmentList extends Component {
                   <th>ID</th>
                   <th>Date</th>
                   <th>Reason</th>
+                  <th>Doctor Name</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -191,8 +195,7 @@ export default class AppointmentList extends Component {
                 {appointments.map((appointment) => {
                   const appointmentDate = new Date(appointment.appointmentDate);
                   const currentDate = new Date();
-                  currentDate.setHours(0, 0, 0, 0); // Normalize time for comparison
-                  // Only show Update button if the appointment is today or in the future
+                  currentDate.setHours(0, 0, 0, 0);
                   const showUpdateButton = appointmentDate >= currentDate;
 
                   return (
@@ -200,6 +203,11 @@ export default class AppointmentList extends Component {
                       <td>{appointment.appointmentID}</td>
                       <td>{appointment.appointmentDate}</td>
                       <td>{appointment.reason}</td>
+                      <td>
+                        {appointment.doctor
+                          ? `${appointment.doctor.firstName} ${appointment.doctor.lastName}`
+                          : "Not Assigned"}
+                      </td>
                       <td>
                         {showUpdateButton && (
                           <Button

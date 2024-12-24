@@ -45,7 +45,8 @@ export default class AddAppointment extends Component {
     } else {
       const selectedDate = new Date(appointmentDate);
       const currentDate = new Date();
-      currentDate.setHours(0, 0, 0, 0); // Normalize time for comparison
+      // set current date on the runtime for the validation
+      currentDate.setHours(0, 0, 0, 0);
       if (selectedDate < currentDate) {
         formErrors.appointmentDate = "Appointment date cannot be in the past.";
       }
@@ -89,7 +90,6 @@ export default class AddAppointment extends Component {
       })
       .then((count) => {
         if (count >= 5) {
-          // If the count exceeds the limit, show error message
           this.setState({
             errorMessage:
               "All appointments are booked for this day already. Please select another convenient day for consulting doctors.",

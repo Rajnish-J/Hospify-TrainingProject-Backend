@@ -353,6 +353,13 @@ public class AppointmentController {
 		dto.setCreatedAt(vo.getCreatedAt());
 		dto.setUpdatedAt(vo.getUpdatedAt());
 
+		DoctorVO docVO = new DoctorVO();
+		docVO.setDoctorId(vo.getDoctor().getDoctorId());
+		docVO.setFirstName(vo.getDoctor().getFirstName());
+		docVO.setLastName(vo.getDoctor().getLastName());
+
+		dto.setDoctor(docVO);
+
 		return dto;
 	}
 

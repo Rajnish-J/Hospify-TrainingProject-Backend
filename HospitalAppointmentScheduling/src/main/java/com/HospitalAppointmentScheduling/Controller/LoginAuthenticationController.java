@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.HospitalAppointmentScheduling.DTO.AppointmentDTO;
 import com.HospitalAppointmentScheduling.DTO.PatientDTO;
 import com.HospitalAppointmentScheduling.Entity.AppointmentsVO;
+import com.HospitalAppointmentScheduling.Entity.DoctorVO;
 import com.HospitalAppointmentScheduling.Entity.PatientVO;
 import com.HospitalAppointmentScheduling.Response.ResponseHandle;
 import com.HospitalAppointmentScheduling.Service.PatientService;
@@ -70,6 +71,14 @@ public class LoginAuthenticationController {
 				appointmentDTO.setReason(appointment.getReason());
 				appointmentDTO.setCreatedAt(appointment.getCreatedAt());
 				appointmentDTO.setUpdatedAt(appointment.getUpdatedAt());
+				appointmentDTO.setDoctorID(appointment.getDoctor().getDoctorId());
+
+				DoctorVO docVO = new DoctorVO();
+				docVO.setDoctorId(appointment.getDoctor().getDoctorId());
+				docVO.setFirstName(appointment.getDoctor().getFirstName());
+				docVO.setLastName(appointment.getDoctor().getLastName());
+
+				appointmentDTO.setDoctor(docVO);
 
 				appointmentDTOs.add(appointmentDTO);
 			}
