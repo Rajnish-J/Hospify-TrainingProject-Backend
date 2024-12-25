@@ -1,10 +1,11 @@
 package com.HospitalAppointmentScheduling.Controller;
 
+//import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,19 +29,19 @@ public class LoginAuthenticationController {
 	@Autowired
 	private PatientService pservice;
 
-	Logger log = Logger.getLogger(LoginAuthenticationController.class);
+//	Logger log = Logger.getLogger(LoginAuthenticationController.class);
 
 	@PostMapping("/patientLogin")
 	public ResponseEntity<?> loginAuthentication(@RequestBody Map<String, String> loginData) {
-		log.info("Patient Login method triggered in the controller layer");
+//		log.info("Patient Login method triggered in the controller layer");
 		String patientEmail = loginData.get("patientEmail");
 		String patientPassword = loginData.get("patientPassword");
 		ResponseHandle res = pservice.patientAuthentication(patientEmail, patientPassword);
 		if (res.getSucessMessage() != null && res.getPatient() != null) {
-			log.info("patient account available in the database");
+//			log.info("patient account available in the database");
 			return ResponseEntity.ok(mapToDTO(res.getPatient()));
 		} else {
-			log.error("patient account does not available in the database");
+//			log.error("patient account does not available in the database");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 					.body(res.getFailureMessage() != null ? res.getFailureMessage() : "Invalid credentials");
 		}

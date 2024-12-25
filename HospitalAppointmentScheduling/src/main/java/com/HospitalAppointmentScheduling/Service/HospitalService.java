@@ -1,6 +1,5 @@
 package com.HospitalAppointmentScheduling.Service;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,7 @@ public class HospitalService {
 	@Autowired
 	private ResponseHandleHospital resHos;
 
-	Logger log = Logger.getLogger(HospitalService.class);
+//	Logger log = Logger.getLogger(HospitalService.class);
 
 	// hospital admin authentication
 	public ResponseHandleHospital hospitalAuthentication(String email, String password) {

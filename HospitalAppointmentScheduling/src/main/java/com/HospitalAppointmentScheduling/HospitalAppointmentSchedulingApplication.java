@@ -1,12 +1,13 @@
 package com.HospitalAppointmentScheduling;
 
+//import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -64,7 +65,7 @@ public class HospitalAppointmentSchedulingApplication {
 	@Autowired
 	private PatientClient patClient;
 
-	static Logger log = Logger.getLogger(HospitalAppointmentSchedulingApplication.class);
+//	static Logger log = Logger.getLogger(HospitalAppointmentSchedulingApplication.class);
 
 	public static void main(String[] args) {
 		ApplicationContext ctx = SpringApplication.run(HospitalAppointmentSchedulingApplication.class, args);
@@ -74,7 +75,7 @@ public class HospitalAppointmentSchedulingApplication {
 
 		PropertyConfigurator.configure(
 				"C:\\Users\\Lenovo\\OneDrive\\Desktop\\GIT\\Hospital-Appointment-Scheduling\\HospitalAppointmentScheduling\\src\\main\\java\\log4j\\log4j.properities");
-		log.info(" Application Started Started..");
+//		log.info(" Application Started Started..");
 
 		System.out.println("Welcome to Appoinment management Application...");
 
@@ -198,7 +199,7 @@ public class HospitalAppointmentSchedulingApplication {
 								break;
 							}
 							case 17: {
-								log.info("patient chooses to EXIT the application...");
+//								log.info("patient chooses to EXIT the application...");
 								patientRepeat = false;
 								System.out.println("Thank you for Using patient page returning to main page");
 								break;

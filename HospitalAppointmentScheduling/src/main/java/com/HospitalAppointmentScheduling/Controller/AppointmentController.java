@@ -1,10 +1,11 @@
 package com.HospitalAppointmentScheduling.Controller;
 
+//import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,13 +56,13 @@ public class AppointmentController {
 	@Autowired
 	private ResponseHandle patRes;
 
-	Logger log = Logger.getLogger(AppointmentController.class);
+//	Logger log = Logger.getLogger(AppointmentController.class);
 
 	// insert appointments with patient ID
 	@PostMapping("/insertWithPatientID")
 	public ResponseEntity<?> insertAppointmentsWithPatientID(
 			@RequestBody AppointmentPatientDoctorAppointmentStatusDTO dto) {
-		log.info("Appointment booking with patient ID method triggered in controller layer...");
+//		log.info("Appointment booking with patient ID method triggered in controller layer...");
 
 		// converting DTO to entity
 		DoctorVO dVO = new DoctorVO();
@@ -80,37 +81,37 @@ public class AppointmentController {
 		vo1.setPatientId(dto.getPatient().getPatientId());
 		vo.setPatient(vo1);
 
-		log.info("Assigned Patient ID to Appointment VO");
+//		log.info("Assigned Patient ID to Appointment VO");
 
-		log.info("Attempting to insert appointment details with existing patient ID...");
+//		log.info("Attempting to insert appointment details with existing patient ID...");
 		try {
 			apptRes = aser.insertAppointmentsWithPatientID(vo);
 		} catch (IdException e) {
-			log.error("Appointment ID is not present in the DataBase", e);
+//			log.error("Appointment ID is not present in the DataBase", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (EmailException e) {
-			log.error("email Exception caught valid", e);
+//			log.error("email Exception caught valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (PasswordException e) {
-			log.error("password format is not valid", e);
+//			log.error("password format is not valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (PhoneNumberException e) {
-			log.error("Phone number Exception caught", e);
+//			log.error("Phone number Exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (AppointmentException e) {
-			log.error("Appointment exception caught", e);
+//			log.error("Appointment exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (PatientException e) {
-			log.error("Patient Exception caught", e);
+//			log.error("Patient Exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (DateOfBirthException e) {
-			log.error("Date of Birth exception caught", e);
+//			log.error("Date of Birth exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (AppointmentBookingDateException e) {
-			log.error("Appointment Booking Date Exception caught", e);
+//			log.error("Appointment Booking Date Exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (ReasonException e) {
-			log.error("Invalid Reason Exception caught", e);
+//			log.error("Invalid Reason Exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 		dto.getAppointment().setAppointmentID(vo.getAppointmentID());
@@ -123,7 +124,7 @@ public class AppointmentController {
 	// update method:
 	@PutMapping("/updateAppointments/{id}")
 	public ResponseEntity<?> updateAppointmentDetails(@RequestBody AppointmentDTO dto, @PathVariable long id) {
-		log.info("Appointment details update method triggerred");
+//		log.info("Appointment details update method triggerred");
 		AppointmentsVO vo = new AppointmentsVO();
 
 		vo.setAppointmentDate(dto.getAppointmentDate());
@@ -132,10 +133,10 @@ public class AppointmentController {
 		try {
 			apptRes = aser.update(vo, id);
 			String pass = "Appointment ID: \" + apptRes.getAppoVo().getAppointmentID() + \" updated successfully.";
-			log.info(pass);
+//			log.info(pass);
 			return ResponseEntity.ok("Appointment ID: " + apptRes.getAppoVo().getAppointmentID() + " updated");
 		} catch (IdException e) {
-			log.error("ID not found in the DataBase", e);
+//			log.error("ID not found in the DataBase", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
@@ -148,14 +149,14 @@ public class AppointmentController {
 			apptRes = aser.deleteAppointment(id);
 			return ResponseEntity.ok(apptRes.getSucessMessage());
 		} catch (IdException e) {
-			log.error("Patient does not exists in the database", e);
+//			log.error("Patient does not exists in the database", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
 
 	@GetMapping("/fetchAppointmentsForPatientID/{id}")
 	public ResponseEntity<?> findAllApptByPatientId(@PathVariable long id) {
-		log.info("Find All Appointments By Patient ID method triggered in the controller layer");
+//		log.info("Find All Appointments By Patient ID method triggered in the controller layer");
 		try {
 			apptRes = aser.findAllApptByPatientId(id);
 			List<AppointmentsVO> list = apptRes.getList();
@@ -169,14 +170,14 @@ public class AppointmentController {
 			}
 			return ResponseEntity.ok(listd);
 		} catch (IdException e) {
-			log.error("Patient does not exist in the database", e);
+//			log.error("Patient does not exist in the database", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
 
 	@GetMapping("/countOfAppointmentsByDate/{date}")
 	public ResponseEntity<?> countOfAppointmentsByDate(@PathVariable LocalDate date) {
-		log.info("Count of Appointments By particular method triggered in the controller layer");
+//		log.info("Count of Appointments By particular method triggered in the controller layer");
 		apptRes = aser.countOfAppointmentsByDate(date);
 		return ResponseEntity.ok(apptRes.getApptsCount());
 	}
@@ -185,10 +186,10 @@ public class AppointmentController {
 	@GetMapping("/AppointmentDetailsAmongTwoDate/{sd}/{ld}/{id}")
 	public ResponseEntity<?> betweenTwoDOBpat(@PathVariable("sd") LocalDate sd, @PathVariable("ld") LocalDate ld,
 			@PathVariable("id") long id) {
-		log.info("Appointment details with the two dates...");
+//		log.info("Appointment details with the two dates...");
 		try {
 			String pass = "Fetching between start date: " + sd + " and end date: " + ld;
-			log.info(pass);
+//			log.info(pass);
 			apptRes = aser.findAppointmentsByPatientIdAndDateRange(sd, ld, id);
 			List<AppointmentsVO> list = apptRes.getList();
 			List<AppointmentDTO> listd = new ArrayList<>();
@@ -196,17 +197,17 @@ public class AppointmentController {
 				AppointmentsVO vo = list.get(i);
 				AppointmentDTO getDto = mapToDTO(vo);
 				listd.add(getDto);
-				log.info("Fetched appointment details between two dates successfully.");
+//				log.info("Fetched appointment details between two dates successfully.");
 			}
 			return ResponseEntity.ok(listd);
 		} catch (DateException e) {
-			log.error("Date Exception", e);
+//			log.error("Date Exception", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (IdException e) {
-			log.error("Id Exception", e);
+//			log.error("Id Exception", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (AppointmentException e) {
-			log.error("Appointment Exception", e);
+//			log.error("Appointment Exception", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 
@@ -217,7 +218,7 @@ public class AppointmentController {
 	@GetMapping("/AppointmentsOnDate/{ld}/{id}")
 	public ResponseEntity<?> findAppointmentsByPatientIdAndDate(@PathVariable("ld") LocalDate ld,
 			@PathVariable("id") long id) {
-		log.info("Appointments for the logged in patient on the particular date method triggered");
+//		log.info("Appointments for the logged in patient on the particular date method triggered");
 		try {
 			apptRes = aser.findAppointmentsByPatientIdAndDate(ld, id);
 			List<AppointmentsVO> list = apptRes.getList();
@@ -226,14 +227,14 @@ public class AppointmentController {
 				AppointmentsVO vo = list.get(i);
 				AppointmentDTO getDto = mapToDTO(vo);
 				listd.add(getDto);
-				log.info("Fetched appointment details between two dates successfully.");
+//				log.info("Fetched appointment details between two dates successfully.");
 			}
 			return ResponseEntity.ok(listd);
 		} catch (IdException e) {
-			log.error("Id Exception", e);
+//			log.error("Id Exception", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (AppointmentException e) {
-			log.error("Appointment Exception", e);
+//			log.error("Appointment Exception", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
@@ -244,7 +245,7 @@ public class AppointmentController {
 	// insert:
 	@PostMapping("/insert")
 	public ResponseEntity<?> insertAppointment(@RequestBody AppointmentPatientDoctorAppointmentStatusDTO dto) {
-		log.info("Appointment booking with patient details method triggered in controller layer...");
+//		log.info("Appointment booking with patient details method triggered in controller layer...");
 
 		// converting DTO to entity
 		DoctorVO dVO = new DoctorVO();
@@ -271,51 +272,51 @@ public class AppointmentController {
 		try {
 			patRes = pser.insertPatientDetails(vo1);
 		} catch (PatientException e) {
-			log.error("Patient Details details records not in the format", e);
+//			log.error("Patient Details details records not in the format", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (PhoneNumberException e) {
-			log.error("Phone number format is wrong", e);
+//			log.error("Phone number format is wrong", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (EmailException e) {
-			log.error("email format is not valid", e);
+//			log.error("email format is not valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (PasswordException e) {
-			log.error("password format is not valid", e);
+//			log.error("password format is not valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (DateOfBirthException e) {
-			log.error("Date of Birth format is not in the pattern", e);
+//			log.error("Date of Birth format is not in the pattern", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (genderException e) {
-			log.error("Gender you entered is not valid", e);
+//			log.error("Gender you entered is not valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 
 		vo.setPatient(patRes.getPatient());
-		log.info("Assigned Patient to Appointment VO.");
+//		log.info("Assigned Patient to Appointment VO.");
 
-		log.info("Attempting to insert appointment details...");
+//		log.info("Attempting to insert appointment details...");
 		try {
 			apptRes = aser.insertAppointments(vo);
 		} catch (IdException e) {
-			log.error("Appointment ID is not present in the DataBase", e);
+//			log.error("Appointment ID is not present in the DataBase", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (EmailException e) {
-			log.error("email Exception caught valid", e);
+//			log.error("email Exception caught valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (PasswordException e) {
-			log.error("password format is not valid", e);
+//			log.error("password format is not valid", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (PhoneNumberException e) {
-			log.error("Phone number Exception caught", e);
+//			log.error("Phone number Exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (AppointmentException e) {
-			log.error("Appointment exception caught", e);
+//			log.error("Appointment exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (PatientException e) {
-			log.error("Patient Exception caught", e);
+//			log.error("Patient Exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		} catch (DateOfBirthException e) {
-			log.error("Date of Birth exception caught", e);
+//			log.error("Date of Birth exception caught", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 		dto.getAppointment().setAppointmentID(vo.getAppointmentID());
@@ -327,14 +328,14 @@ public class AppointmentController {
 	// fetch by ID:
 	@GetMapping("appointmentID/{id}")
 	public ResponseEntity<?> findByappointmentId(@PathVariable("id") long id) {
-		log.info("appointment details by their ID...");
+//		log.info("appointment details by their ID...");
 		try {
 			String pass = "Fetching appointment details by ID: " + id;
-			log.info(pass);
+//			log.info(pass);
 			apptRes = aser.fetchByID(id);
 			return ResponseEntity.ok(mapToDTO(apptRes.getAppoVo()));
 		} catch (IdException e) {
-			log.error("ID not found in the DateBase", e);
+//			log.error("ID not found in the DateBase", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 
@@ -343,7 +344,7 @@ public class AppointmentController {
 	// fetch all:
 	@GetMapping("/fetchallAppointments")
 	public ResponseEntity<?> fetchall() {
-		log.info("appointment chooses fetch all the details option...");
+//		log.info("appointment chooses fetch all the details option...");
 		apptRes = aser.fetchAll();
 		if (apptRes.getList().size() > 0) {
 			List<AppointmentsVO> list = apptRes.getList();
@@ -353,11 +354,11 @@ public class AppointmentController {
 				AppointmentDTO getDto = mapToDTO(vo);
 				listd.add(getDto);
 			}
-			log.info("All appointment details fetched successfully.");
+//			log.info("All appointment details fetched successfully.");
 			return ResponseEntity.ok(listd);
 		} else {
 			String pass = "Error in fetching";
-			log.error(pass);
+//			log.error(pass);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pass);
 		}
 
@@ -366,7 +367,7 @@ public class AppointmentController {
 	// ascending order:
 	@GetMapping("/AppointmentAscendingOrderByDate")
 	public ResponseEntity<?> acendingDate() {
-		log.info("Appointments fetching all the details in ascending order...");
+//		log.info("Appointments fetching all the details in ascending order...");
 		try {
 			apptRes = aser.acendingDate();
 			List<AppointmentsVO> list = apptRes.getList();
@@ -378,7 +379,7 @@ public class AppointmentController {
 			}
 			return ResponseEntity.ok(listd);
 		} catch (AppointmentException e) {
-			log.error("Id Exception", e);
+//			log.error("Id Exception", e);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 
