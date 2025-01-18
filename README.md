@@ -1,6 +1,12 @@
 # Hospital Appointment Management System
 
-I developed a hospital appointment management system from the patient side using Spring for the backend and React for the frontend. The application allows patients to easily book, view, and manage appointments with healthcare providers.
+This project is a hospital appointment management system designed for patients. It provides an easy-to-use interface where patients can:
+
+- **Book Appointments:** Schedule appointments with healthcare providers.
+- **View Appointments:** Check upcoming and past appointments.
+- **Manage Appointments:** Modify or cancel existing appointments.
+
+This system streamlines the process for patients to interact with healthcare services.
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
