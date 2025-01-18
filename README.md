@@ -1,6 +1,6 @@
 # Hospital Appointment Management System
 
-A web application for managing hospital appointments, built using **Spring Boot (REST APIs)**, **React**, and **MySQL**.
+I developed a hospital appointment management system from the patient side using Spring for the backend and React for the frontend. The application allows patients to easily book, view, and manage appointments with healthcare providers.
 
 ## Table of Contents
 - [Prerequisites](#prerequisites)
